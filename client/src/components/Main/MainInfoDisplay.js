@@ -20,6 +20,7 @@ border-bottom: 2px solid black;
 border-left: 2px solid black;
 border-right: 2px solid black;
 background-color: darkgray;
+text-align: center;
 `
 
 export const TR = styled.tr`
@@ -45,26 +46,21 @@ overflow-y: scroll;
 overflow: hidden;
 `
 
-export const Select = styled.select`
-height: 95%;
-width: 95%;
-font-size: 100%;
-font-weight: bold;
-`
+
 
 const MainInfoDisplay = () => {
     return (
     <InfoContainer>
-                <Table>
+                <Table class="sortable">
                     <TR>
-                        <TH><Select><option>Ride Name</option></Select></TH>
-                        <TH><Select><option>Operational Status</option></Select></TH>
-                        <TH><Select><option>Last Hour Throughput</option></Select></TH>
-                        <TH><Select><option>Last Hour Wait Time</option></Select></TH>
-                        <TH><Select><option>Efficency %</option></Select></TH>
-                        <TH><Select><option>Vehicles Operating</option></Select></TH>
-                        <TH><Select><option>Total Daily Downtime</option></Select></TH>
-                        <TH><Select><option>Employees At Ride</option></Select></TH>
+                        <TH>Ride Name</TH>
+                        <TH>Operational Status</TH>
+                        <TH>Last Hour Throughput</TH>
+                        <TH>Last Hour Wait Time</TH>
+                        <TH>Efficency %</TH>
+                        <TH>Vehicles Operating</TH>
+                        <TH>Total Daily Downtime</TH>
+                        <TH>Employees At Ride</TH>
                     </TR>        
                     <TR>
                         <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD>  <TD></TD>
