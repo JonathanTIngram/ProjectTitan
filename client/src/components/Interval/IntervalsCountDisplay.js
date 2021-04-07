@@ -15,11 +15,12 @@ const InfoContainer = styled.div`
 overflow: hidden;
 overflow-y: scroll;
 background: transparent;
-margin: -5px 0px;
+margin: 15px 0px;
 position: absolute;
+top: 15px;
 left: 0px;
 width: 100%;
-height: 205px;
+height: 220px;
 `;
 
 export const TH = styled.th`
@@ -60,6 +61,7 @@ margin-top: 1%;
 font-size: 175%;
 text-align: left;
 font-weight: normal;
+padding:0px;
 `
 
 const IntervalsCountDisplay = () => {

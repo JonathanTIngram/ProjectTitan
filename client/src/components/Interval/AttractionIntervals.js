@@ -120,21 +120,6 @@ position: absolute;
 left: 17.5%;
 top: 35%;
 `
-function Check(props) {
-    const onSave = e => {
-      let wait = e.target[0].value;
-      let throughput = e.target[1].value;
-      let availableSeats = e.target[2].value;
-      let availableDown = e.target[3].value;
-      let data = {
-        wait,
-        throughput,
-        availableSeats,
-        availableDown
-      };
-      Check(data);
-    };
-};
 
 const AttractionIntervals = () => {
     const [showModal, setShowModal] = useState(false);
@@ -149,25 +134,6 @@ const AttractionIntervals = () => {
         const [typeState, setTypeState] = useState([]);
         const [unitState, setUnitState] = useState("");
         const [intervalList, setIntervalList] = useState([]);
-
-        const submitAttraction = () =>{
-            Axios.post('http://localhost:3001/addAttraction', {
-                          timeValue: timeValue,
-                          startingTime: startingTime,
-                          endingTime: endingTime,
-                          }).then(() =>{
-                            alert('successful insert');
-                        }).then( () => {
-                          console.log("Successfully sent to port 3001");
-                        });
-          };
-        //recieve data from backend to display
-        const getIntervals = () => {
-            Axios.get('http://localhost:3001/getInterval').then( (res) => {
-            console.log(res.data)
-            return setIntervalList(res.data);
-         }); 
-        }
 
     return (
         <>
@@ -188,20 +154,18 @@ const AttractionIntervals = () => {
             
             </IntervalCard> 
 
-            {useEffect( () =>{
-                    const every5 = setInterval( () => {
-                        getIntervals();
-                    }, 5000);
-
-                    return () => clearInterval(every5);
-                }, [])}
+            {useEffect(() => {
+            Axios.get('http://localhost:3001/getInterval').then(res => {
+            setIntervalList(res.data)
+            }).catch(err => console.log(err));
+            }, [])}
                 {intervalList.map((val, key) => {
                         return (
                             <>
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes</CardTime>
                             <CardCollect>Collect <li> 
-
+                                    
                                 </li></CardCollect>
                             <CardStarting>Starting<ul>At Park Opening</ul> <ul>{val.startingTime}</ul></CardStarting>
                             <CardEnding>Ending<ul>At Park Closing</ul><ul>{val.endingTime}</ul></CardEnding>

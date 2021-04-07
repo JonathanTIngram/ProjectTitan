@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import Navbar from './components/General/Navbar';
@@ -15,6 +14,8 @@ import Edit from './pages/editpage';
 import Create from './pages/createpage';
 import Delete from './pages/deletepage';
 import Interval from './pages/interval';
+import RideInfo from './pages/rideInfo';
+
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path='/createpage' component={Create} />
         <Route path='/deletepage' component={Delete} />
         <Route path='/interval' component={Interval} />
+        <Route path='/rideInfo' component={RideInfo} />
       </Switch>
 
     </Router>

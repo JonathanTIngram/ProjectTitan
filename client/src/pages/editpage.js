@@ -1,25 +1,55 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import Axios from 'axios'
-
+import Axios from 'axios';
 import { NavLink as Link } from 'react-router-dom';
 
-
-export const NavLink = styled(Link)`
-  margin-left: 30%;
-  font: bold 20px Arial;
-  text-decoration: none;
-  background-color: #EEEEEE;
-  color: #333333;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
+export const Nav = styled.nav`
+  background: transparent;
+  height: 3px;
+  display: flex;
+  position: absolute;
+  top: 3%;
+  right: 7%;
+  font-size: 15px;
+  font-family: "Lucida Console", monospace;
 `;
 
+export const NavMenu = styled.div`
+  display: flex;
+  align-items: center;
+`;
+export const EditLink = styled(Link)`
+  color: black;
+  border-right: 10px solid transparent;
+  display: block;
+  margin: 0 -0.3%;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px;
+  height: 100%;
+  cursor: default;
+  &.active {
+    color: black;
+  }
+`;
+
+export const NavLink = styled(Link)`
+  color: black;
+  border-bottom: 25px solid lightgray;
+  border-right: 10px solid transparent;
+  display: block;
+  margin: 0 -0.3%;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px;
+  height: 100%;
+  cursor: default;
+  &.active {
+    color: black;
+  }
+`;
 
 const Upload = styled.div`
     border: 0px solid;   
@@ -59,18 +89,10 @@ const InfoBar = styled.div`
   font-size: 22px;
   align-content: center;
   border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 40%;
-`;
-
-const InfoBar2 = styled.div`
-  font-family: "Lucida Console", monospace;
-  font-size: 22px;
-  align-content: center;
-  border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 100%;
+  padding-left: 5%;
+  text-align: center;
   border-right: 2px solid;
+  
 `;
 
 const SafetyInfo = styled.div`
@@ -83,8 +105,7 @@ const SafetyInfo = styled.div`
     height: 41%;
     width: 30%;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
 `;
 
 const PhoneInfo = styled.div`
@@ -97,8 +118,6 @@ const PhoneInfo = styled.div`
     left: 69.9%;
     bottom: 0%;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
 `;
 
 const ReportInfo = styled.div`
@@ -156,14 +175,14 @@ const [attractionList, setAttractionList] = useState([]);
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 
-//http request
+//recieve data from backend to display
 const getAttractions = () => {
-  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
-    console.log(res); //response
-    setAttractionList(res.data);
-    return attractionList;
-  });
-}
+      Axios.get('http://localhost:3001/getAttraction').then(res => {
+      setAttractionList(res.data);
+      return attractionList;
+      }).catch(err => console.log(err));
+      }
+
 
 const editAttraction = () =>{
   Axios.put('http://localhost:3001/editAttraction', {
@@ -198,9 +217,22 @@ return (
       {window.addEventListener('load', getAttractions())}
     })}
     <OuterBorder>
-    <CreateBar> Edit an Attraction </CreateBar>
+    <CreateBar> Edit an Attraction
 
-
+          <Nav>
+         <NavMenu>
+             <NavLink to='/EditPage/Block' activeStyle>
+                 Block Section
+             </NavLink>
+             <NavLink to='/EditPage/Danger' activeStyle>
+                 Danger Areas
+             </NavLink>
+             <NavLink to='/EditPage/Restrict' activeStyle>
+                 Restricted Areas
+             </NavLink>
+             </NavMenu>
+    </Nav>
+    </CreateBar>
     <RideSelect onChange={(e) => {
                         setRideSelect(e.target.value);
                       }}>
@@ -215,9 +247,9 @@ return (
               })}
 
           </RideSelect>
-    
-    <InfoBar> Basic Information</InfoBar>
     <EditBorder>
+
+    <InfoBar> Basic Information</InfoBar>
 
 
 
@@ -533,11 +565,12 @@ return (
         <ul>Turnstile Report</ul> 
         <ul>Lockout Report</ul>
     </ReportInfo>
+
     <Upload>  
     <h4 className='display-4 text-center mb-4'>
       <i className='fab fa-react' /> Titan Upload</h4> </Upload>
-    <SafetyInfo>
-      <InfoBar2>Safety Critical Information</InfoBar2>
+      <SafetyInfo>
+      <InfoBar>Safety Critical Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>
@@ -574,7 +607,7 @@ return (
       </table>
     </SafetyInfo>
     <PhoneInfo>
-      <InfoBar2>Phone Information</InfoBar2>
+      <InfoBar>Phone Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>

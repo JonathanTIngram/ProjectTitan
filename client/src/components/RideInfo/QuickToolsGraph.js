@@ -1,56 +1,39 @@
-
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from './Modal';
-import { GlobalStyle } from '../globalStyles';
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const Button = styled.button`
-
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
 
 export const QuickToolsSideNav = styled.div`
-background: transparent;
-border-left: 2px solid black;
-border-right: 2px solid black;
-border-bottom: 2px solid black;
-margin: 15px 0px;
-position: absolute;
-  right: 0px;
-  width: 11.5%;
-  height: 200px;
-  margin: 13px -5px;
+ background: transparent;
+ border-left: 2px solid black;
+ border-right: 2px solid black;
+ border-bottom: 2px solid black;
+ position: absolute;
+ right: 0px;
+ width: 16.5%;
+ height: 210px;
+ margin: 13px -5px;
 `;
 
 export const QuickToolsHeader = styled.h1`
 height: 17%;
 border-bottom: 2px solid black;
+border-top: 2px solid black;
+background-color: darkgray;
 text-align: center;
 padding: 3px;
-font-size: 20px;
+font-size: 150%;
 font-weight: bold;
 margin: 0px 0px;
 `;
 
 export const QuickToolsButtons = styled.button`
 width: 100%;
-height: 28%;
+height: 16.66%;
 padding: 1px;
 font-size: 16px;
 border-bottom: 1px solid black;
 `;
 
-const QuickToolsPanel = () => {
+const QuickToolsGraph = () => {
 const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
@@ -63,20 +46,23 @@ const [showModal, setShowModal] = useState(false);
                     Quick Tools
                 </QuickToolsHeader>
                     <QuickToolsButtons>
-                    <Button onClick={openModal}>New Attraction</Button>
-                    <Modal showModal={showModal} setShowModal={setShowModal} />
-                    <GlobalStyle />
-                    </QuickToolsButtons>
-
-                    <QuickToolsButtons>
-                            Edit Attraction
+                    Daily Summary
                     </QuickToolsButtons>
                     <QuickToolsButtons>
-                            Delete Attraction
+                    Weekly Summary
+                    </QuickToolsButtons>
+                    <QuickToolsButtons>
+                    Graphs To Review
+                    </QuickToolsButtons>
+                    <QuickToolsButtons>
+                    Significant Changes
+                    </QuickToolsButtons>
+                    <QuickToolsButtons>
+                    Quick Export
                     </QuickToolsButtons>
             </QuickToolsSideNav>
+
         </>
     );
 }
-
-export default QuickToolsPanel
+export default QuickToolsGraph

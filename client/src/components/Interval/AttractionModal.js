@@ -139,6 +139,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
   //state to get all attractions
   //send the attraction data to the backend running on port 3001
   //specifically /addAttraction
+  
   const submitInterval = () =>{
     Axios.post('http://localhost:3001/addInterval', {
                   timeValue: timeValue,
@@ -149,14 +150,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                   console.log("Successfully sent to port 3001");
                 });
   };
-
-  const getIntervals = () => {
-    Axios.get('http://localhost:3001/getInterval').then( (res) => {
-      console.log(res); //response
-      setIntervalList(res.data);
-    });
-  }
-
+  
   return (
     <>
       {showModal ? (
@@ -211,6 +205,9 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                 <Submit 
                 onClick={() => { setShowModal(prev => !prev);
                                   submitInterval();
+                                  setTimeout(function(){
+                                    window.location.reload(); 
+                                }, 1);
                                }}>Submit</Submit>
               
                 

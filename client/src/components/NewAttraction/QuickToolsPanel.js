@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from './Modal';
-import { GlobalStyle } from '../../globalStyles';
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom';
 
 const Button = styled.button`
   border: none;

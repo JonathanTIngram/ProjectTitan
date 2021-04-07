@@ -4,6 +4,7 @@ import { ParkwideModal } from './ParkwideModal';
 import { GlobalStyle } from '../../globalStyles';
 import Axios from 'axios'
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+
 const Label1 = styled.h1`
 margin-left: .8%;
 margin-top: .1%;
@@ -131,26 +132,7 @@ const ParkwideIntervals= () => {
         const [unitState, setUnitState] = useState("");
         const [parkIntervalList, setParkIntervalList] = useState([]);
 
-        const submitIntervals = () =>{
-            Axios.post('http://localhost:3001/addParkInterval', {
-                          timeValue: timeValue,
-                          startingTime: startingTime,
-                          endingTime: endingTime,
-                          }).then(() =>{
-                            alert('successful insert');
-                        }).then( () => {
-                          console.log("Successfully sent to port 3001");
-                        });
-          };
-
-        //recieve data from backend to display
-        const getParkIntervals = () => {
-        Axios.get('http://localhost:3001/getParkInterval').then( (res) => {
-            console.log(res.data)
-            return setParkIntervalList(res.data);
-        });
-    
-        }
+ 
     return (
         <Container>
             <Label1>Parkwide Intervals</Label1>
@@ -163,14 +145,10 @@ const ParkwideIntervals= () => {
                     <GlobalStyle /> 
 
             </IntervalCard>
-
-                
-            {useEffect( () =>{
-                    const every5 = setInterval( () => {
-                        getParkIntervals();
-                    }, 5000);
-
-                    return () => clearInterval(every5);
+                {useEffect(() => {
+                Axios.get('http://localhost:3001/getParkInterval').then(res => {
+                setParkIntervalList(res.data)
+                }).catch(err => console.log(err));
                 }, [])}
                 {parkIntervalList.map((val, key) => {
                         return (

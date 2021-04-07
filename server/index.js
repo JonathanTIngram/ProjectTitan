@@ -7,10 +7,10 @@ const mysql = require('mysql');
 const fs = require('fs');
 
 var connection = mysql.createConnection({
-	host: 'localhost',
-	user: 'titan',
-	password: 'titanTeam123$',
-	database: 'park_data'
+    host: 'localhost',
+    user: 'titan',
+    password: 'titanTeam123$',
+    database: 'park_data'
 });
 
 app.use(cors());
@@ -108,7 +108,7 @@ app.put("/editAttraction", (req, res) => {
 app.delete('/deleteAttraction/:ride_name', (req, res) => {
     const ride_name = req.params.ride_name
 
-    sqlInsert = "DELETE FROM attraction WHERE ride_name = ?"
+    sqlInsert = "DELETE FROM ATTRACTION WHERE ride_name = ?"
     connection.query(sqlInsert, ride_name, (err, result) =>{
         if (err){
             console.log(err);
@@ -118,7 +118,7 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
         }
     })
 });
-
+ 
 // app.get('/getRide', (req, res) =>{
 //     connection.query("SELECT * FROM ")
 // })
@@ -129,7 +129,6 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
 // connection.query(sqlInsert, (err, result) => {
 //     res.send('hello titan');
 // })
-
 
 app.post('/addInterval', (req, res) =>{
     console.log(req.body);
@@ -163,7 +162,7 @@ app.post('/addParkInterval', (req, res) =>{
     const startingTime = req.body.startingTime;
     const endingTime = req.body.endingTime;
 
-    const sqlInsert = "INSERT INTO intervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
+    const sqlInsert = "INSERT INTO parkIntervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
     connection.query(sqlInsert, [timeValue, startingTime, endingTime], 
                          (err, result) => {
                             console.log(result)
@@ -171,7 +170,7 @@ app.post('/addParkInterval', (req, res) =>{
 });
 
 app.get('/getParkInterval', (req, res) =>{
-    connection.query("SELECT * FROM intervals", (err, result) => {
+    connection.query("SELECT * FROM parkIntervals", (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -180,7 +179,6 @@ app.get('/getParkInterval', (req, res) =>{
         }
     });
 });
-
 app.listen(3001, () =>{
     console.log('Running on port 3001');
 })

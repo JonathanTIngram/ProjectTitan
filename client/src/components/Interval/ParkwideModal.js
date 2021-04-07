@@ -3,6 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Axios from 'axios';
+import IntervalPage from '../../pages/interval'
 
 
 const Background = styled.div`
@@ -212,7 +213,10 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
                 <Submit 
                 onClick={() => { setShowModal(prev => !prev);
                                   submitInterval();
-                               }}>Submit</Submit>
+                                  setTimeout(function(){
+                                    window.location.reload(); 
+                                }, 1);
+                               }}> Submit </Submit>
               
                 
 

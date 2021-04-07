@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-
+import { NavLink, Link } from 'react-router-dom';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
@@ -32,6 +32,7 @@ border-bottom: 2px solid black;
 border-left: 2px solid black;
 border-right: 2px solid black;
 background-color: darkgray;
+text-align: center;
 `
 
 export const TR = styled.tr`
@@ -83,20 +84,21 @@ const AttractionManagerTable = () => {
 
 
         //recieve data from backend to display
-        const getAttractions = () => {
-        Axios.get('http://localhost:3001/getAttraction').then( (res) => {
+        const GetAttractions = () => {
             //console.log(res.data)
-            return setAttractionList(res.data);
-        });
-
+            useEffect(() => {
+                Axios.get('http://localhost:3001/getAttraction').then(res => {
+                setAttractionList(res.data);
+                }).catch(err => console.log(err));
+                }, [])
     }
 
     return (
         <>
 
         <AttractionManagerTableContainer>
-        {window.addEventListener('load', getAttractions())}
-            <Table>
+        {window.addEventListener('load', GetAttractions())}
+            <Table className="sortable">
                     <TR>
                         
                         <TH>Ride Name</TH>
@@ -117,8 +119,9 @@ const AttractionManagerTable = () => {
                         {attractionList.map((val, key) => {
                         return (
                             <>
+                            
                             <TR>
-                            <TD>{val.ride_name}</TD> 
+                            <TD><NavLink to = '/rideInfo'>{val.ride_name}</NavLink></TD> 
                             <TD>{val.dailyOpening}</TD>
                             <TD>{val.dailyClosing}</TD>
                             <TD>{val.theoryCapacity}</TD>
@@ -132,6 +135,7 @@ const AttractionManagerTable = () => {
                             <TD>{val.weatherCode}</TD>
                             <TD>{val.rideType}</TD>
                             </TR>
+                        
                             </>
                         );
                         })}

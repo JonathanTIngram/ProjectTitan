@@ -8,7 +8,6 @@ export const Nav = styled.nav`
   background: transparent;
   border-bottom: 2px solid black;
   border-top: 2px solid black;
-
   height: 34px;
   display: flex;
   padding: 0.5rem calc((62vw - 1000px) / 2);
@@ -66,6 +65,9 @@ const Navbar = () => {
              </NavLink>
              <NavLink to='/interval' activeStyle>
                  Intervals
+             </NavLink>
+             <NavLink to='/rideInfo' activeStyle>
+                 Ride Info
              </NavLink>
          </NavMenu>
      </Nav>
