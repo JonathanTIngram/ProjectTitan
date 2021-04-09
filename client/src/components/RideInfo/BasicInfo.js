@@ -111,13 +111,14 @@ const BasicInfo = () => {
         
         <Border>
             {window.addEventListener('load', GetAttractions())}
-            {/* {attractionList.map((val, key) => {
-            return (
-                <> */}
+            
             <Label1>     <RideSelect onChange={(e) => {
                         setRideSelect(e.target.value);
-                      }}>
+                      }}
+                      >
                         <option>Select Attraction</option>
+
+
             {attractionList.map((val, key) => {
 
               return (
