@@ -150,7 +150,16 @@ const AttractionIntervals = () => {
                 setAttractionList(res.data);
                 }).catch(err => console.log(err));
                 }, [])
-    }
+        }
+
+        const GetIntervals = () => {
+
+            Axios.get(`http://localhost:3001/getInterval/:${rideSelect}`).then(res => {
+            console.log(rideSelect)
+            setIntervalList(res.data)
+            }).catch(err => console.log(err));
+        }
+        
 
     return (
         <>
@@ -159,7 +168,9 @@ const AttractionIntervals = () => {
                 <RideName>  
                 {window.addEventListener('load', GetAttractions())}
                     <RideSelect onChange={(e) => {
+                        GetIntervals();
                         setRideSelect(e.target.value);
+                        
                       }}
                       >
                         <option>Select Attraction</option>
@@ -191,7 +202,8 @@ const AttractionIntervals = () => {
             </IntervalCard> 
 
             {useEffect(() => {
-            Axios.get('http://localhost:3001/getInterval').then(res => {
+            Axios.get(`http://localhost:3001/getInterval/:${rideSelect}`).then(res => {
+            console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
             }, [])}

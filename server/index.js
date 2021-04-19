@@ -217,16 +217,28 @@ app.post('/addInterval', (req, res) =>{
                         });
 });
 
-app.get('/getInterval', (req, res) =>{
-    connection.query("SELECT * FROM intervals", (err, result) => {
+app.get('/getInterval/:rideSelect', (req, res) =>{
+
+    var rideSelect = req.params.rideSelect
+
+
+    rideSelect = rideSelect.replace(':', ''); //get ride of the colon in front of rideSelect
+
+    console.log(rideSelect);
+
+
+    sqlInsert = "SELECT * FROM intervals WHERE ride_name = ?"
+    connection.query(sqlInsert, rideSelect, (err, result) => {
         if (err) {
             console.log(err);
         }
         else {
+            console.log(rideSelect);
             res.send(result);
         }
     });
 });
+
 
 
 app.post('/addParkInterval', (req, res) =>{
