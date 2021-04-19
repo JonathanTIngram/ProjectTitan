@@ -8,6 +8,8 @@ import QuickToolsSummary from '../components/Graph/QuickToolsSummary';
 import FavBar from '../components/Graph/FavoriteBar';
 import Units from '../components/Graph/GraphUnits'
 import LC from '../components/Graph/ChartLine'
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
 const OuterBorder = styled.div`
   width: 100%;
@@ -72,6 +74,8 @@ const ChartBorder = styled.nav`
 export default function Graph() {
     return (
         <>
+        <Navbar />
+        <Banner />  
           <OuterBorder>
           <QuickToolsSummary/>
           <Selection> <Units></Units> </Selection>

@@ -112,6 +112,7 @@ margin-left: 3px;
 const Image = styled.img`
 display:flex;
 height: 70px;
+border: none;
 `
 const Button = styled.button`
 display: inline-block;
@@ -119,8 +120,11 @@ background: transparent;
 position: absolute;
 left: 17.5%;
 top: 35%;
+border: none;
 `
-
+const RideSelect = styled.select`
+    align: right;
+`
 const AttractionIntervals = () => {
     const [showModal, setShowModal] = useState(false);
 
@@ -134,12 +138,44 @@ const AttractionIntervals = () => {
         const [typeState, setTypeState] = useState([]);
         const [unitState, setUnitState] = useState("");
         const [intervalList, setIntervalList] = useState([]);
+        const [rideSelect, setRideSelect] = useState('');
+
+          //state to get all attractions
+    const [attractionList, setAttractionList] = useState([]);
+         //recieve data from backend to display
+         const GetAttractions = () => {
+            //console.log(res.data)
+            useEffect(() => {
+                Axios.get('http://localhost:3001/getAttraction').then(res => {
+                setAttractionList(res.data);
+                }).catch(err => console.log(err));
+                }, [])
+    }
 
     return (
         <>
 
             <CallsBorder>
-                <RideName>The Joker</RideName>
+                <RideName>  
+                {window.addEventListener('load', GetAttractions())}
+                    <RideSelect onChange={(e) => {
+                        setRideSelect(e.target.value);
+                      }}
+                      >
+                        <option>Select Attraction</option>
+
+
+            {attractionList.map((val, key) => {
+
+              return (
+                  <>                                
+                          <option>{val.ride_name}</option>
+                  </>
+              );
+              })}
+        </RideSelect>
+
+                </RideName>
                 <PauseButton> Pause Calls </PauseButton>
                 <EndButton> End Todays Calls </EndButton>
             </CallsBorder>
@@ -164,9 +200,12 @@ const AttractionIntervals = () => {
                             <>
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes</CardTime>
-                            <CardCollect>Collect <li> 
-                                    
-                                </li></CardCollect>
+                            <CardCollect>Collect
+                                 <li> 
+                                     {val.typeState}
+                                 
+                                 </li>
+                                </CardCollect>
                             <CardStarting>Starting<ul>At Park Opening</ul> <ul>{val.startingTime}</ul></CardStarting>
                             <CardEnding>Ending<ul>At Park Closing</ul><ul>{val.endingTime}</ul></CardEnding>
                             </IntervalCard>

@@ -4,33 +4,60 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
-
 import { NavLink as Link } from 'react-router-dom';
+import FileUpload from '../components/FileUpload/FileUpload'; 
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
-
-export const NavLink = styled(Link)`
-  font: bold 20px Arial;
-  text-decoration: none;
-  background-color: #EEEEEE;
-  color: #333333;
-  border-top: 1px solid #CCCCCC;
-  border-right: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  border-left: 1px solid #CCCCCC;
+export const Nav = styled.nav`
+  background: transparent;
+  height: 3px;
+  display: flex;
+  position: absolute;
+  top: 3%;
+  right: 7%;
+  font-size: 15px;
 `;
 
-const Upload = styled.div`
-    border: 0px solid;   
-    height: 54%;
-    width: 43%;
-    position: absolute;
-    top: 6%;
-    right: 0%;
+export const NavLink = styled(Link)`
+  color: black;
+  border-bottom: 25px solid lightgray;
+  border-right: 10px solid transparent;
+  display: block;
+  margin: 0 -0.3%;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px;
+  height: 100%;
+  cursor: default;
+  &.active {
+    color: black;
+  }
+`;
+
+export const CreateLink = styled(Link)`
+  color: black;
+  border-right: 10px solid transparent;
+  display: block;
+  margin: 0 -0.3%;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px;
+  height: 100%;
+  cursor: default;
+  &.active {
+    color: black;
+  }
+`;
+
+export const NavMenu = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const OuterBorder = styled.div`
   width: 100%;
-  height: 685px;
+  height: 660px;
   position: absolute;
   margin: 13px 0px;
   border: solid 2px;
@@ -47,7 +74,7 @@ const CreateBar = styled.div`
 
 const EditBorder = styled.nav`
   width: 40%;
-  height: 607px;
+  height: 615px;
   border-right: 2px solid;
   font-family: 'Arial', sans-serif;
   font-size: 18px;
@@ -58,46 +85,33 @@ const InfoBar = styled.div`
   font-family: "Lucida Console", monospace;
   font-size: 22px;
   align-content: center;
+  text-align: center;
   border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 40%;
   border-right: 2px solid;
 `;
-const InfoBar2 = styled.div`
-  font-family: "Lucida Console", monospace;
-  font-size: 22px;
-  align-content: center;
-  border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 100%;
-  border-right: 2px solid;
-`;
+
 const SafetyInfo = styled.div`
     font-family: 'Arial', sans-serif;
-    font-size: 19px;
-    text-align: center;
+    font-size: 18px;
     position: absolute;
     right: 30%;
     bottom: 0%;
-    height: 41%;
+    height: 40%;
     width: 30%;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
 `;
 
 const PhoneInfo = styled.div`
     font-family: 'Arial', sans-serif;
-    font-size: 19px;
-    text-align: center;
+    font-size: 18px;
     width: 30%;
-    height: 41%;
+    height: 40%;
     position: absolute;
     left: 69.9%;
-    bottom: 0%;
+    bottom: 0;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
 `;
 
 const ReportInfo = styled.div`
@@ -109,11 +123,19 @@ const ReportInfo = styled.div`
     padding: 5px;
     text-align: center;
     width: 17%;
-    height: 365px;
+    height: 357px;
     right: 43%;
     top: 5.8%;
 `;
 
+const Upload = styled.div`
+    border: 0px solid;   
+    height: 54%;
+    width: 43%;
+    position: absolute;
+    top: 6%;
+    right: 0%;
+`;
 const Box = styled.div`
     border-bottom: 2px solid;   
     height: 14%;
@@ -123,15 +145,15 @@ const Box = styled.div`
 const CreateButton = styled.button`
     padding-right: 40%;
     padding-left: 40%;
+    height: 8%;
 `
-
-
 
 const styleGray = {backgroundColor : '#AFAFAF'};
 export default function CreatePage() {
 
 
 //states
+//for getting attraction 
 const [ride_name, setRide_name] = useState('');
 const [dailyOpening, setDailyOpening] = useState('');
 const [dailyClosing, setDailyClosing] = useState('');
@@ -146,25 +168,46 @@ const [parkSection, setParkSection] = useState('');
 const [weatherCode, setWeatherCode] = useState('');
 const [rideType, setRideType] = useState('');
 
+
+//for getting safety critcal information
+const [maxWind, setMaxWind] = useState('');
+const [minTemp, setMinTemp] = useState('');
+const [powerRedundancy, setPowerRedundancy] = useState('');
+const [numGates, setNumGates] = useState('');
+
+//for getting phone information
+const [ridePrimary, setRidePrimary] = useState('');
+const [rideSecondary, setRideSecondary] = useState('');
+const [rideTertiary, setRideTertiary] = useState('');
+
 //state to get all attractions
 const [attractionList, setAttractionList] = useState([]);
+
+
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
   Axios.post('http://localhost:3001/addAttraction', {
-                ride_name: ride_name,
-                dailyOpening: dailyOpening,
-                dailyClosing: dailyClosing,
-                theoryCapacity: theoryCapacity,
-                targetCapacity: targetCapacity,
-                minVehicles: minVehicles,
-                maxVehicles: maxVehicles,
-                maxSeats: maxSeats,
-                minStaff: minStaff,
-                maxStaff: maxStaff,
-                parkSection: parkSection,
-                weatherCode: weatherCode,
-                rideType: rideType
+    ride_name: ride_name,
+    dailyOpening: dailyOpening,
+    dailyClosing: dailyClosing,
+    theoryCapacity: theoryCapacity,
+    targetCapacity: targetCapacity,
+    minVehicles: minVehicles,
+    maxVehicles: maxVehicles,
+    maxSeats: maxSeats,
+    minStaff: minStaff,
+    maxStaff: maxStaff,
+    parkSection: parkSection,
+    weatherCode: weatherCode,
+    rideType: rideType,
+    maxWind: maxWind,
+    minTemp, minTemp,
+    powerRedundancy, powerRedundancy,
+    numGates, numGates,
+    ridePrimary, ridePrimary,
+    rideSecondary, rideSecondary,
+    rideTertiary, rideTertiary
                 }).then(() =>{
                   alert('successful insert');
               }).then( () => {
@@ -180,12 +223,27 @@ const getAttractions = () => {
 }
 return (
     <>
+    <Navbar/>
+    <Banner/>
     <OuterBorder>
-    <CreateBar> Create a new Attraction </CreateBar>
-    <InfoBar> Basic Information </InfoBar>
+    <CreateBar> Create a new Attraction 
+    <Nav>
+         <NavMenu>
+             <NavLink to='/CreatePage/Block' activeStyle>
+                 Block Section
+             </NavLink>
+             <NavLink to='/CreatePage/Danger' activeStyle>
+                 Danger Areas
+             </NavLink>
+             <NavLink to='/CreatePage/Restrict' activeStyle>
+                 Restricted Areas
+             </NavLink>
+             </NavMenu>
+    </Nav>
+    </CreateBar>
     <EditBorder>
-
-        <table className="table table-bordered table-striped">
+      <InfoBar> Basic Information </InfoBar>
+      <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>
             <th scope="col">Property</th>
@@ -292,34 +350,27 @@ return (
         </th>
         </tr>
 
-        <tr>
-        <td>Weather Code</td>
-        <th>
-              <input type='text' name='weatherCode' onChange={(e) => {
-                            setWeatherCode(e.target.value);
-                          }}></input>
-        </th>
-        </tr>
 
         <tr>
         <td>Type</td>
         <th>
             <input type='text' name='rideType' onChange={(e) => {
                           setRideType(e.target.value);
-                        }}></input>
+              }}></input>
         </th>
         </tr>
         
         </tbody>
 
         </table>
-
-        <CreateButton onClick={ () =>{
-            submitAttraction();
+        <CreateButton>
+        <CreateLink to='/newAttraction' onClick={() => {
             window.alert(`The ride: ${ride_name} has been created`)
-            window.location.href='/newAttraction';
-        }}>Create Attraction</CreateButton>
-
+            submitAttraction();
+            setTimeout(function(){
+              window.location.reload(); 
+          }, 0.1);
+        }}>Create Attraction</CreateLink></CreateButton>
     </EditBorder>
     <ReportInfo>
         <Box> 
@@ -328,11 +379,11 @@ return (
         <ul>Turnstile Report</ul> 
         <ul>Lockout Report</ul>
     </ReportInfo>
-    <Upload>  
-    <h4 className='display-4 text-center mb-4'>
-      <i className='fab fa-react' /> Titan Upload</h4> </Upload>
+    <Upload>
+        <FileUpload />  
+    </Upload>
     <SafetyInfo>
-      <InfoBar2>Safety Critical Information</InfoBar2>
+      <InfoBar>Safety Critical Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>
@@ -343,33 +394,54 @@ return (
         <tbody>
           <tr>
             <td>Weather Code</td>
-            <td>Alpha</td>
+            <td>
+                        <input type='text' name='weatherCode' onChange={(e) => {
+                          setWeatherCode(e.target.value);
+                        }}></input>
+            </td>
           </tr>
 
           <tr>
             <td>Max Operating Wind</td>
-            <td>34 MPH</td>
+            <td>
+                        <input type='text' name='maxWind' onChange={(e) => {
+                          setMaxWind(e.target.value);
+                        }}></input>
+            </td>
           </tr>
 
           <tr>
             <td>Min Operating Temperature</td>
-            <td>41 F</td>
+            <td>
+                        <input type='text' name='minTemp' onChange={(e) => {
+                          setMinTemp(e.target.value);
+                        }}></input>
+            </td>
           </tr>
 
           <tr>
             <td>Power Redundancy</td>
-            <td>On-Site</td>
+            <td>
+                        <input type='text' name='powerRedundancy' onChange={(e) => {
+                          setPowerRedundancy(e.target.value);
+                        }}></input>
+
+            </td>
           </tr>
 
           <tr>
             <td>Number of Gates</td>
-            <td>11</td>
+            <td>              
+                        <input type='text' name='numGates' onChange={(e) => {
+                          setNumGates(e.target.value);
+                        }}></input>
+              </td>
           </tr>
         </tbody>
       </table>
     </SafetyInfo>
     <PhoneInfo>
-      <InfoBar2>Phone Information</InfoBar2>
+      <InfoBar>Phone Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>
@@ -382,7 +454,11 @@ return (
         <tbody>
           <tr>
             <td>Primary</td>
-            <td>3152</td>
+            <td>
+                      <input type='text' name='ridePrimary' onChange={(e) => {
+                          setRidePrimary(e.target.value);
+                        }}></input>
+            </td>
             <td>
               <input type='checkbox'></input>
             </td>
@@ -393,7 +469,11 @@ return (
 
           <tr>
             <td>Secondary</td>
-            <td>3153</td>
+            <td>
+                        <input type='text' name='rideSecondary' onChange={(e) => {
+                          setRideSecondary(e.target.value);
+                        }}></input>
+            </td>
             <td>
               <input type='checkbox'></input>
             </td>
@@ -404,7 +484,11 @@ return (
 
           <tr>
             <td>Tertiary</td>
-            <td>3154</td>
+            <td>
+                        <input type='text' name='rideTeriary' onChange={(e) => {
+                            setRideTertiary(e.target.value);
+                        }}></input>
+            </td>
             <td>
               <input type='checkbox'></input>
             </td>

@@ -8,10 +8,14 @@ import MainWeatherRadar from '../components/Main/MainWeatherRadar'
 import MainDownTime from '../components/Main/MainDownTime'
 import MainParkSection from '../components/Main/MainParkSection'
 import MainRidePercentChange from '../components/Main/MainRidePerecentChange'
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
 const Main = () => {
     return (
         <div>
+          <Navbar />
+          <Banner />
           <QuickToolsMain></QuickToolsMain>
           <MainCodeMenu></MainCodeMenu>
           <MainInfoDisplay></MainInfoDisplay>

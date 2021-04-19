@@ -124,7 +124,6 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
       { id: 2, type: "Throughput"},
       { id: 3, type: "Available Seats"},
       { id: 4, type: "Available Down"},
-
     ];
     setTypeState(
       typeState.map(d => {
@@ -143,6 +142,14 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
   const submitInterval = () =>{
     Axios.post('http://localhost:3001/addInterval', {
                   timeValue: timeValue,
+                  typeState: typeState.map((d, i)=>  {
+                  if (d.select === true) {
+                    return 1;
+                  }
+                  else {
+                    return 0;
+                  }
+                  }),
                   startingTime: startingTime,
                   endingTime: endingTime}).then(() =>{
                     alert('successful insert');
@@ -177,6 +184,8 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                       typeState.map(data => {
                         if (d.id === data.id) {
                           data.select = checked;
+                          var checkID = d.id;
+                          console.log(checkID);
                         }
                         return data;
                       })
@@ -185,9 +194,9 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                   type="checkbox"
                   checked={d.select}
                 ></input>
-
                 </th>
               <td>{d.type}</td>
+
             </TR>
                 ))}
                 </Menu>

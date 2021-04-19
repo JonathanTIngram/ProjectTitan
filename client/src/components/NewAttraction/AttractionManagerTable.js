@@ -32,7 +32,6 @@ border-bottom: 2px solid black;
 border-left: 2px solid black;
 border-right: 2px solid black;
 background-color: darkgray;
-text-align: center;
 `
 
 export const TR = styled.tr`
@@ -84,7 +83,7 @@ const AttractionManagerTable = () => {
 
 
         //recieve data from backend to display
-        const GetAttractions = () => {
+    const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
                 Axios.get('http://localhost:3001/getAttraction').then(res => {
@@ -117,11 +116,15 @@ const AttractionManagerTable = () => {
                     </TR>
 
                         {attractionList.map((val, key) => {
+                        var ride = val.ride_name;
                         return (
                             <>
-                            
                             <TR>
-                            <TD><NavLink to = '/rideInfo'>{val.ride_name}</NavLink></TD> 
+                            <TD><NavLink to = {{
+                                pathname:'/rideInfo',
+                                ride_name: {ride}
+
+                            }}>{val.ride_name}</NavLink></TD> 
                             <TD>{val.dailyOpening}</TD>
                             <TD>{val.dailyClosing}</TD>
                             <TD>{val.theoryCapacity}</TD>
@@ -135,7 +138,6 @@ const AttractionManagerTable = () => {
                             <TD>{val.weatherCode}</TD>
                             <TD>{val.rideType}</TD>
                             </TR>
-                        
                             </>
                         );
                         })}

@@ -115,6 +115,7 @@ background: transparent;
 position: absolute;
 left: 7%;
 top: 42%;
+border: none;
 `
 
 const ParkwideIntervals= () => {

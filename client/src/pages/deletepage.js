@@ -4,12 +4,42 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
-
 import { NavLink as Link } from 'react-router-dom';
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
-
-
+export const Nav = styled.nav`
+  background: transparent;
+  height: 3px;
+  display: flex;
+  position: absolute;
+  top: 3%;
+  right: 7%;
+  font-size: 15px;
+`;
 export const NavLink = styled(Link)`
+  color: black;
+  border-right: 10px solid transparent;
+  border-bottom: 25px solid lightgray;
+  display: block;
+  margin: 0 -0.3%;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px;
+  height: 100%;
+  cursor: default;
+  &.active {
+    color: black;
+  }
+`;
+
+export const NavMenu = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+
+export const DeleteLink = styled(Link)`
   margin-left: 40%;
   font: bold 20px Arial;
   text-decoration: none;
@@ -61,19 +91,10 @@ const InfoBar = styled.div`
   font-size: 22px;
   align-content: center;
   border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 40%;
+  padding-left: 5%;
+  text-align: center;
   border-right: 2px solid;
-`;
-
-const InfoBar2 = styled.div`
-  font-family: "Lucida Console", monospace;
-  font-size: 22px;
-  align-content: center;
-  border-bottom: 2px solid;
-  padding-left: 10.5%;
-  width: 100%;
-  border-right: 2px solid;
+  
 `;
 
 const SafetyInfo = styled.div`
@@ -86,8 +107,7 @@ const SafetyInfo = styled.div`
     height: 41%;
     width: 30%;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
+    overflow: scroll;
 `;
 
 const PhoneInfo = styled.div`
@@ -100,8 +120,6 @@ const PhoneInfo = styled.div`
     left: 69.9%;
     bottom: 0%;
     border: 2px solid;
-    overflow: hidden;
-    overflow-y: scroll;
 `;
 
 const ReportInfo = styled.div`
@@ -171,13 +189,6 @@ const getAttractions = () => {
 
 }
 
-const getDailyOpening = () => {
-  Axios.get('http://localhost:3001/getDailyOpening').then( (res) =>{
-  return res.data;
-    
-  })
-}
-
 
 const deleteAttraction = (ride_name) => {
   Axios.delete(`http://localhost:3001/deleteAttraction/${ride_name}`);
@@ -185,9 +196,24 @@ const deleteAttraction = (ride_name) => {
 
 return (
     <>
-
+    <Navbar/>
+    <Banner/>
     <OuterBorder>
-    <DeleteBar> Delete an Attraction </DeleteBar>
+    <DeleteBar> Delete an Attraction 
+    <Nav>
+         <NavMenu>
+             <NavLink to='/DeletePage/Block' activeStyle>
+                 Block Section
+             </NavLink>
+             <NavLink to='/DeletePage/Danger' activeStyle>
+                 Danger Areas
+             </NavLink>
+             <NavLink to='/DeletePage/Restrict' activeStyle>
+                 Restricted Areas
+             </NavLink>
+             </NavMenu>
+    </Nav>
+    </DeleteBar>
     <RideSelect onChange={(e) => {
                         setRideSelect(e.target.value);
                       }}>
@@ -202,11 +228,8 @@ return (
               })}
 
     </RideSelect>
-    <InfoBar> Basic Information</InfoBar>
     <EditBorder>
-
-
-
+    <InfoBar> Basic Information</InfoBar>
         {useEffect(() =>{
               {window.addEventListener('load', getAttractions())}
             })}
@@ -506,7 +529,7 @@ return (
       <i className='fab fa-react' /> Titan Upload</h4> </Upload>
 
     <SafetyInfo>
-      <InfoBar2>Safety Critical Information</InfoBar2>
+      <InfoBar>Safety Critical Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>
@@ -543,7 +566,7 @@ return (
       </table>
     </SafetyInfo>
     <PhoneInfo>
-      <InfoBar2>Phone Information</InfoBar2>
+      <InfoBar>Phone Information</InfoBar>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style = {styleGray}>

@@ -23,7 +23,6 @@ border-bottom: 2px solid black;
 border-right: 2px solid black;
 border-left: 2px solid black;
 background-color: darkgray;
-text-align: center;
 `
 
 export const TR = styled.tr`
@@ -48,18 +47,29 @@ height: 100%;
 /* text-align: center; */
 overflow-y: scroll;
 `
-
+export const Select = styled.select`
+height: 95%;
+width: 95%;
+font-size: 100%;
+font-weight: bold;
+`
+export const SelectTimeFrame = styled.select`
+height: 50%;
+width: 45%;
+font-size: 100%;
+font-weight: bold;
+`
 
 const MainRidePercentChange = () => {
     return (
         <>
 
         <RidePercentChangeContainer>
-        <Table class = "sortable">
+        <Table>
                     <TR>
-                        <TH>Ride Name</TH>
-                        <TH>Day Change</TH>
-                        <TH>Day % Change</TH>
+                        <TH><Select><option>Ride Name</option></Select></TH>
+                        <TH><SelectTimeFrame><option>Day</option><option>Hour</option><option>Week</option><option>Month</option></SelectTimeFrame> Change</TH>
+                        <TH><SelectTimeFrame><option>Day</option><option>Hour</option><option>Week</option><option>Month</option></SelectTimeFrame> % Change</TH>
                     </TR>
                     <TR>
                         <TD></TD>  <TD></TD>  <TD></TD>

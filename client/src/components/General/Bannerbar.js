@@ -57,7 +57,6 @@ const Icon = styled.img`
 margin-left: 10px;
 height: 20px;
 width: 30px;
-
 `
 
 const Bannerbar = () => {

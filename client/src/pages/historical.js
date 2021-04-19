@@ -1,15 +1,13 @@
 import React from 'react'
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
 const Historical = () => {
     return (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh'
-          }}
-        >
+      
+        <div>
+          <Navbar />
+          <Banner />
           <h1>This will display Historical page</h1>
         </div>
       );

@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import Axios from 'axios';
+import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 
 export const Nav = styled.nav`
   background: transparent;
@@ -213,6 +216,8 @@ const editAttraction = () =>{
 
 return (
     <>
+    <Navbar/>
+    <Banner/>
     {useEffect(() =>{
       {window.addEventListener('load', getAttractions())}
     })}

@@ -14,6 +14,7 @@ position: absolute;
 right: 0px;
 width: 20%;
 margin: 37px 0px;
+
 `;
 export const FavButton = styled.button`
 display: block;
@@ -23,6 +24,7 @@ font-size: 16px;
 border-top: 2px solid black;
 border-left: 2px solid black;
 text-align: center;
+
 `;
 
 export const CustomExport = styled.button`
@@ -33,6 +35,7 @@ border-top: 2px solid black;
 border-bottom: 1px solid black;
 border-left: 2px solid black;
 text-align: center;
+
 `;
 
 const FavoriteBar = () => {

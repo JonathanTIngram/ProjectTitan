@@ -8,6 +8,7 @@ position: absolute;
 left: 0px;
 width: 25%;
 height: 240px;
+
 border-right: 2px solid black;
 `
 
@@ -17,10 +18,9 @@ overflow-y: scroll;
 background: transparent;
 margin: 15px 0px;
 position: absolute;
-top: 15px;
 left: 0px;
 width: 100%;
-height: 220px;
+height: 200px;
 `;
 
 export const TH = styled.th`
@@ -61,7 +61,6 @@ margin-top: 1%;
 font-size: 175%;
 text-align: left;
 font-weight: normal;
-padding:0px;
 `
 
 const IntervalsCountDisplay = () => {

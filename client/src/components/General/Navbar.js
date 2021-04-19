@@ -66,8 +66,8 @@ const Navbar = () => {
              <NavLink to='/interval' activeStyle>
                  Intervals
              </NavLink>
-             <NavLink to='/rideInfo' activeStyle>
-                 Ride Info
+             <NavLink to='/home' activeStyle>
+                 Logout
              </NavLink>
          </NavMenu>
      </Nav>

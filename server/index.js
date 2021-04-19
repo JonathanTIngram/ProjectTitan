@@ -33,18 +33,65 @@ app.post('/addAttraction', (req, res) =>{
     const weatherCode = req.body.weatherCode;
     const rideType = req.body.rideType;
 
+    const maxWind = req.body.maxWind;
+    const minTemp = req.body.minTemp;
+    const powerRedundancy = req.body.powerRedundancy;
+    const numGates = req.body.numGates;
+
+    const ridePrimary = req.body.ridePrimary;
+    const rideSecondary = req.body.rideSecondary;
+    const rideTertiary = req.body.rideTertiary;
+
+    //for main attraction information
     const sqlInsert = "INSERT INTO attraction (ride_name, dailyOpening, dailyClosing, theoryCapacity, targetCapacity, minVehicles, maxVehicles, maxSeats, minStaff, maxStaff, parkSection, weatherCode, rideType) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
     connection.query(sqlInsert, [ride_name, dailyOpening, dailyClosing, theoryCapacity,
                          targetCapacity, minVehicles, maxVehicles,
                          maxSeats, minStaff, maxStaff, parkSection, weatherCode, rideType], 
                          (err, result) =>{
-                            console.log(result)
-                        });
+                            console.log(result);
+                        }
+        );
+    
+    //for safety critical information
+    const safetyInsert = "INSERT INTO safetyCriticalInfo (ride_name, weatherCode, maxWind, minTemp, powerRedundancy, numGates) VALUES (?, ?, ?, ?, ?, ?)";
+    connection.query(safetyInsert, [ride_name, weatherCode, maxWind, minTemp, powerRedundancy, numGates],
+        (err, result) =>{
+            console.log(result);
+        })
+
+    //for phone information
+    const phoneInsert = "INSERT INTO phoneInfo (ride_name, ridePrimary, rideSecondary, rideTertiary) VALUES (?, ?, ?, ?)";
+    connection.query(phoneInsert, [ride_name, ridePrimary, rideSecondary, rideTertiary],
+        (err, result) =>{
+            console.log(result);
+        })
 });
 
 
 app.get('/getAttraction', (req, res) =>{
     connection.query("SELECT * FROM attraction", (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+app.get('/getSafetyInfo', (req, res) =>{
+    connection.query("SELECT * FROM safetyCriticalInfo", (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+app.get('/getPhoneInfo', (req, res) =>{
+    connection.query("SELECT * FROM phoneInfo", (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -71,6 +118,7 @@ app.get('/getAttractionNames', (req, res) =>{
 
 //PUT REQUESTS
 app.put("/editAttraction", (req, res) => {
+    console.log(req.body);
     const ride_name = req.body.ride_name;
     const dailyOpening = req.body.dailyOpening;
     const dailyClosing = req.body.dailyClosing;
@@ -85,6 +133,17 @@ app.put("/editAttraction", (req, res) => {
     const weatherCode = req.body.weatherCode;
     const rideType = req.body.rideType;
 
+    const maxWind = req.body.maxWind;
+    const minTemp = req.body.minTemp;
+    const powerRedundancy = req.body.powerRedundancy;
+    const numGates = req.body.numGates;
+
+    const ridePrimary = req.body.ridePrimary;
+    const rideSecondary = req.body.rideSecondary;
+    const rideTertiary = req.body.rideTertiary;
+
+
+    //for main attraction information
     const sqlInsert = "UPDATE attraction SET dailyOpening = ?, dailyClosing = ?, theoryCapacity = ?, targetCapacity = ?, minVehicles = ?, maxVehicles = ?, maxSeats = ?, maxStaff = ?, minStaff = ?, parkSection = ?, weatherCode = ?, rideType = ? WHERE ride_name = ?;";
     connection.query(
       sqlInsert,
@@ -101,6 +160,20 @@ app.put("/editAttraction", (req, res) => {
         }
       }
     );
+
+    //for safety critical information
+    const safetyInsert = "UPDATE safetyCriticalInfo SET weatherCode = ?, maxWind = ?, minTemp = ?, powerRedundancy = ?, numGates = ? WHERE ride_name = ?";
+    connection.query(safetyInsert, [weatherCode, maxWind, minTemp, powerRedundancy, numGates, ride_name],
+        (err, result) =>{
+            console.log(result);
+        })
+
+    //for phone information
+    const phoneInsert = "UPDATE phoneInfo SET ridePrimary = ?, rideSecondary = ?, rideTertiary = ? WHERE ride_name = ?";
+    connection.query(phoneInsert, [ridePrimary, rideSecondary, rideTertiary, ride_name],
+        (err, result) => {
+            console.log(result);
+        })
   });
 
 
@@ -154,6 +227,7 @@ app.get('/getInterval', (req, res) =>{
         }
     });
 });
+
 
 app.post('/addParkInterval', (req, res) =>{
     console.log(req.body);

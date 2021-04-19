@@ -1,15 +1,13 @@
 import React from 'react'
-
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 const Attraction = () => {
     return (
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh'
-          }}
+
         >
+          <Navbar />
+          <Banner />
           <h1>This will display Attraction Timeline page</h1>
         </div>
       );

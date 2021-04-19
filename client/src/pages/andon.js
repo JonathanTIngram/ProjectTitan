@@ -1,15 +1,12 @@
 import React from 'react'
-
+import Navbar from '../components/General/Navbar';
+import Banner from '../components/General/Bannerbar';
 const Andon = () => {
     return (
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '90vh'
-          }}
         >
+          <Navbar />
+          <Banner />
           <h1>This will display Andon page</h1>
         </div>
       );
