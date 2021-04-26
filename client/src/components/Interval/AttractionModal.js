@@ -144,10 +144,10 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
-                    return 1;
+                    return true;
                   }
                   else {
-                    return 0;
+                    return false;
                   }
                   }),
                   startingTime: startingTime,

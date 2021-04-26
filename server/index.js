@@ -210,6 +210,20 @@ app.post('/addInterval', (req, res) =>{
     const startingTime = req.body.startingTime;
     const endingTime = req.body.endingTime;
 
+
+    const typeState = req.body.typeState.map((d, i)=>  {
+        if (d.select == true) {
+          return true;
+        }
+        else {
+          return false;
+        }
+        })
+
+    console.log(typeState)
+
+
+
     const sqlInsert = "INSERT INTO intervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
     connection.query(sqlInsert, [timeValue, startingTime, endingTime], 
                          (err, result) => {
