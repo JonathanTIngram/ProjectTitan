@@ -211,8 +211,9 @@ app.post('/addInterval', (req, res) =>{
     const endingTime = req.body.endingTime;
 
 
-    const typeState = req.body.typeState.map((d, i)=>  {
-        if (d.select == true) {
+    const checkBoxData = req.body.typeState.map((d, i)=>  {
+
+        if (d == true) {
           return true;
         }
         else {
@@ -220,7 +221,7 @@ app.post('/addInterval', (req, res) =>{
         }
         })
 
-    console.log(typeState)
+    console.log(checkBoxData)
 
 
 
