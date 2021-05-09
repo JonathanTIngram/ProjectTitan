@@ -34,19 +34,30 @@ DROP TABLE parkIntervals;
 SELECT * FROM attraction;
 SELECT * FROM safetyCriticalInfo;
 SELECT * FROM intervals;
+SELECT * FROM parkIntervals;
+
 
 CREATE TABLE intervals (
 	ride_name VARCHAR(50),
 	timeValue TIME,
 	startingTime TIME,
-    endingTime TIME
+    endingTime TIME,
+    checkedWaitTime BOOLEAN,
+    checkedThroughput BOOLEAN,
+    checkedAvailableSeats BOOLEAN,
+    checkedAvailableDown BOOLEAN
 );
 
 
 CREATE TABLE parkIntervals (
+	ride_name VARCHAR(50),
 	timeValue TIME,
 	startingTime TIME,
-    endingTime TIME
+    endingTime TIME,
+    checkedWaitTime BOOLEAN,
+    checkedThroughput BOOLEAN,
+    checkedAvailableSeats BOOLEAN,
+    checkedAvailableDown BOOLEAN
 );
 
 

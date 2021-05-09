@@ -112,6 +112,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
   );
 
   //states
+  const [ride_name, setRideName] = useState('');
   const [startingTime, setStartingTime] = useState('');
   const [endingTime, setEndingTime] = useState('');
   const [timeValue, setTime] = useState('');
@@ -141,6 +142,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
   
   const submitInterval = () =>{
     Axios.post('http://localhost:3001/addInterval', {
+                  ride_name: ride_name,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
@@ -182,6 +184,10 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
               <ModalContent>
 
                 <header>Add an Interval</header>
+                <form> Ride Name</form>
+                <InputStyle type='text' name='Name' onChange={(e) => {
+                  setRideName(e.target.value);
+                }}></InputStyle>
                 <form>Time Value:</form>
                 <InputStyle type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);
@@ -217,6 +223,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                 </Menu>
 
                 <form>Starting:</form>
+
                 <InputStyle type='time' name='startingTime' onChange={(e) => {
                   setStartingTime(e.target.value);
                 }}></InputStyle>
