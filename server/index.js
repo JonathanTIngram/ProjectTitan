@@ -206,12 +206,13 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
 app.post('/addInterval', (req, res) =>{
     console.log(req.body);
 
+    const ride_name = req.body.ride_name;
     const timeValue = req.body.timeValue;
     const startingTime = req.body.startingTime;
     const endingTime = req.body.endingTime;
 
-    const sqlInsert = "INSERT INTO intervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
-    connection.query(sqlInsert, [timeValue, startingTime, endingTime], 
+    const sqlInsert = "INSERT INTO intervals (ride_name, timeValue, startingTime, endingTime) VALUES (?, ?, ?, ?);"
+    connection.query(sqlInsert, [ride_name ,timeValue, startingTime, endingTime], 
                          (err, result) => {
                             console.log(result)
                         });
