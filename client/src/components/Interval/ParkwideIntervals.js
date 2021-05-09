@@ -155,7 +155,7 @@ const ParkwideIntervals= () => {
                         return (
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes</CardTime>
-                            <CardCollect>Collect <li>Available Seats</li><li>Down Seats</li></CardCollect>
+                        <CardCollect>Collect <li>Available Seats {val.checkedAvailableSeats}</li><li>Down Seats</li></CardCollect>
                             <CardFrom>From <ul>Reported Down Rides</ul></CardFrom>
                             <CardStarting>Starting<ul>At Park Opening</ul>  <ul> {val.startingTime} </ul> </CardStarting>
                             <CardEnding>Ending<ul>At Park Closing </ul> <ul>{val.endingTime}</ul></CardEnding>
