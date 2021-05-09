@@ -22,7 +22,16 @@ font-size: 30px;
 `
 
 const PauseButton = styled.button`
-margin-top: 70px;
+margin-top: 2px;
+margin-left: 20px;
+justify-content: center;
+height: 17%;
+width: 85%;
+border: 2px solid black;
+background: transparent;
+`
+const MitButton = styled.button`
+margin-top: 50px;
 margin-left: 20px;
 justify-content: center;
 height: 17%;
@@ -187,6 +196,7 @@ const AttractionIntervals = () => {
         </RideSelect>
 
                 </RideName>
+                <MitButton>Show Rides Intervals</MitButton>
                 <PauseButton> Pause Calls </PauseButton>
                 <EndButton> End Todays Calls </EndButton>
             </CallsBorder>
