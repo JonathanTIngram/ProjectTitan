@@ -144,10 +144,25 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
-                    return true;
+
+                    const checkData = {
+                      isChecked: true,
+                      id: d.id,
+                      type: d.type
+                    }
+                    //[d.id, d.type, d.select]                    
+
+                    return checkData;
                   }
                   else {
-                    return false;
+                    const checkData = {
+                      isChecked: false,
+                      id: d.id,
+                      type: d.type
+                    }
+                    //[d.id, d.type, d.select]                    
+
+                    return checkData;
                   }
                   }),
                   startingTime: startingTime,
