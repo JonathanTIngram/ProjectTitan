@@ -184,6 +184,7 @@ const AttractionIntervals = () => {
               );
               })}
         </RideSelect>
+        <button>Submit</button>
 
                 </RideName>
                 <PauseButton> Pause Calls </PauseButton>
@@ -207,15 +208,39 @@ const AttractionIntervals = () => {
             }).catch(err => console.log(err));
             }, [])}
                 {intervalList.map((val, key) => {
+                    const checkWait = () => {
+
+                        if (val.checkedWaitTime == true){
+                            return <li>Wait Time</li>;
+                        }
+                    }
+
+                    const checkThroughput = () => {
+                        if (val.checkedThroughput == true){
+                            return <li>Throughtput</li>
+                        }
+                    }
+
+                    const checkAvailable = () => {
+                        if (val.checkedAvailableSeats == true){
+                            return <li>Available Seats</li>
+                        }
+                    }
+
+                    const checkDown = () => {
+                        if (val.checkedAvailableDown == true){
+                            return <li>Available Down</li>
+                        }
+                    }
                         return (
                             <>
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes</CardTime>
                             <CardCollect>Collect
-                                 <li> 
-                                     {val.typeState}
-                                 
-                                 </li>
+                                {checkWait()}
+                                {checkThroughput()}
+                                {checkAvailable()}
+                                {checkDown()}
                                 </CardCollect>
                             <CardStarting>Starting<ul>At Park Opening</ul> <ul>{val.startingTime}</ul></CardStarting>
                             <CardEnding>Ending<ul>At Park Closing</ul><ul>{val.endingTime}</ul></CardEnding>
