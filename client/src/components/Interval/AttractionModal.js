@@ -77,7 +77,7 @@ export const Menu = styled.div`
   overflow-x: auto;
 `;
 
-export const AttractionModal = ({ showModal, setShowModal }) => {
+export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   const modalRef = useRef();
 
   const animation = useSpring({
@@ -142,7 +142,7 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
   
   const submitInterval = () =>{
     Axios.post('http://localhost:3001/addInterval', {
-                  ride_name: ride_name,
+                  ride_name: ride,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
@@ -184,10 +184,10 @@ export const AttractionModal = ({ showModal, setShowModal }) => {
               <ModalContent>
 
                 <header>Add an Interval</header>
-                <form> Ride Name</form>
+                {/* <form> Ride Name</form>
                 <InputStyle type='text' name='Name' onChange={(e) => {
                   setRideName(e.target.value);
-                }}></InputStyle>
+                }}></InputStyle> */}
                 <form>Time Value:</form>
                 <InputStyle type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);

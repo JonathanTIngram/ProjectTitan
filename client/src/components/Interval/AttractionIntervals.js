@@ -125,7 +125,7 @@ border: none;
 const RideSelect = styled.select`
     align: right;
 `
-const AttractionIntervals = () => {
+const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => {
@@ -197,7 +197,7 @@ const AttractionIntervals = () => {
             <IntervalCard>
              
                 <Button onClick={openModal}> <Image src={plus} Image/> </Button>
-                <AttractionModal showModal={showModal} setShowModal={setShowModal} />
+                <AttractionModal showModal={showModal} setShowModal={setShowModal} ride={rideSelect} />
                     <GlobalStyle /> 
             
             </IntervalCard> 
