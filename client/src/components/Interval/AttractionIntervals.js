@@ -3,8 +3,8 @@ import plus from './plusSign.png'
 import { AttractionModal } from './AttractionModal';
 import { GlobalStyle } from '../../globalStyles';
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
-import './AttractionModal';
+import Axios from 'axios'
+
 
 const CallsBorder = styled.div`
 overflow: hidden;
@@ -123,7 +123,7 @@ top: 35%;
 border: none;
 `
 const RideSelect = styled.select`
-    align-content: right;
+    align: right;
 `
 const AttractionIntervals = () => {
     const [showModal, setShowModal] = useState(false);
@@ -168,9 +168,9 @@ const AttractionIntervals = () => {
                 <RideName>  
                 {window.addEventListener('load', GetAttractions())}
                     <RideSelect onChange={(e) => {
-                        
-                        setRideSelect(e.target.value);
                         GetIntervals();
+                        setRideSelect(e.target.value);
+                        
                       }}
                       >
                         <option>Select Attraction</option>

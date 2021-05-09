@@ -206,28 +206,54 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
 app.post('/addInterval', (req, res) =>{
     console.log(req.body);
 
-    const ride_name = req.body.ride_name;
     const timeValue = req.body.timeValue;
     const startingTime = req.body.startingTime;
     const endingTime = req.body.endingTime;
 
-    const sqlInsert = "INSERT INTO intervals (ride_name, timeValue, startingTime, endingTime) VALUES (?, ?, ?, ?);"
-    connection.query(sqlInsert, [ride_name ,timeValue, startingTime, endingTime], 
+
+    const checkBoxData = req.body.typeState.map((d, i)=>  {
+
+        if (d == true) {
+          return true;
+        }
+        else {
+          return false;
+        }
+        })
+
+    console.log(checkBoxData)
+
+
+
+    const sqlInsert = "INSERT INTO intervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
+    connection.query(sqlInsert, [timeValue, startingTime, endingTime], 
                          (err, result) => {
                             console.log(result)
                         });
 });
 
-app.get('/getInterval', (req, res) =>{
-    connection.query("SELECT * FROM intervals", (err, result) => {
+app.get('/getInterval/:rideSelect', (req, res) =>{
+
+    var rideSelect = req.params.rideSelect
+
+
+    rideSelect = rideSelect.replace(':', ''); //get ride of the colon in front of rideSelect
+
+    console.log(rideSelect);
+
+
+    sqlInsert = "SELECT * FROM intervals WHERE ride_name = ?"
+    connection.query(sqlInsert, rideSelect, (err, result) => {
         if (err) {
             console.log(err);
         }
         else {
+            console.log(rideSelect);
             res.send(result);
         }
     });
 });
+
 
 
 app.post('/addParkInterval', (req, res) =>{
