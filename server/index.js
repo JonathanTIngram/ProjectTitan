@@ -216,9 +216,31 @@ app.post('/addInterval', (req, res) =>{
 
 
     console.log("\n\nBackend")
+
+    var checkedWaitTime;
+    var checkedThroughput;
+    var checkedAvailableSeats;
+    var checkedAvailableDown;
+
     const checkBoxData = req.body.typeState.map((d, i)=>  {
 
-        
+        if(d.id == 1 && d.type == "Wait Time"){
+            checkedWaitTime = d.isChecked;
+        }
+
+        else if(d.id == 2 && d.type == "Throughput"){
+            checkedThroughput = d.isChecked;
+        }
+
+        else if(d.id == 3 && d.type == "Available Seats"){
+            checkedAvailableSeats = d.isChecked;
+        }
+
+        else if(d.id == 4 && d.type == "Available Down"){
+            checkedAvailableDown = d.isChecked;
+        }
+
+
         console.log(d)
         if (d.isChecked == true) {
           return true;
@@ -228,12 +250,16 @@ app.post('/addInterval', (req, res) =>{
         }
         })
         
+    console.log(checkedWaitTime);
+    console.log(checkedThroughput);
+    console.log(checkedAvailableSeats);
+    console.log(checkedAvailableDown);
     console.log(ride_name);
 
 
 
-    const sqlInsert = "INSERT INTO intervals (ride_name, timeValue, startingTime, endingTime) VALUES (?, ?, ?, ?);"
-    connection.query(sqlInsert, [ride_name, timeValue, startingTime, endingTime], 
+    const sqlInsert = "INSERT INTO intervals (ride_name, timeValue, startingTime, endingTime, checkedWaitTime, checkedThroughput, checkedAvailableSeats, checkedAvailableDown) VALUES (?, ?, ?, ?, ?, ?, ?, ?);"
+    connection.query(sqlInsert, [ride_name, timeValue, startingTime, endingTime, checkedWaitTime, checkedThroughput, checkedAvailableSeats, checkedAvailableDown], 
                          (err, result) => {
                             console.log(result)
                         });
@@ -270,8 +296,48 @@ app.post('/addParkInterval', (req, res) =>{
     const startingTime = req.body.startingTime;
     const endingTime = req.body.endingTime;
 
-    const sqlInsert = "INSERT INTO parkIntervals (timeValue, startingTime, endingTime) VALUES (?, ?, ?);"
-    connection.query(sqlInsert, [timeValue, startingTime, endingTime], 
+    console.log("\n\nBackend")
+
+    var checkedWaitTime;
+    var checkedThroughput;
+    var checkedAvailableSeats;
+    var checkedAvailableDown;
+
+    const checkBoxData = req.body.typeState.map((d, i)=>  {
+
+        if(d.id == 1 && d.type == "Wait Time"){
+            checkedWaitTime = d.isChecked;
+        }
+
+        else if(d.id == 2 && d.type == "Throughput"){
+            checkedThroughput = d.isChecked;
+        }
+
+        else if(d.id == 3 && d.type == "Available Seats"){
+            checkedAvailableSeats = d.isChecked;
+        }
+
+        else if(d.id == 4 && d.type == "Available Down"){
+            checkedAvailableDown = d.isChecked;
+        }
+
+
+        console.log(d)
+        if (d.isChecked == true) {
+          return true;
+        }
+        else {
+          return false;
+        }
+        })
+        
+    console.log(checkedWaitTime);
+    console.log(checkedThroughput);
+    console.log(checkedAvailableSeats);
+    console.log(checkedAvailableDown);
+
+    const sqlInsert = "INSERT INTO parkIntervals (timeValue, startingTime, endingTime, checkedWaitTime, checkedThroughput, checkedAvailableSeats, checkedAvailableDown) VALUES (?, ?, ?, ?, ?, ?, ?);"
+    connection.query(sqlInsert, [timeValue, startingTime, endingTime, checkedWaitTime, checkedThroughput, checkedAvailableSeats, checkedAvailableDown], 
                          (err, result) => {
                             console.log(result)
                         });
