@@ -168,9 +168,8 @@ const AttractionIntervals = () => {
                 <RideName>  
                 {window.addEventListener('load', GetAttractions())}
                     <RideSelect onChange={(e) => {
-                        GetIntervals();
                         setRideSelect(e.target.value);
-                        
+                        GetIntervals();
                       }}
                       >
                         <option>Select Attraction</option>
