@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import plus from './plusSign.png'
 import { AttractionModal } from './AttractionModal';
+import { IntervalCollectModal } from './IntervalCollectModal';
 import { GlobalStyle } from '../../globalStyles';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'
@@ -15,6 +16,7 @@ left: 25%;
 width: 20%;
 height: 240px;
 border-right: 2px solid black;
+align-content: center;
 `
 const RideName = styled.div`
 text-align: center;
@@ -62,7 +64,7 @@ display: inline-block;
 const CardTime = styled.div`
 position: absolute;
 top: 0%;
-height: 16%;
+height: 12%;
 width: 50%;
 border-bottom: 2px solid black;
 text-align: center;
@@ -72,10 +74,7 @@ font-weight: bold;
 `
 const CardCollect = styled.div`
 position: absolute;
-top: 16%;
-height: 28%;
-width: 50%;
-border-bottom: 2px solid black;
+top: 12%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
@@ -83,8 +82,9 @@ font-weight: bold;
 
 
 const CardStarting = styled.div`
+border-top: 2px solid black;
 position: absolute;
-top: 44%;
+top: 47%;
 height: 28%;
 width: 50%;
 border-bottom: 2px solid black;
@@ -94,21 +94,13 @@ font-weight: bold;
 `
 const CardEnding = styled.div`
 position: absolute;
-top: 72%;
+top: 75%;
 height: 28%;
 width: 20%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
 `
-const CardH = styled.h1`
-position: absolute;
-left: 0%;
-top: 0%;
-margin-top: 3px;
-margin-left: 3px;
-`
-
 const Image = styled.img`
 display:flex;
 height: 70px;
@@ -125,12 +117,29 @@ border: none;
 const RideSelect = styled.select`
     align: right;
 `
+const RideButton = styled.button`
+background: lightgray;
+font-size: 20px;
+width: 30%;
+border-radius: 10px;
+`
+
+const IntervalDataButton = styled.button`
+border: none;
+padding: none;
+`
+
 const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
+    const [showCollectModal, setShowCollectModal] = useState(false);
 
     const openModal = () => {
     setShowModal(prev => !prev);
     };
+
+    const openCollectModal = () => {
+        setShowCollectModal(prev => !prev);
+    }
         //states
         const [startingTime, setStartingTime] = useState('');
         const [endingTime, setEndingTime] = useState('');
@@ -237,7 +246,9 @@ const AttractionIntervals = (props) => {
                             <>
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes</CardTime>
-                            <CardCollect>Collect
+                            <CardCollect>
+                                <IntervalDataButton onClick={openCollectModal}>Collect</IntervalDataButton>
+                                <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} />
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}

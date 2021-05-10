@@ -50,7 +50,6 @@ CREATE TABLE intervals (
 
 
 CREATE TABLE parkIntervals (
-	ride_name VARCHAR(50),
 	timeValue TIME,
 	startingTime TIME,
     endingTime TIME,
@@ -78,6 +77,14 @@ CREATE TABLE phoneInfo (
     rideSecondary VARCHAR(50),
     rideTertiary VARCHAR(50),
     UNIQUE KEY unique_ride_name (ride_name)
+);
+
+
+CREATE TABLE collectedData (
+	ride_name VARCHAR(50) NOT NULL,
+	dataName VARCHAR(50) NOT NULL,
+    createdDate DATE,
+    dataValue INT
 );
 
 
