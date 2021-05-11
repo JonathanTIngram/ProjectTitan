@@ -235,8 +235,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <li>Wait Time</li>
-                                    <input type="text"></input>
+                                    <li>Wait Time <input type="text"></input></li>
                                 </div>
                             );
                         }
@@ -245,8 +244,7 @@ const AttractionIntervals = (props) => {
                     const checkThroughput = () => {
                         return (
                             <div>
-                                <li>Throughput</li>
-                                <input type="text"></input>
+                                <li>Throughput <input type="text"></input></li>
                             </div>
                         );
                     }
@@ -255,8 +253,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <li>Available Seats</li>
-                                    <input type="text"></input>
+                                    <li>Available Seats <input type="text"></input></li>
                                 </div>
                             );
                         }
@@ -266,8 +263,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableDown == true){
                             return (
                                 <div>
-                                    <li>Available Down</li>
-                                    <input type="text"></input>
+                                    <li>Available Down <input type="text"></input></li>
                                 </div>
                             );
                         }
@@ -296,12 +292,7 @@ const AttractionIntervals = (props) => {
 
 
                             <CardCollect>
-                            <IntervalDataButton onClick={() =>{
-                                console.log(val.id);
-                                openCollectModal()
-                            }
-                            }>Collect</IntervalDataButton>
-                            {checkCollectedId(id)}
+                            <p>Collect</p>
 
                                 {/* <IntervalDataButton onClick={() => {console.log(id); collectData(id);
                                     setTimeout(() => {
