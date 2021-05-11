@@ -149,7 +149,7 @@ app.put("/editAttraction", (req, res) => {
       sqlInsert,
       [dailyOpening, dailyClosing, theoryCapacity, targetCapacity,
          minVehicles, maxVehicles, maxSeats,
-        minStaff, maxStaff, parkSection, weatherCode, rideType,
+        maxStaff, minStaff, parkSection, weatherCode, rideType,
         ride_name],
       (err, result) => {
         if (err) {
@@ -192,6 +192,7 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
     })
 });
  
+
 // app.get('/getRide', (req, res) =>{
 //     connection.query("SELECT * FROM ")
 // })
@@ -265,6 +266,36 @@ app.post('/addInterval', (req, res) =>{
                         });
 });
 
+app.delete('/deleteInterval/:id', (req, res) => {
+    var id = req.params.id
+    //rideSelect = rideSelect.replace(':', '');
+    console.log(id);
+    sqlInsert = "DELETE FROM intervals WHERE id = " + id;
+    connection.query(sqlInsert, id, (err, result) =>{
+        if (err){
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    })
+});
+
+app.delete('/deleteParkInterval/:id', (req, res) => {
+    var id = req.params.id
+    //rideSelect = rideSelect.replace(':', '');
+    console.log(id);
+    sqlInsert = "DELETE FROM parkIntervals WHERE id = " + id;
+    connection.query(sqlInsert, id, (err, result) =>{
+        if (err){
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    })
+});
+
 app.get('/getInterval/:rideSelect', (req, res) =>{
 
     var rideSelect = req.params.rideSelect
@@ -274,14 +305,12 @@ app.get('/getInterval/:rideSelect', (req, res) =>{
 
     console.log(rideSelect);
 
-
     sqlInsert = "SELECT * FROM intervals WHERE ride_name = ?"
     connection.query(sqlInsert, rideSelect, (err, result) => {
         if (err) {
             console.log(err);
         }
         else {
-            console.log(rideSelect);
             res.send(result);
         }
     });

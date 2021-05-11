@@ -149,18 +149,6 @@ export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal}) =
             </TR>
                 ))}
                 </Menu>
-
-                <form>Starting:</form>
-
-                <InputStyle type='time' name='startingTime' onChange={(e) => {
-                  setStartingTime(e.target.value);
-                }}></InputStyle>
-
-                <form>Ending:</form>
-                <InputStyle type='time' name='endingTime' onChange={(e) => {
-                  setEndingTime(e.target.value);
-                }}></InputStyle>
-
                 <Submit 
                 onClick={() => { setShowCollectModal(prev => !prev);
                                   setTimeout(function(){

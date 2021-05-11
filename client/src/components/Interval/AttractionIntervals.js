@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import plus from './plusSign.png'
 import { AttractionModal } from './AttractionModal';
-import { IntervalCollectModal } from './IntervalCollectModal';
 import { GlobalStyle } from '../../globalStyles';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'
-
+import { MdClose } from 'react-icons/md';
+import { IntervalCollectModal } from './IntervalCollectModal';
 
 const CallsBorder = styled.div`
 overflow: hidden;
@@ -115,7 +115,7 @@ top: 35%;
 border: none;
 `
 const RideSelect = styled.select`
-    align: right;
+align-content: right;
 `
 const RideButton = styled.button`
 background: lightgray;
@@ -124,11 +124,20 @@ width: 30%;
 border-radius: 10px;
 `
 
+const DeleteButton = styled(MdClose)`
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  width: 20px;
+  height: 30px;
+  padding: 0;
+`
+
 const IntervalDataButton = styled.button`
 border: none;
 padding: none;
 `
-
 const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [showCollectModal, setShowCollectModal] = useState(false);
@@ -169,6 +178,9 @@ const AttractionIntervals = (props) => {
             }).catch(err => console.log(err));
         }
         
+        const deleteInterval = (ride_name) => {
+            Axios.delete(`http://localhost:3001/deleteInterval/${ride_name}`);
+          };
 
     return (
         <>
@@ -192,9 +204,9 @@ const AttractionIntervals = (props) => {
               );
               })}
         </RideSelect>
-        <button onClick={() => {
+        <RideButton onClick={() => {
             GetIntervals()
-        }}>Submit</button>
+        }}>Submit</RideButton>
 
                 </RideName>
                 <PauseButton> Pause Calls </PauseButton>
@@ -218,8 +230,8 @@ const AttractionIntervals = (props) => {
             }).catch(err => console.log(err));
             }, [])} */}
                 {intervalList.map((val, key) => {
+                    var id = val.id;
                     const checkWait = () => {
-
                         if (val.checkedWaitTime == true){
                             return <li>Wait Time</li>;
                         }
@@ -245,17 +257,25 @@ const AttractionIntervals = (props) => {
                         return (
                             <>
                             <IntervalCard>
-                            <CardTime>Every {val.timeValue} Minutes</CardTime>
+                            <CardTime>Every {val.timeValue} Minutes
+                            <DeleteButton
+                             onClick={() => {console.log(id); deleteInterval(id);
+                                  setTimeout(function(){
+                                    window.location.reload(); 
+                                   }, 2);
+                               }}/>
+                             
+                             </CardTime>
                             <CardCollect>
-                                <IntervalDataButton onClick={openCollectModal}>Collect</IntervalDataButton>
-                                <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} />
+                            <IntervalDataButton onClick={openCollectModal}>Collect</IntervalDataButton>
+                            <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} />
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
                                 </CardCollect>
-                            <CardStarting>Starting<ul>At Park Opening</ul> <ul>{val.startingTime}</ul></CardStarting>
-                            <CardEnding>Ending<ul>At Park Closing</ul><ul>{val.endingTime}</ul></CardEnding>
+                            <CardStarting>Starting<ul>At Park Opening </ul> {val.startingTime}</CardStarting>
+                            <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
                             </IntervalCard>
                             </>
                         );
