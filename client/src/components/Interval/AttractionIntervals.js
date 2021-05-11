@@ -4,6 +4,7 @@ import { AttractionModal } from './AttractionModal';
 import { GlobalStyle } from '../../globalStyles';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'
+import { MdClose } from 'react-icons/md';
 
 
 const CallsBorder = styled.div`
@@ -15,6 +16,7 @@ left: 25%;
 width: 20%;
 height: 240px;
 border-right: 2px solid black;
+align-content: center;
 `
 const RideName = styled.div`
 text-align: center;
@@ -22,16 +24,7 @@ font-size: 30px;
 `
 
 const PauseButton = styled.button`
-margin-top: 2px;
-margin-left: 20px;
-justify-content: center;
-height: 17%;
-width: 85%;
-border: 2px solid black;
-background: transparent;
-`
-const MitButton = styled.button`
-margin-top: 50px;
+margin-top: 70px;
 margin-left: 20px;
 justify-content: center;
 height: 17%;
@@ -71,7 +64,7 @@ display: inline-block;
 const CardTime = styled.div`
 position: absolute;
 top: 0%;
-height: 16%;
+height: 12%;
 width: 50%;
 border-bottom: 2px solid black;
 text-align: center;
@@ -81,10 +74,7 @@ font-weight: bold;
 `
 const CardCollect = styled.div`
 position: absolute;
-top: 16%;
-height: 28%;
-width: 50%;
-border-bottom: 2px solid black;
+top: 12%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
@@ -92,8 +82,9 @@ font-weight: bold;
 
 
 const CardStarting = styled.div`
+border-top: 2px solid black;
 position: absolute;
-top: 44%;
+top: 47%;
 height: 28%;
 width: 50%;
 border-bottom: 2px solid black;
@@ -103,21 +94,13 @@ font-weight: bold;
 `
 const CardEnding = styled.div`
 position: absolute;
-top: 72%;
+top: 75%;
 height: 28%;
 width: 20%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
 `
-const CardH = styled.h1`
-position: absolute;
-left: 0%;
-top: 0%;
-margin-top: 3px;
-margin-left: 3px;
-`
-
 const Image = styled.img`
 display:flex;
 height: 70px;
@@ -132,27 +115,56 @@ top: 35%;
 border: none;
 `
 const RideSelect = styled.select`
-    align: right;
+align-content: right;
 `
-const AttractionIntervals = () => {
+const RideButton = styled.button`
+background: lightgray;
+font-size: 20px;
+width: 30%;
+border-radius: 10px;
+`
+
+const DeleteButton = styled(MdClose)`
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  width: 20px;
+  height: 30px;
+  padding: 0;
+`
+
+const Variables = styled.li`
+font-size: 11.5px;
+margin-left: 10%;
+`
+const InputVariables = styled.input`
+width: 70px;
+`
+const SubmitButton = styled.button`
+  position: absolute;
+  bottom: 0px;
+  left: 200px;
+  height: 20px;
+  font-size: 10px;
+`
+const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => {
     setShowModal(prev => !prev);
     };
+
+
         //states
-        const [startingTime, setStartingTime] = useState('');
-        const [endingTime, setEndingTime] = useState('');
-        const [timeValue, setTime] = useState('');
-        const [typeState, setTypeState] = useState([]);
-        const [unitState, setUnitState] = useState("");
         const [intervalList, setIntervalList] = useState([]);
         const [rideSelect, setRideSelect] = useState('');
 
-          //state to get all attractions
-    const [attractionList, setAttractionList] = useState([]);
-         //recieve data from backend to display
-         const GetAttractions = () => {
+
+        //state to get all attractions
+        const [attractionList, setAttractionList] = useState([]);
+        //recieve data from backend to display
+        const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
                 Axios.get('http://localhost:3001/getAttraction').then(res => {
@@ -169,7 +181,35 @@ const AttractionIntervals = () => {
             }).catch(err => console.log(err));
         }
         
+        const deleteInterval = (ride_name) => {
+            Axios.delete(`http://localhost:3001/deleteInterval/${ride_name}`);
+          };
 
+          //edit info
+          const [WaitTime, setWaitTime] = useState('');
+          const [Throughput, setThroughput] = useState('');
+          const [AvailableSeats, setAvailableSeats] = useState('');
+          const [AvailableDown, setAvailableDown] = useState('');
+
+          const editInterval = (id, rideName) =>{
+            Axios.put('http://localhost:3001/editInterval', {
+
+                id: id,
+                ride_name: rideName,
+                WaitTime: WaitTime,
+                Throughput: Throughput,
+                AvailableSeats: AvailableSeats,
+                AvailableDown: AvailableDown
+                          
+                }).then(() =>{
+                alert('successful insert');
+
+            }).then( () => {
+                console.log("Successfully sent to port 3001");
+            });
+          };
+          
+      
     return (
         <>
 
@@ -177,9 +217,7 @@ const AttractionIntervals = () => {
                 <RideName>  
                 {window.addEventListener('load', GetAttractions())}
                     <RideSelect onChange={(e) => {
-                        GetIntervals();
                         setRideSelect(e.target.value);
-                        
                       }}
                       >
                         <option>Select Attraction</option>
@@ -194,9 +232,11 @@ const AttractionIntervals = () => {
               );
               })}
         </RideSelect>
+        <RideButton onClick={() => {
+            GetIntervals()
+        }}>Submit</RideButton>
 
                 </RideName>
-                <MitButton>Show Rides Intervals</MitButton>
                 <PauseButton> Pause Calls </PauseButton>
                 <EndButton> End Todays Calls </EndButton>
             </CallsBorder>
@@ -206,30 +246,90 @@ const AttractionIntervals = () => {
             <IntervalCard>
              
                 <Button onClick={openModal}> <Image src={plus} Image/> </Button>
-                <AttractionModal showModal={showModal} setShowModal={setShowModal} />
+                <AttractionModal showModal={showModal} setShowModal={setShowModal} ride={rideSelect} />
                     <GlobalStyle /> 
-            
             </IntervalCard> 
 
-            {useEffect(() => {
+            {/* {useEffect(() => {
             Axios.get(`http://localhost:3001/getInterval/:${rideSelect}`).then(res => {
             console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
-            }, [])}
+            }, [])} */}
                 {intervalList.map((val, key) => {
+                    var id = val.id;
+                    const checkWait = () => {
+                        if (val.checkedWaitTime == true){
+                            return (
+                                <div>
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                setWaitTime(e.target.value)}}></InputVariables></Variables>
+
+                                </div>
+                            );
+                        }
+                    }
+
+                    const checkThroughput = () => {
+                        return (
+                            <div>
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                setThroughput(e.target.value)}}></InputVariables></Variables>
+                            </div>
+                        );
+                    }
+
+                    const checkAvailable = () => {
+                        if (val.checkedAvailableSeats == true){
+                            return (
+                                <div>
+                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                setAvailableSeats(e.target.value)}}></InputVariables></Variables>
+                                </div>
+                            );
+                        }
+                    }
+
+                    const checkDown = () => {
+                        if (val.checkedAvailableDown == true){
+                            return (
+                                <div>
+                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                setAvailableDown(e.target.value)}}></InputVariables></Variables>
+                                </div>
+                            );
+                        }
+                    }
+
                         return (
                             <>
+
+
                             <IntervalCard>
-                            <CardTime>Every {val.timeValue} Minutes</CardTime>
-                            <CardCollect>Collect
-                                 <li> 
-                                     {val.typeState}
-                                 
-                                 </li>
+                            <CardTime>Every {val.timeValue} Minutes
+                            <DeleteButton
+                             onClick={() => {console.log(id); deleteInterval(id);
+                                  setTimeout(function(){
+                                    window.location.reload(); 
+                                   }, 2);
+                               }}/>
+                             
+                             </CardTime>
+
+
+                            <CardCollect>
+                                {checkWait()}
+                                {checkThroughput()}
+                                {checkAvailable()}
+                                {checkDown()}
+                                <SubmitButton  onClick={() =>{
+                                    editInterval(id, val.ride_name)
+                                }}>Submit</SubmitButton>
                                 </CardCollect>
-                            <CardStarting>Starting<ul>At Park Opening</ul> <ul>{val.startingTime}</ul></CardStarting>
-                            <CardEnding>Ending<ul>At Park Closing</ul><ul>{val.endingTime}</ul></CardEnding>
+                                
+                            <CardStarting>Starting<ul>At Park Opening </ul> {val.startingTime}</CardStarting>
+                            <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
+                            
                             </IntervalCard>
                             </>
                         );

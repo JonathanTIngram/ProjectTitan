@@ -14,7 +14,8 @@ import RideInfo from './pages/rideInfo';
 import React, { Component } from 'react';
 import Login from './pages/login';
 import fire from './fire';
-import Home from './pages/home';
+import Logout from './pages/logout';
+
 
 class App extends Component {
   constructor(props) {
@@ -44,7 +45,8 @@ class App extends Component {
   return (
     <>
     <Router>
-    { this.state.user ? (       <Switch>
+      
+    { this.state.user ? (  <Switch>
         <Route path='/' exact component={Main} />
         <Route path='/main' component={Main} />
         <Route path='/historical' component={Historical} />
@@ -58,9 +60,8 @@ class App extends Component {
         <Route path='/deletepage' component={Delete} />
         <Route path='/interval' component={Interval} />
         <Route path='/rideInfo' component={RideInfo} />
-        <Route path='/home' component={Home}/>
-      </Switch> ) : ( <Login/> ) }
-
+        <Route path='/logout' component={Logout}/>
+      </Switch> ) : ( <Login /> ) }
     </Router>
     </>
   );

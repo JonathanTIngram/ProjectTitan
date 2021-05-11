@@ -63,9 +63,14 @@ text-align: left;
 font-weight: normal;
 `
 
+
+
+
+
 const IntervalsCountDisplay = () => {
     return (
         <Border>
+     
             <Label1> Attraction Intervals </Label1>
                 <InfoContainer>
                     <Table>

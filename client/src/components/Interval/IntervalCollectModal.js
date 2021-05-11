@@ -77,31 +77,33 @@ export const Menu = styled.div`
   overflow-x: auto;
 `;
 
-export const AttractionModal = ({ showModal, setShowModal, ride }) => {
+export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal, id}) => {
+
+  console.log(id);
   const modalRef = useRef();
 
   const animation = useSpring({
     config: {
       duration: 250
     },
-    opacity: showModal ? 1 : 0,
-    transform: showModal ? `translateY(0%)` : `translateY(100%)`
+    opacity: showCollectModal ? 1 : 0,
+    transform: showCollectModal ? `translateY(0%)` : `translateY(100%)`
   });
 
   const closeModal = e => {
     if (modalRef.current === e.target) {
-      setShowModal(false);
+      setShowCollectModal(false);
     }
   };
 
   const keyPress = useCallback(
     e => {
-      if (e.key === 'Escape' && showModal) {
-        setShowModal(false);
+      if (e.key === 'Escape' && showCollectModal) {
+        setShowCollectModal(false);
         console.log('I pressed');
       }
     },
-    [setShowModal, showModal]
+    [setShowCollectModal, showCollectModal]
   );
 
   useEffect(() => {
@@ -119,123 +121,38 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   const [typeState, setTypeState] = useState([]);
   const [unitState, setUnitState] = useState("");
   const [intervalList, setIntervalList] = useState([]);
-  useEffect(() => {
-    let typeState = [
-      { id: 1, type: "Wait Time"},
-      { id: 2, type: "Throughput"},
-      { id: 3, type: "Available Seats"},
-      { id: 4, type: "Available Down"},
-    ];
-    setTypeState(
-      typeState.map(d => {
-        return {
-          select: false,
-          id: d.id,
-          type: d.type,
-        };
-      })
-    );
-  }, []);
+
   //state to get all attractions
   //send the attraction data to the backend running on port 3001
   //specifically /addAttraction
   
-  const submitInterval = () =>{
-    Axios.post('http://localhost:3001/addInterval', {
-                  ride_name: ride,
-                  timeValue: timeValue,
-                  typeState: typeState.map((d, i)=>  {
-                  if (d.select === true) {
-
-                    const checkData = {
-                      isChecked: true,
-                      id: d.id,
-                      type: d.type
-                    }
-                    //[d.id, d.type, d.select]                    
-
-                    return checkData;
-                  }
-                  else {
-                    const checkData = {
-                      isChecked: false,
-                      id: d.id,
-                      type: d.type
-                    }
-                    //[d.id, d.type, d.select]                    
-
-                    return checkData;
-                  }
-                  }),
-                  startingTime: startingTime,
-                  endingTime: endingTime}).then(() =>{
-                    alert('successful insert');
-                }).then( () => {
-                  console.log("Successfully sent to port 3001");
-                });
-  };
-  
   return (
     <>
-      {showModal ? (
+      {showCollectModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <animated.div style={animation}>
-            <ModalWrapper showModal={showModal}>
+            <ModalWrapper showCollectModal={showCollectModal}>
               <ModalContent>
 
-                <header>Add an Interval</header>
+                <header>Add Collected Data</header>
                 {/* <form> Ride Name</form>
                 <InputStyle type='text' name='Name' onChange={(e) => {
                   setRideName(e.target.value);
                 }}></InputStyle> */}
-                <form>Time Value:</form>
+                <form>Wait Time:</form>
                 <InputStyle type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);
                 }}></InputStyle>
-                <form >Collect:            </form>
                   <Menu>
                 {typeState.map((d, i) => ( 
                 <TR key={d.id}>
-             <th>
 
-                <input
-                  onChange={event => {
-                    let checked = event.target.checked;
-                    setTypeState(
-                      typeState.map(data => {
-                        if (d.id === data.id) {
-                          data.select = checked;
-                          var checkID = d.id;
-                          console.log(checkID);
-                        }
-                        return data;
-                      })
-                    );
-                  }}
-                  type="checkbox"
-                  checked={d.select}
-                ></input>
-                </th>
-              <td>{d.type}</td>
 
             </TR>
                 ))}
                 </Menu>
-
-                <form>Starting:</form>
-
-                <InputStyle type='time' name='startingTime' onChange={(e) => {
-                  setStartingTime(e.target.value);
-                }}></InputStyle>
-
-                <form>Ending:</form>
-                <InputStyle type='time' name='endingTime' onChange={(e) => {
-                  setEndingTime(e.target.value);
-                }}></InputStyle>
-
                 <Submit 
-                onClick={() => { setShowModal(prev => !prev);
-                                  submitInterval();
+                onClick={() => { setShowCollectModal(prev => !prev);
                                   setTimeout(function(){
                                     window.location.reload(); 
                                 }, 1);
@@ -247,7 +164,7 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
               </ModalContent>
               <CloseModalButton
                 aria-label='Close modal'
-                onClick={() => setShowModal(prev => !prev)}
+                onClick={() => setShowCollectModal(prev => !prev)}
               />
 
             </ModalWrapper>

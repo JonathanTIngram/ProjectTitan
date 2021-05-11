@@ -87,7 +87,7 @@ class Login extends React.Component {
         </Box>
         <Box>
           <Name>Password</Name>
-          <input id="password" placeholder="Enter Password.." type="password"/>
+          <input id="password" placeholder="Enter Password.." type="text"/>
         </Box>
         <NavLink to='Main'> <Button style={{margin: '40px'}} onClick={this.login}> Login </Button> </NavLink>
       </Div>

@@ -66,7 +66,7 @@ const Navbar = () => {
              <NavLink to='/interval' activeStyle>
                  Intervals
              </NavLink>
-             <NavLink to='/home' activeStyle>
+             <NavLink to='/logout' activeStyle>
                  Logout
              </NavLink>
          </NavMenu>

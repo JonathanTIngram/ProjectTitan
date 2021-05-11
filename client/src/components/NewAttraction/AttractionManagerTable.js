@@ -81,8 +81,6 @@ const AttractionManagerTable = () => {
     //state to get all attractions
     const [attractionList, setAttractionList] = useState([]);
 
-    const [phoneList, setPhoneList] = useState([]);
-
 
         //recieve data from backend to display
     const GetAttractions = () => {
@@ -90,12 +88,6 @@ const AttractionManagerTable = () => {
             useEffect(() => {
                 Axios.get('http://localhost:3001/getAttraction').then(res => {
                 setAttractionList(res.data);
-                }).catch(err => console.log(err));
-                }, [])
-
-            useEffect(() => {
-                Axios.get('http://localhost:3001/getPhoneInfo').then(res => {
-                setPhoneList(res.data);
                 }).catch(err => console.log(err));
                 }, [])
     }
@@ -125,25 +117,12 @@ const AttractionManagerTable = () => {
 
                         {attractionList.map((val, key) => {
                         var ride = val.ride_name;
-                        var parkSection = val.parkSection;
-                        var rideModel = val.rideType;
-                        var maxVehicles = val.maxVehicles;
-                        var minVehicles = val.minVehicles;
-                        var maxStaff = val.maxStaff;
-                        var maxSeats = val.maxSeats;
-
                         return (
                             <>
                             <TR>
                             <TD><NavLink to = {{
                                 pathname:'/rideInfo',
-                                ride_name: {ride},
-                                parkSection: {parkSection},
-                                rideModel: {rideModel},
-                                maxVehicles: {maxVehicles},
-                                minVehicles: {minVehicles},
-                                maxStaff: {maxStaff},
-                                maxSeats: {maxSeats}
+                                ride_name: {ride}
 
                             }}>{val.ride_name}</NavLink></TD> 
                             <TD>{val.dailyOpening}</TD>
