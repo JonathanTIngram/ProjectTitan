@@ -319,10 +319,23 @@ app.get('/getInterval/:rideSelect', (req, res) =>{
 app.put('/editInterval', (req, res) => {
     console.log(req.body);
 
+    const id = req.body.id;
     const WaitTime = req.body.WaitTime;
     const Throughput = req.body.Throughput;
     const AvailableSeats = req.body.AvailableSeats;
     const AvailableDown = req.body.AvailableDown;
+
+
+    sqlInsert = "INSERT INTO collectedData (id, WaitTime, Throughput, AvailableSeats, AvailableDown) VALUES (?, ?, ?, ?, ?);"
+
+    connection.query(sqlInsert, [id, WaitTime, Throughput, AvailableSeats, AvailableDown], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
 })
 
 app.post('/addParkInterval', (req, res) =>{
