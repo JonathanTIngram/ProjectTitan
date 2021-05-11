@@ -36,11 +36,11 @@ SELECT * FROM safetyCriticalInfo;
 SELECT * FROM intervals;
 SELECT * FROM parkIntervals;
 
-
 CREATE TABLE intervals (
-	ride_name VARCHAR(50),
-	timeValue TIME,
-	startingTime TIME,
+    ride_name VARCHAR(50),
+    id int key AUTO_INCREMENT,
+    timeValue INT,
+    startingTime TIME,
     endingTime TIME,
     checkedWaitTime BOOLEAN,
     checkedThroughput BOOLEAN,
@@ -50,8 +50,9 @@ CREATE TABLE intervals (
 
 
 CREATE TABLE parkIntervals (
-	timeValue TIME,
-	startingTime TIME,
+    id int key AUTO_INCREMENT,
+    timeValue INT,
+    startingTime TIME,
     endingTime TIME,
     checkedWaitTime BOOLEAN,
     checkedThroughput BOOLEAN,
@@ -81,6 +82,7 @@ CREATE TABLE phoneInfo (
 
 
 CREATE TABLE collectedData (
+	id INT,
 	ride_name VARCHAR(50) NOT NULL,
 	dataName VARCHAR(50) NOT NULL,
     createdDate DATE,

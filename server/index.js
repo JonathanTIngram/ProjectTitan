@@ -316,7 +316,14 @@ app.get('/getInterval/:rideSelect', (req, res) =>{
     });
 });
 
+app.put('/editInterval', (req, res) => {
+    console.log(req.body);
 
+    const WaitTime = req.body.WaitTime;
+    const Throughput = req.body.Throughput;
+    const AvailableSeats = req.body.AvailableSeats;
+    const AvailableDown = req.body.AvailableDown;
+})
 
 app.post('/addParkInterval', (req, res) =>{
     console.log(req.body);

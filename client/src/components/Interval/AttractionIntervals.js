@@ -5,7 +5,7 @@ import { GlobalStyle } from '../../globalStyles';
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios'
 import { MdClose } from 'react-icons/md';
-import { IntervalCollectModal } from './IntervalCollectModal';
+
 
 const CallsBorder = styled.div`
 overflow: hidden;
@@ -134,34 +134,37 @@ const DeleteButton = styled(MdClose)`
   padding: 0;
 `
 
-const IntervalDataButton = styled.button`
-border: none;
-padding: none;
+const Variables = styled.li`
+font-size: 11.5px;
+margin-left: 10%;
+`
+const InputVariables = styled.input`
+width: 70px;
+`
+const SubmitButton = styled.button`
+  position: absolute;
+  bottom: 0px;
+  left: 200px;
+  height: 20px;
+  font-size: 10px;
 `
 const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
-    const [showCollectModal, setShowCollectModal] = useState(false);
 
     const openModal = () => {
     setShowModal(prev => !prev);
     };
 
-    const openCollectModal = () => {
-        setShowCollectModal(prev => !prev);
-    }
+
         //states
-        const [startingTime, setStartingTime] = useState('');
-        const [endingTime, setEndingTime] = useState('');
-        const [timeValue, setTime] = useState('');
-        const [typeState, setTypeState] = useState([]);
-        const [unitState, setUnitState] = useState("");
         const [intervalList, setIntervalList] = useState([]);
         const [rideSelect, setRideSelect] = useState('');
 
-          //state to get all attractions
-    const [attractionList, setAttractionList] = useState([]);
-         //recieve data from backend to display
-         const GetAttractions = () => {
+
+        //state to get all attractions
+        const [attractionList, setAttractionList] = useState([]);
+        //recieve data from backend to display
+        const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
                 Axios.get('http://localhost:3001/getAttraction').then(res => {
@@ -182,6 +185,30 @@ const AttractionIntervals = (props) => {
             Axios.delete(`http://localhost:3001/deleteInterval/${ride_name}`);
           };
 
+          //edit info
+          const [WaitTime, setWaitTime] = useState('');
+          const [Throughput, setThroughput] = useState('');
+          const [AvailableSeats, setAvailableSeats] = useState('');
+          const [AvailableDown, setAvailableDown] = useState('');
+
+          const editInterval = (id) =>{
+            Axios.put('http://localhost:3001/editInterval', {
+
+                id: id,
+                WaitTime: WaitTime,
+                Throughput: Throughput,
+                AvailableSeats: AvailableSeats,
+                AvailableDown: AvailableDown
+                          
+                }).then(() =>{
+                alert('successful insert');
+
+            }).then( () => {
+                console.log("Successfully sent to port 3001");
+            });
+          };
+          
+      
     return (
         <>
 
@@ -220,7 +247,6 @@ const AttractionIntervals = (props) => {
                 <Button onClick={openModal}> <Image src={plus} Image/> </Button>
                 <AttractionModal showModal={showModal} setShowModal={setShowModal} ride={rideSelect} />
                     <GlobalStyle /> 
-            
             </IntervalCard> 
 
             {/* {useEffect(() => {
@@ -235,7 +261,9 @@ const AttractionIntervals = (props) => {
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <li>Wait Time <input type="text"></input></li>
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                setWaitTime(e.target.value)}}></InputVariables></Variables>
+
                                 </div>
                             );
                         }
@@ -244,7 +272,8 @@ const AttractionIntervals = (props) => {
                     const checkThroughput = () => {
                         return (
                             <div>
-                                <li>Throughput <input type="text"></input></li>
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
                     }
@@ -253,7 +282,8 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <li>Available Seats <input type="text"></input></li>
+                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
                         }
@@ -263,18 +293,13 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableDown == true){
                             return (
                                 <div>
-                                    <li>Available Down <input type="text"></input></li>
+                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
                         }
                     }
 
-                    const checkCollectedId = (idVal) => {
-                        console.log("from checkCollectedID", val.id)
-                        if (val.id == 2){
-                            return <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} id={id}/>
-                        }
-                    }
                         return (
                             <>
 
@@ -292,22 +317,18 @@ const AttractionIntervals = (props) => {
 
 
                             <CardCollect>
-                            <p>Collect</p>
-
-                                {/* <IntervalDataButton onClick={() => {console.log(id); collectData(id);
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    }, 2);
-
-                                }}>Collect</IntervalDataButton> */}
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
-                                <button>Submit</button>
+                                <SubmitButton  onClick={() =>{
+                                    editInterval(id)
+                                }}>Submit</SubmitButton>
                                 </CardCollect>
+                                
                             <CardStarting>Starting<ul>At Park Opening </ul> {val.startingTime}</CardStarting>
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
+                            
                             </IntervalCard>
                             </>
                         );
