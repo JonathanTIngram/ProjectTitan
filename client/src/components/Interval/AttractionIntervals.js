@@ -191,10 +191,11 @@ const AttractionIntervals = (props) => {
           const [AvailableSeats, setAvailableSeats] = useState('');
           const [AvailableDown, setAvailableDown] = useState('');
 
-          const editInterval = (id) =>{
+          const editInterval = (id, rideName) =>{
             Axios.put('http://localhost:3001/editInterval', {
 
                 id: id,
+                ride_name: rideName,
                 WaitTime: WaitTime,
                 Throughput: Throughput,
                 AvailableSeats: AvailableSeats,
@@ -322,7 +323,7 @@ const AttractionIntervals = (props) => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
-                                    editInterval(id)
+                                    editInterval(id, val.ride_name)
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 

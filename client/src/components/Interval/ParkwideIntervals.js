@@ -4,6 +4,7 @@ import { ParkwideModal } from './ParkwideModal';
 import { GlobalStyle } from '../../globalStyles';
 import Axios from 'axios'
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { MdClose } from 'react-icons/md';
 
 const Label1 = styled.h1`
 margin-left: .8%;
@@ -50,8 +51,8 @@ height: 15%;
 width: 20%;
 border-bottom: 2px solid black;
 text-align: center;
-border-bottom: 2px solid black;
-font-size: 150%;
+padding-top: 1%;
+font-size: 18px;
 font-weight: bold;
 `
 const CardCollect = styled.div`
@@ -117,23 +118,67 @@ left: 7%;
 top: 42%;
 border: none;
 `
+const DeleteButton = styled(MdClose)`
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  width: 20px;
+  height: 30px;
+  padding: 0;
+`
+const Variables = styled.li`
+font-size: 11.5px;
+margin-left: 10%;
+`
+const InputVariables = styled.input`
+width: 70px;
+`
 
-const ParkwideIntervals= () => {
+const SubmitButton = styled.button`
+  position: absolute;
+  bottom: 0px;
+  left: 170px;
+  height: 20px;
+  font-size: 10px;
+`
+const ParkwideIntervals = () => {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => {
     setShowModal(prev => !prev);
     };
 
-    //states
-        const [startingTime, setStartingTime] = useState('');
-        const [endingTime, setEndingTime] = useState('');
-        const [timeValue, setTime] = useState('');
-        const [typeState, setTypeState] = useState([]);
-        const [unitState, setUnitState] = useState("");
-        const [parkIntervalList, setParkIntervalList] = useState([]);
+    const [parkIntervalList, setParkIntervalList] = useState([]);
+    const [rideSelect, setRideSelect] = useState('');
 
- 
+    const deleteInterval = (id) => {
+        Axios.delete(`http://localhost:3001/deleteParkInterval/${id}`);
+        };
+    
+    //edit info
+    const [WaitTime, setWaitTime] = useState('');
+    const [Throughput, setThroughput] = useState('');
+    const [AvailableSeats, setAvailableSeats] = useState('');
+    const [AvailableDown, setAvailableDown] = useState('');
+
+    const editParkInterval = (id) =>{
+        Axios.put('http://localhost:3001/editParkInterval', {
+
+            id: id,
+            WaitTime: WaitTime,
+            Throughput: Throughput,
+            AvailableSeats: AvailableSeats,
+            AvailableDown: AvailableDown
+                        
+            }).then(() =>{
+            alert('successful insert');
+
+        }).then( () => {
+            console.log("Successfully sent to port 3001");
+        });
+        };
+        
     return (
         <Container>
             <Label1>Parkwide Intervals</Label1>
@@ -146,45 +191,77 @@ const ParkwideIntervals= () => {
                     <GlobalStyle /> 
 
             </IntervalCard>
-                {useEffect(() => {
+            {useEffect(() => {
                 Axios.get('http://localhost:3001/getParkInterval').then(res => {
                 setParkIntervalList(res.data)
                 }).catch(err => console.log(err));
                 }, [])}
-                {parkIntervalList.map((val, key) => {
+            {parkIntervalList.map((val, key) => {
+                    var id = val.id;
+                    const checkWait = () => {
+                        if (val.checkedWaitTime == true){
+                            return (
+                                <div>
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                setWaitTime(e.target.value)}}></InputVariables></Variables>
 
-                        const checkWait = () => {
-
-                            if (val.checkedWaitTime == true){
-                                return <li>Wait Time</li>;
-                            }
+                                </div>
+                            );
                         }
+                    }
 
-                        const checkThroughput = () => {
-                            if (val.checkedThroughput == true){
-                                return <li>Throughtput</li>
-                            }
+                    const checkThroughput = () => {
+                        if (val.checkedThroughput == true){
+                        return (
+                            <div>
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                setThroughput(e.target.value)}}></InputVariables></Variables>
+                            </div>
+                        );
                         }
+                    }
 
-                        const checkAvailable = () => {
-                            if (val.checkedAvailableSeats == true){
-                                return <li>Available Seats</li>
-                            }
+                    const checkAvailable = () => {
+                        if (val.checkedAvailableSeats == true){
+                            return (
+                                <div>
+                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                setAvailableSeats(e.target.value)}}></InputVariables></Variables>
+                                </div>
+                            );
                         }
+                    }
 
-                        const checkDown = () => {
-                            if (val.checkedAvailableDown == true){
-                                return <li>Available Down</li>
-                            }
+                    const checkDown = () => {
+                        if (val.checkedAvailableDown == true){
+                            return (
+                                <div>
+                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                setAvailableDown(e.target.value)}}></InputVariables></Variables>
+                                </div>
+                            );
                         }
+                    }
+
                         return (
                             <IntervalCard>
-                            <CardTime>Every {val.timeValue} Minutes</CardTime>
+                            <CardTime>Every {val.timeValue} Minutes
+                            
+                            <DeleteButton
+                             onClick={() => {console.log(id); deleteInterval(id);
+                                  setTimeout(function(){
+                                    window.location.reload(); 
+                                   }, 2);
+                               }}/></CardTime>
+ 
                         <CardCollect>Collect 
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
+                                <SubmitButton  onClick={() =>{
+                                    editParkInterval(id)
+                                }}>Submit</SubmitButton>
                             
                         </CardCollect>
                             <CardFrom>From <ul>Reported Down Rides</ul></CardFrom>

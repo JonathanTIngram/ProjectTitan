@@ -30,11 +30,13 @@ CREATE TABLE attraction (
 DROP TABLE attraction;
 DROP TABLE intervals;
 DROP TABLE parkIntervals;
+DROP TABLE collectedData;
 
 SELECT * FROM attraction;
 SELECT * FROM safetyCriticalInfo;
 SELECT * FROM intervals;
 SELECT * FROM parkIntervals;
+SELECT * FROM collectedData;
 
 CREATE TABLE intervals (
     ride_name VARCHAR(50),
@@ -80,13 +82,19 @@ CREATE TABLE phoneInfo (
     UNIQUE KEY unique_ride_name (ride_name)
 );
 
+CREATE TABLE t1 (
+  ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
 CREATE TABLE collectedData (
 	id INT,
-	ride_name VARCHAR(50) NOT NULL,
-	dataName VARCHAR(50) NOT NULL,
-    createdDate DATE,
-    dataValue INT
+    WaitTime INT,
+    Throughput INT,
+    AvailableSeats INT,
+    AvailableDown INT,
+	ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 

@@ -229,15 +229,15 @@ app.post('/addInterval', (req, res) =>{
             checkedWaitTime = d.isChecked;
         }
 
-        else if(d.id == 2 && d.type == "Throughput"){
+        if(d.id == 2 && d.type == "Throughput"){
             checkedThroughput = d.isChecked;
         }
 
-        else if(d.id == 3 && d.type == "Available Seats"){
+        if(d.id == 3 && d.type == "Available Seats"){
             checkedAvailableSeats = d.isChecked;
         }
 
-        else if(d.id == 4 && d.type == "Available Down"){
+        if(d.id == 4 && d.type == "Available Down"){
             checkedAvailableDown = d.isChecked;
         }
 
@@ -319,16 +319,37 @@ app.get('/getInterval/:rideSelect', (req, res) =>{
 app.put('/editInterval', (req, res) => {
     console.log(req.body);
 
-    const id = req.body.id;
-    const WaitTime = req.body.WaitTime;
-    const Throughput = req.body.Throughput;
-    const AvailableSeats = req.body.AvailableSeats;
-    const AvailableDown = req.body.AvailableDown;
+    var id = req.body.id;
+    var WaitTime = req.body.WaitTime;
+    var Throughput = req.body.Throughput;
+    var AvailableSeats = req.body.AvailableSeats;
+    var AvailableDown = req.body.AvailableDown;
+    var ride_name = req.body.ride_name;
+
+    if(WaitTime == '')
+    {
+        WaitTime = -1;
+    }
+    if(Throughput == '')
+    {
+        Throughput = -1;
+    }
+    if(AvailableSeats == '')
+    {
+        AvailableSeats = -1;
+    }
+    if(AvailableDown == '')
+    {
+        AvailableDown = -1;
+    }
+    if(ride_name == ''){
+        ride_name = -1;
+    }
 
 
-    sqlInsert = "INSERT INTO collectedData (id, WaitTime, Throughput, AvailableSeats, AvailableDown) VALUES (?, ?, ?, ?, ?);"
+    sqlInsert = "INSERT INTO collectedData (id, ride_name, WaitTime, Throughput, AvailableSeats, AvailableDown) VALUES (?, ?, ?, ?, ?, ?);"
 
-    connection.query(sqlInsert, [id, WaitTime, Throughput, AvailableSeats, AvailableDown], (err, result) => {
+    connection.query(sqlInsert, [id, ride_name, WaitTime, Throughput, AvailableSeats, AvailableDown], (err, result) => {
         if (err) {
             console.log(err);
         }
@@ -391,6 +412,45 @@ app.post('/addParkInterval', (req, res) =>{
                             console.log(result)
                         });
 });
+
+app.put('/editParkInterval', (req, res) => {
+    console.log(req.body);
+
+    var id = req.body.id;
+    var WaitTime = req.body.WaitTime;
+    var Throughput = req.body.Throughput;
+    var AvailableSeats = req.body.AvailableSeats;
+    var AvailableDown = req.body.AvailableDown;
+
+    if(WaitTime == '')
+    {
+        WaitTime = -1;
+    }
+    if(Throughput == '')
+    {
+        Throughput = -1;
+    }
+    if(AvailableSeats == '')
+    {
+        AvailableSeats = -1;
+    }
+    if(AvailableDown == '')
+    {
+        AvailableDown = -1;
+    }
+
+
+    sqlInsert = "INSERT INTO collectedParkData (id, WaitTime, Throughput, AvailableSeats, AvailableDown) VALUES (?, ?, ?, ?, ?);"
+
+    connection.query(sqlInsert, [id, WaitTime, Throughput, AvailableSeats, AvailableDown], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+})
 
 app.get('/getParkInterval', (req, res) =>{
     connection.query("SELECT * FROM parkIntervals", (err, result) => {
