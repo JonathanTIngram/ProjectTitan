@@ -233,29 +233,48 @@ const AttractionIntervals = (props) => {
                     var id = val.id;
                     const checkWait = () => {
                         if (val.checkedWaitTime == true){
-                            return <li>Wait Time</li>;
+                            return (
+                                <div>
+                                    <li>Wait Time</li>
+                                    <input type="text"></input>
+                                </div>
+                            );
                         }
                     }
 
                     const checkThroughput = () => {
-                        if (val.checkedThroughput == true){
-                            return <li>Throughtput</li>
-                        }
+                        return (
+                            <div>
+                                <li>Throughput</li>
+                                <input type="text"></input>
+                            </div>
+                        );
                     }
 
                     const checkAvailable = () => {
                         if (val.checkedAvailableSeats == true){
-                            return <li>Available Seats</li>
+                            return (
+                                <div>
+                                    <li>Available Seats</li>
+                                    <input type="text"></input>
+                                </div>
+                            );
                         }
                     }
 
                     const checkDown = () => {
                         if (val.checkedAvailableDown == true){
-                            return <li>Available Down</li>
+                            return (
+                                <div>
+                                    <li>Available Down</li>
+                                    <input type="text"></input>
+                                </div>
+                            );
                         }
                     }
 
-                    const checkCollectedId = (id) => {
+                    const checkCollectedId = (idVal) => {
+                        console.log("from checkCollectedID", val.id)
                         if (val.id == 2){
                             return <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} id={id}/>
                         }
@@ -282,7 +301,7 @@ const AttractionIntervals = (props) => {
                                 openCollectModal()
                             }
                             }>Collect</IntervalDataButton>
-                            {checkCollectedId(val.id)}
+                            {checkCollectedId(id)}
 
                                 {/* <IntervalDataButton onClick={() => {console.log(id); collectData(id);
                                     setTimeout(() => {
@@ -294,6 +313,7 @@ const AttractionIntervals = (props) => {
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
+                                <button>Submit</button>
                                 </CardCollect>
                             <CardStarting>Starting<ul>At Park Opening </ul> {val.startingTime}</CardStarting>
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>

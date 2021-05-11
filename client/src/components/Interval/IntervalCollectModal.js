@@ -79,7 +79,7 @@ export const Menu = styled.div`
 
 export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal, id}) => {
 
-  console.log(id);
+  console.log("from Interval Collect Modal ", id);
   const modalRef = useRef();
 
   const animation = useSpring({
