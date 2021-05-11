@@ -254,8 +254,16 @@ const AttractionIntervals = (props) => {
                             return <li>Available Down</li>
                         }
                     }
+
+                    const checkCollectedId = (id) => {
+                        if (val.id == 2){
+                            return <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} id={id}/>
+                        }
+                    }
                         return (
                             <>
+
+
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes
                             <DeleteButton
@@ -266,9 +274,22 @@ const AttractionIntervals = (props) => {
                                }}/>
                              
                              </CardTime>
+
+
                             <CardCollect>
-                            <IntervalDataButton onClick={openCollectModal}>Collect</IntervalDataButton>
-                            <IntervalCollectModal showCollectModal={showCollectModal} setShowCollectModal={setShowCollectModal} />
+                            <IntervalDataButton onClick={() =>{
+                                console.log(val.id);
+                                openCollectModal()
+                            }
+                            }>Collect</IntervalDataButton>
+                            {checkCollectedId(val.id)}
+
+                                {/* <IntervalDataButton onClick={() => {console.log(id); collectData(id);
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 2);
+
+                                }}>Collect</IntervalDataButton> */}
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}

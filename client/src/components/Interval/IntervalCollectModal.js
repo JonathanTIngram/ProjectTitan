@@ -77,7 +77,9 @@ export const Menu = styled.div`
   overflow-x: auto;
 `;
 
-export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal}) => {
+export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal, id}) => {
+
+  console.log(id);
   const modalRef = useRef();
 
   const animation = useSpring({
