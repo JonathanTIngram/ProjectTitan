@@ -489,9 +489,6 @@ app.post('/sendRideNameBackend', (req, res) =>{
 
     rideListGraph = req.body.rideList;
 
-    sqlInsert = "SELECT * FROM collectedData WHERE ride_name = ?";
-
-
     // for(let i = 0; i <= (rideListGraph.length - 1); i++){
 
     //     sqlInsert = `SELECT * FROM collectedData WHERE ride_name = "${rideListGraph[i]}"`
@@ -510,26 +507,41 @@ app.post('/sendRideNameBackend', (req, res) =>{
     //         }
     //     });
     // }
-    
-    const getResult = () => {
-        for(let i = 0; i < rideListGraph.length; i++){
-            connection.query('SELECT * FROM collectedData WHERE ride_name = ?', rideListGraph[i], (err, result) => {
-                if (err) {
-                    console.log(err);
+
+    var result = [];
+    // connection.query(sqlInsert, function(err, res, fields)
+    // {
+    //     if (err)  throw err;
+    //     if(res.length){
+    //     for(var i = 0; i<res.length; i++ ){     
+    //                     result.push(res[i]);
+    //         }
+    //     }
+    // console.log("Inside npm");
+    // console.log(result);
+    // return result;
+    // });
+
+    for(let i = 0; i <= (rideListGraph.length); i++){
+
+        sqlInsert = `SELECT * FROM collectedData WHERE ride_name = "${rideListGraph[i]}"`
+
+        connection.query(sqlInsert, (err, res) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                if(err){
+                    console.log(err)
                 }
-                else {
-                    return result;
-                }
-            });
-        }
+                result.push(res[i])
+            }
+        });
     }
 
-
-
-    console.log(getResult)
-
-    // res.send(result)
-
+   console.log("Outside npm");
+   console.log(result);
+   console.log("Call Function");
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
