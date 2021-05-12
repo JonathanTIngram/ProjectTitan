@@ -161,6 +161,8 @@ const AttractionIntervals = (props) => {
         const [rideSelect, setRideSelect] = useState('');
 
 
+        var cardCount = 0;
+
         //state to get all attractions
         const [attractionList, setAttractionList] = useState([]);
         //recieve data from backend to display
@@ -304,6 +306,8 @@ const AttractionIntervals = (props) => {
                         return (
                             <>
 
+                            {cardCount = cardCount + 1}
+                            {console.log(cardCount)}
 
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes

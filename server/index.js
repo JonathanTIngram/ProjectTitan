@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //global variables for sending back and forth for graphing purposes
 var rideListGraph;
+var rideJSONData = [];
+
 var statListGraph;
 
 app.post('/addAttraction', (req, res) =>{
@@ -489,23 +491,49 @@ app.post('/sendRideNameBackend', (req, res) =>{
 
     sqlInsert = "SELECT * FROM collectedData WHERE ride_name = ?";
 
-    for(let i = 0; i < rideListGraph.length; i++){
-        connection.query('SELECT * FROM collectedData WHERE ride_name = ?', rideListGraph[i], (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log(result)
-            }
-        });
 
+    // for(let i = 0; i <= (rideListGraph.length - 1); i++){
+
+    //     sqlInsert = `SELECT * FROM collectedData WHERE ride_name = "${rideListGraph[i]}"`
+
+    //     connection.query(sqlInsert, (err, result) => {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //         else {
+    //             if(err){
+    //                 console.log(err)
+    //             }
+    //             console.log(result)
+    //             // rideJSONData = JSON.stringify(result)
+    //             res.send(result)
+    //         }
+    //     });
+    // }
+    
+    const getResult = () => {
+        for(let i = 0; i < rideListGraph.length; i++){
+            connection.query('SELECT * FROM collectedData WHERE ride_name = ?', rideListGraph[i], (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    return result;
+                }
+            });
+        }
     }
-    res.send(result);
 
+
+
+    console.log(getResult)
+
+    // res.send(result)
 
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
+    console.log(rideJSONData)
     res.send(rideListGraph);
 });
 
@@ -516,7 +544,9 @@ app.post('/sendStatsBackend', (req, res) => {
 })
 
 
-
+app.get('/sendStatsGraph', (req, res) =>{
+    res.send(statListGraph);
+});
 
 
 
