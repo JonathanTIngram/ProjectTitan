@@ -97,7 +97,6 @@ function StatCheck() {
 
                   onClick={() => {
                     console.log(d.statistic)
-                    statList = statList.push(d.statistic);
                     if (!statList.includes(d.statistic)){
                       statList = statList.push(d.statistic)
                     }
@@ -112,7 +111,9 @@ function StatCheck() {
       <SubmitButton onClick={() => {
         console.log(statList);
         sendStats(statList);
-        // window.location.reload();
+        setTimeout(function(){
+          window.location.reload(); 
+         }, 2);
       }}>Submit</SubmitButton>
     </div>
   );

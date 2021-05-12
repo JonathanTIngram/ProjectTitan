@@ -486,6 +486,23 @@ app.post('/sendRideNameBackend', (req, res) =>{
     console.log(req.body);
 
     rideListGraph = req.body.rideList;
+
+    sqlInsert = "SELECT * FROM collectedData WHERE ride_name = ?";
+
+    for(let i = 0; i < rideListGraph.length; i++){
+        connection.query('SELECT * FROM collectedData WHERE ride_name = ?', rideListGraph[i], (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(result)
+            }
+        });
+
+    }
+    res.send(result);
+
+
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
@@ -498,9 +515,10 @@ app.post('/sendStatsBackend', (req, res) => {
     statListGraph = req.body.statList;
 })
 
-app.get('/sendStatsGraph', (req, res) =>{
-    res.send(statListGraph);
-});
+
+
+
+
 
 app.listen(3001, () =>{
     console.log('Running on port 3001');

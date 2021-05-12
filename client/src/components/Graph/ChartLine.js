@@ -7,11 +7,15 @@ function ChartLine() {
     var rideList = [];
     var statList = [];
 
+
+
+
     const CheckedRideName = () => {
 
         Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
             console.log(res.data)
             rideList = res.data;
+            return rideList;
         }).catch(err => console.log(err));
     }
 
@@ -24,11 +28,18 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
+    // const getGraphInfo = () => {
+
+    //     Axios.post(`http://localhost:3001/getGraphInfo`).then(res => {
+    //         rideList: CheckedRideName()
+    //     }).catch(err => console.log(err));
+    // }
 
 
 
 
-    window.addEventListener('load', CheckedRideName())
+
+
 
     console.log(CheckedStat())
     // window.addEventListener('load', CheckedStat())
