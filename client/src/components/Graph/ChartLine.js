@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect} from 'react';
 import LineChart from 'react-linechart';
 import Axios from 'axios';
+
 //
 function ChartLine() {
 
-    var rideList = [];
+
+    const [rideList, setRideList] = useState([]);
     var statList = [];
 
 
@@ -12,17 +14,16 @@ function ChartLine() {
 
     const CheckedRideName = () => {
 
-        Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
-            console.log(res.data)
-            rideList = res.data;
-            return rideList;
-        }).catch(err => console.log(err));
+            Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+                setRideList(res.data)
+            }).catch(err => console.log(err));
+        
     }
+
 
     const CheckedStat = () => {
 
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
-            console.log(res)
             statList = res.data;
             return statList;
         }).catch(err => console.log(err));
@@ -35,14 +36,7 @@ function ChartLine() {
     //     }).catch(err => console.log(err));
     // }
 
-
-
-
-
-
-
-    console.log(CheckedStat())
-    // window.addEventListener('load', CheckedStat())
+    
     // window.addEventListener('load', () => {
     //     CheckedRideName();
     //     CheckedStat();
@@ -83,7 +77,14 @@ function ChartLine() {
 
     
     return (
+        
         <div>
+            {useEffect(() => {
+            {window.addEventListener('load', CheckedRideName())}
+            {window.addEventListener('load', CheckedStat())}
+            console.log(rideList[2])
+            console.log(statList);
+        }, [])}
             <div className="App">
                 <LineChart 
                     width={850}
