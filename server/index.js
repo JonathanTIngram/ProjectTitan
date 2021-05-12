@@ -359,6 +359,19 @@ app.put('/editInterval', (req, res) => {
     });
 })
 
+
+//For sending to graphs
+app.get('/getCollectedData', (req, res) =>{
+    connection.query("SELECT * FROM collectedData", (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
 app.post('/addParkInterval', (req, res) =>{
     console.log(req.body);
 

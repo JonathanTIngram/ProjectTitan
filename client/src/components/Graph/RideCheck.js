@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from "react";
+import Axios from 'axios'
 
 function RideCheck() {
-  const [rideState, setRideState] = useState([]);
+  
   const styleGray = {backgroundColor : '#AFAFAF'};
   const styleLight = {backgroundColor : '#DFDFDF'};
-  useEffect(() => {
-    let rideState = [
-      { id: 1, ridename: "The Joker"},
-      { id: 2, ridename: "Superman"},
-    ];
+  const [ride_name, setRide_name] = useState('');
+  const [attractionList, setAttractionList] = useState([]);
+  //recieve data from backend to display
 
-    setRideState(
-      rideState.map(d => {
-        return {
-          select: false,
-          id: d.id,
-          ridename: d.ridename,
-        };
-      })
-    );
-  }, []);
+
+
+  //recieve data from backend to display
+const GetAttractions = () => {
+      //console.log(res.data)
+      useEffect(() => {
+          Axios.get('http://localhost:3001/getAttraction').then(res => {
+          setAttractionList(res.data);
+          }).catch(err => console.log(err));
+          }, [])
+}
+  const [rideState, setRideState] = useState([]);
+    
+  
+
 
   return (
     <div>
+      {window.addEventListener('load', GetAttractions())}
       <table className="table table-bordered table-striped">
         <thead>
           <tr style={styleGray}>
@@ -31,47 +36,20 @@ function RideCheck() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-           <td>Check All</td>
-           <th scope="row">
-              <input
-                type="checkbox"
-                onChange={e => {
-                  let checked = e.target.checked;
-                  setRideState(
-                    rideState.map(d => {
-                      d.select = checked;
-                      return d;
-                    })
+
+                {attractionList.map((val, key) => {
+                  
+                  return (
+                    <>     
+                   
+                        <tr>
+                          <td scope="row">{val.ride_name}</td> <input type="checkbox" onClick={() => {
+                            console.log(val.ride_name)
+                          }}></input>
+                        </tr>
+                    </>
                   );
-                }}
-              ></input>
-              </th>
-            </tr>
-          {rideState.map((d, i) => (
-            <tr key={d.id}>
-              <td>{d.ridename}</td>
-              <th scope="row">
-             
-                <input
-                  onChange={event => {
-                    let checked = event.target.checked;
-                    setRideState(
-                      rideState.map(data => {
-                        if (d.id === data.id) {
-                          data.select = checked;
-                        }
-                        return data;
-                      })
-                    );
-                  }}
-                  type="checkbox"
-                  checked={d.select}
-                ></input>
-                
-              </th>
-            </tr>
-          ))}
+                  })}
         </tbody>
       </table>
     </div>

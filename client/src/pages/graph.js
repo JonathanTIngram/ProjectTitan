@@ -71,7 +71,9 @@ const ChartBorder = styled.nav`
 `;
 
 
-export default function Graph() {
+class Graph extends React.Component {
+    
+  render () {
     return (
         <>
         <Navbar />
@@ -90,4 +92,6 @@ export default function Graph() {
           </OuterBorder>
         </>
     );
+  }
 }
+export default Graph;

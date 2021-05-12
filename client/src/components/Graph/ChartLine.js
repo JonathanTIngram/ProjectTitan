@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import LineChart from 'react-linechart';
-
+//
 function ChartLine() {
     const data = [
-        {									
+        {						
+    			
             color: "steelblue", 
             points: [
                 { x: 1, y: 64 },
@@ -32,6 +33,10 @@ function ChartLine() {
             ]
         }
     ];
+
+    
+
+    
     return (
         <div>
             <div className="App">

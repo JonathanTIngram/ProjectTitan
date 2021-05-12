@@ -324,6 +324,7 @@ const AttractionIntervals = (props) => {
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
                                     editInterval(id, val.ride_name)
+                                    window.location.reload();
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 

@@ -8,8 +8,9 @@ function StatCheck() {
     let statState = [
       { id: 1, statistic: "Throughput"},
       { id: 2, statistic: "Wait Time"},
-      { id: 3, statistic: "Available Seats"},
-      { id: 4, statistic: "Available Down"},
+      { id: 3, statistic: "Number of Employees"},
+      { id: 4, statistic: "Operating Vehicles"},
+      { id: 5, statistic: "Downtime Events"},
     ];
 
     setStatState(

@@ -128,8 +128,8 @@ const DeleteButton = styled(MdClose)`
   padding: 0;
 `
 const Variables = styled.li`
-font-size: 11.5px;
-margin-left: 10%;
+font-size: 14px;
+margin-left: 5%;
 `
 const InputVariables = styled.input`
 width: 70px;
@@ -142,6 +142,7 @@ const SubmitButton = styled.button`
   height: 20px;
   font-size: 10px;
 `
+
 const ParkwideIntervals = () => {
     const [showModal, setShowModal] = useState(false);
 
@@ -254,13 +255,14 @@ const ParkwideIntervals = () => {
                                    }, 2);
                                }}/></CardTime>
  
-                        <CardCollect>Collect 
+                        <CardCollect>
                                 {checkWait()}
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
                                     editParkInterval(id)
+                                    window.location.reload(); 
                                 }}>Submit</SubmitButton>
                             
                         </CardCollect>
