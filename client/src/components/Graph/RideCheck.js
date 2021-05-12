@@ -24,6 +24,7 @@ function RideCheck() {
   const styleGray = {backgroundColor : '#AFAFAF'};
   const styleLight = {backgroundColor : '#DFDFDF'};
   var [ride_name, setRide_name] = useState('');
+  var [rideList, setRideList] = useState([]);
   const [attractionList, setAttractionList] = useState([]);
   //recieve data from backend to display
 
@@ -58,6 +59,7 @@ const GetAttractions = () => {
                 {attractionList.map((val, key) => {
 
                   var rideName = val.ride_name;
+
                   
                   return (
                     <>     
@@ -66,6 +68,7 @@ const GetAttractions = () => {
                           <td scope="row">{val.ride_name}</td> <input type="checkbox" onClick={() => {
                             console.log(val.ride_name)
                             setRide_name(val.ride_name)
+                            rideList = rideList.push(val.ride_name)
                           }}></input>
                         </tr>
                     </>
@@ -74,7 +77,7 @@ const GetAttractions = () => {
         </tbody>
       </table>
       <SubmitButton onClick={() => {
-                
+                console.log(rideList)
                 sendRideName(ride_name);
       }
       }>Submit</SubmitButton>

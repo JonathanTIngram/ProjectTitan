@@ -483,9 +483,6 @@ app.post('/sendRideNameBackend', (req, res) =>{
     console.log(req.body);
 
     ride_nameGraph = req.body.ride_name;
-
-    
-
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
