@@ -3,6 +3,16 @@ import LineChart from 'react-linechart';
 import Axios from 'axios';
 //
 function ChartLine() {
+
+    const GetCollectedData = () => {
+
+        Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+            console.log(res.data)
+        }).catch(err => console.log(err));
+    }
+
+    window.addEventListener('load', GetCollectedData());
+
     const data = [
         {						
     			
@@ -34,7 +44,6 @@ function ChartLine() {
             ]
         }
     ];
-
 
 
     
