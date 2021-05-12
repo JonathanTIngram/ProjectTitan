@@ -9,9 +9,9 @@ const SubmitButton = styled.button`
   font-size: 20px;
 `
 
-const sendRideName = (ride_name) =>{
+const sendRideName = (rideList) =>{
   Axios.post('http://localhost:3001/sendRideNameBackend', {
-    ride_name: ride_name
+    rideList: rideList
                 }).then(() =>{
                   alert('successful insert');
               }).then( () => {
@@ -78,7 +78,7 @@ const GetAttractions = () => {
       </table>
       <SubmitButton onClick={() => {
                 console.log(rideList)
-                sendRideName(ride_name);
+                sendRideName(rideList);
       }
       }>Submit</SubmitButton>
     </div>

@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var ride_nameGraph;
+var rideListGraph;
 
 app.post('/addAttraction', (req, res) =>{
     console.log(req.body);
@@ -482,11 +482,11 @@ app.get('/getParkInterval', (req, res) =>{
 app.post('/sendRideNameBackend', (req, res) =>{
     console.log(req.body);
 
-    ride_nameGraph = req.body.ride_name;
+    rideListGraph = req.body.rideList;
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
-    res.send(ride_nameGraph);
+    res.send(rideListGraph);
 });
 
 app.listen(3001, () =>{
