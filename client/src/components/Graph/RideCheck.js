@@ -68,7 +68,10 @@ const GetAttractions = () => {
                           <td scope="row">{val.ride_name}</td> <td><input type="checkbox" onClick={() => {
                             console.log(val.ride_name)
                             setRide_name(val.ride_name)
-                            rideList = rideList.push(val.ride_name)
+                            if (!rideList.includes(val.ride_name)){
+                              rideList = rideList.push(val.ride_name)
+                            }
+                            
                           }}></input></td>
                         </tr>
                     </>

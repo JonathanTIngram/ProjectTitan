@@ -4,26 +4,38 @@ import Axios from 'axios';
 //
 function ChartLine() {
 
+    var rideList = [];
+    var statList = [];
+
     const CheckedRideName = () => {
 
         Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
             console.log(res.data)
+            rideList = res.data;
         }).catch(err => console.log(err));
     }
 
     const CheckedStat = () => {
 
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
-            console.log(res.data)
+            console.log(res)
+            statList = res.data;
+            return statList;
         }).catch(err => console.log(err));
     }
 
 
 
-    window.addEventListener('load', () => {
-        CheckedRideName();
-        CheckedStat();
-    })
+
+
+    window.addEventListener('load', CheckedRideName())
+
+    console.log(CheckedStat())
+    // window.addEventListener('load', CheckedStat())
+    // window.addEventListener('load', () => {
+    //     CheckedRideName();
+    //     CheckedStat();
+    // })
 
     const data = [
         {						

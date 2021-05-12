@@ -58,7 +58,7 @@ function StatCheck() {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          {/* <tr>
            <td>Check All</td>
            <th scope="row">
               <input
@@ -74,7 +74,7 @@ function StatCheck() {
                 }}
               ></input>
               </th>
-              </tr>
+              </tr> */}
           {statState.map((d, i) => (
             <tr key={d.id}>
               <td>{d.statistic}</td>
@@ -98,6 +98,9 @@ function StatCheck() {
                   onClick={() => {
                     console.log(d.statistic)
                     statList = statList.push(d.statistic);
+                    if (!statList.includes(d.statistic)){
+                      statList = statList.push(d.statistic)
+                    }
                   }}
                 ></input>
                 
