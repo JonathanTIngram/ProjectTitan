@@ -79,6 +79,7 @@ const GetAttractions = () => {
       <SubmitButton onClick={() => {
                 console.log(rideList)
                 sendRideName(rideList);
+                // window.location.reload();
       }
       }>Submit</SubmitButton>
     </div>

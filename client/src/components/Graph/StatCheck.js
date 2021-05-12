@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
+import Axios from 'axios'
 
 
 const SubmitButton = styled.button`
@@ -8,7 +9,20 @@ const SubmitButton = styled.button`
   font-size: 20px;
 `
 
+
+
 function StatCheck() {
+
+  const sendStats = (statList) =>{
+    Axios.post('http://localhost:3001/sendStatsBackend', {
+      statList: statList
+                  }).then(() =>{
+                    alert('successful insert');
+                }).then( () => {
+                  console.log("Successfully sent to port 3001");
+                });
+  };
+
   const [statState, setStatState] = useState([]);
   var [statList, setStatList] = useState([]);
 
@@ -93,7 +107,9 @@ function StatCheck() {
         </tbody>
       </table>
       <SubmitButton onClick={() => {
-        console.log(statList)
+        console.log(statList);
+        sendStats(statList);
+        // window.location.reload();
       }}>Submit</SubmitButton>
     </div>
   );

@@ -17,7 +17,10 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+
+//global variables for sending back and forth for graphing purposes
 var rideListGraph;
+var statListGraph;
 
 app.post('/addAttraction', (req, res) =>{
     console.log(req.body);
@@ -487,6 +490,16 @@ app.post('/sendRideNameBackend', (req, res) =>{
 
 app.get('/sendRideNameGraph', (req, res) =>{
     res.send(rideListGraph);
+});
+
+app.post('/sendStatsBackend', (req, res) => {
+    console.log(req.body);
+
+    statListGraph = req.body.statList;
+})
+
+app.get('/sendStatsGraph', (req, res) =>{
+    res.send(statListGraph);
 });
 
 app.listen(3001, () =>{

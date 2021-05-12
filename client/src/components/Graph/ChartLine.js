@@ -11,9 +11,19 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
+    const CheckedStat = () => {
+
+        Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
+            console.log(res.data)
+        }).catch(err => console.log(err));
+    }
 
 
-    window.addEventListener('load', CheckedRideName());
+
+    window.addEventListener('load', () => {
+        CheckedRideName();
+        CheckedStat();
+    })
 
     const data = [
         {						
