@@ -4,14 +4,16 @@ import Axios from 'axios';
 //
 function ChartLine() {
 
-    const GetCollectedData = () => {
+    const CheckedRideName = () => {
 
         Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
             console.log(res.data)
         }).catch(err => console.log(err));
     }
 
-    window.addEventListener('load', GetCollectedData());
+
+
+    window.addEventListener('load', CheckedRideName());
 
     const data = [
         {						

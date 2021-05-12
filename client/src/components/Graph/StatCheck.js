@@ -10,6 +10,8 @@ const SubmitButton = styled.button`
 
 function StatCheck() {
   const [statState, setStatState] = useState([]);
+  var [statList, setStatList] = useState([]);
+
   const styleGray = {backgroundColor : '#AFAFAF'};
   const styleLight = {backgroundColor : '#DFDFDF'};
   useEffect(() => {
@@ -78,6 +80,11 @@ function StatCheck() {
                   }}
                   type="checkbox"
                   checked={d.select}
+
+                  onClick={() => {
+                    console.log(d.statistic)
+                    statList = statList.push(d.statistic);
+                  }}
                 ></input>
                 
               </th>
@@ -85,7 +92,9 @@ function StatCheck() {
           ))}
         </tbody>
       </table>
-      <SubmitButton>Submit</SubmitButton>
+      <SubmitButton onClick={() => {
+        console.log(statList)
+      }}>Submit</SubmitButton>
     </div>
   );
 }
