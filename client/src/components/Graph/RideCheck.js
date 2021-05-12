@@ -1,11 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Axios from 'axios'
+import { MdSignalCellularConnectedNoInternet4Bar } from "react-icons/md";
+import styled from 'styled-components';
+
+const SubmitButton = styled.button`
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+`
+
+const sendRideName = (ride_name) =>{
+  Axios.post('http://localhost:3001/sendRideNameBackend', {
+    ride_name: ride_name
+                }).then(() =>{
+                  alert('successful insert');
+              }).then( () => {
+                console.log("Successfully sent to port 3001");
+              });
+};
 
 function RideCheck() {
   
   const styleGray = {backgroundColor : '#AFAFAF'};
   const styleLight = {backgroundColor : '#DFDFDF'};
-  const [ride_name, setRide_name] = useState('');
+  var [ride_name, setRide_name] = useState('');
   const [attractionList, setAttractionList] = useState([]);
   //recieve data from backend to display
 
@@ -38,6 +56,8 @@ const GetAttractions = () => {
         <tbody>
 
                 {attractionList.map((val, key) => {
+
+                  var rideName = val.ride_name;
                   
                   return (
                     <>     
@@ -45,6 +65,7 @@ const GetAttractions = () => {
                         <tr>
                           <td scope="row">{val.ride_name}</td> <input type="checkbox" onClick={() => {
                             console.log(val.ride_name)
+                            setRide_name(val.ride_name)
                           }}></input>
                         </tr>
                     </>
@@ -52,6 +73,11 @@ const GetAttractions = () => {
                   })}
         </tbody>
       </table>
+      <SubmitButton onClick={() => {
+                
+                sendRideName(ride_name);
+      }
+      }>Submit</SubmitButton>
     </div>
   );
 }

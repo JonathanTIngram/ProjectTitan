@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LineChart from 'react-linechart';
+import Axios from 'axios';
 //
 function ChartLine() {
     const data = [
@@ -34,7 +35,7 @@ function ChartLine() {
         }
     ];
 
-    
+
 
     
     return (

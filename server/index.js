@@ -475,6 +475,18 @@ app.get('/getParkInterval', (req, res) =>{
         }
     });
 });
+
+
+app.post('/sendRideNameBackend', (req, res) =>{
+    console.log(req.body);
+
+    const ride_name = req.body.ride_name;
+
+    app.get('/sendRideNameGraph', (req, res) =>{
+        res.send(ride_name);
+        });
+});
+
 app.listen(3001, () =>{
     console.log('Running on port 3001');
 })
