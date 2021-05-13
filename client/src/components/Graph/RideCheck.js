@@ -11,7 +11,7 @@ const SubmitButton = styled.button`
 `
 
 const sendRideName = (rideList) =>{
-  Axios.post('http://34.229.71.224:3001/sendRideNameBackend', {
+  Axios.post('http://100.24.238.111:3001/sendRideNameBackend', {
     rideList: rideList
                 }).then(() =>{
                   alert('successful insert');
@@ -35,7 +35,7 @@ function RideCheck() {
 const GetAttractions = () => {
       //console.log(res.data)
       useEffect(() => {
-          Axios.get('http://34.229.71.224:3001/getAttraction').then(res => {
+          Axios.get('http://100.24.238.111:3001/getAttraction').then(res => {
           setAttractionList(res.data);
           }).catch(err => console.log(err));
           }, [])

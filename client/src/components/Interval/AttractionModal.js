@@ -141,7 +141,7 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   //specifically /addAttraction
   
   const submitInterval = () =>{
-    Axios.post('http://34.229.71.224:3001/addInterval', {
+    Axios.post('http://100.24.238.111:3001/addInterval', {
                   ride_name: ride,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {

@@ -183,7 +183,7 @@ const [rideTertiary, setRideTertiary] = useState('');
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
-  Axios.post('http://34.229.71.224:3001/addAttraction', {
+  Axios.post('http://100.24.238.111:3001/addAttraction', {
     ride_name: ride_name,
     dailyOpening: dailyOpening,
     dailyClosing: dailyClosing,

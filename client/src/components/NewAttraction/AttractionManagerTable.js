@@ -53,7 +53,7 @@ const AttractionManagerTable = () => {
     const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
-                Axios.get('http://34.229.71.224:3001/getAttraction').then(res => {
+                Axios.get('http://100.24.238.111:3001/getAttraction').then(res => {
                 setAttractionList(res.data);
                 }).catch(err => console.log(err));
                 }, [])
