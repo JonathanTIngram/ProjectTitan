@@ -89,3 +89,59 @@ CREATE TABLE data (
     description VARCHAR(50) NOT NULL
 );
 
+SELECT * FROM attraction;
+SELECT * FROM intervals;
+SELECT * FROM parkintervals;
+SELECT * FROM collectedData;
+SELECT * FROM collectedParkData;
+
+DROP TABLE intervals;
+DROP TABLE parkIntervals;
+DROP TABLE collectedData;
+DROP TABLE collectedParkData;
+
+CREATE TABLE intervals (
+	ride_name VARCHAR(50),
+    id int key AUTO_INCREMENT,
+	timeValue INT,
+	startingTime TIME,
+    endingTime TIME,
+    checkedWaitTime BOOLEAN,
+    checkedThroughput BOOLEAN,
+    checkedAvailableSeats BOOLEAN,
+    checkedAvailableDown BOOLEAN
+);
+
+
+CREATE TABLE parkIntervals (
+    id int key AUTO_INCREMENT,
+	timeValue INT,
+	startingTime TIME,
+    endingTime TIME,
+    checkedWaitTime BOOLEAN,
+    checkedThroughput BOOLEAN,
+    checkedAvailableSeats BOOLEAN,
+    checkedAvailableDown BOOLEAN
+);
+
+CREATE TABLE collectedData (
+    id INT,
+    ride_name VARCHAR(50),
+    WaitTime INT,
+    Throughput INT,
+    AvailableSeats INT,
+    AvailableDown INT,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE collectedParkData (
+	id INT,
+    WaitTime INT,
+    Throughput INT,
+    AvailableSeats INT,
+    AvailableDown INT,
+	ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    dt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
