@@ -9,6 +9,7 @@ export const NavLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   padding: 2px;
+
   cursor: default;
 `
 

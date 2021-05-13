@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from "react";
+import Axios from 'axios'
+import styled from 'styled-components';
+const SubmitButton = styled.button`
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+  border-radius: 9px;
+`
 
 function DayCheck() {
   const [dayState, setDayState] = useState([]);
@@ -81,6 +89,7 @@ function DayCheck() {
           ))}
         </tbody>
       </table>
+      <SubmitButton>Submit</SubmitButton>
     </div>
   );
 }

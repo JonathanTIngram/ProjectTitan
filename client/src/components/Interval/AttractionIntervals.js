@@ -21,6 +21,7 @@ align-content: center;
 const RideName = styled.div`
 text-align: center;
 font-size: 30px;
+overflow: hidden;
 `
 
 const PauseButton = styled.button`
@@ -31,6 +32,7 @@ height: 17%;
 width: 85%;
 border: 2px solid black;
 background: transparent;
+overflow: hidden;
 `
 const EndButton = styled.button`
 margin-top: 2px;
@@ -40,6 +42,7 @@ height: 17%;
 width: 85%;
 border: 2px solid black;
 background: transparent;
+overflow: hidden;
 `
 const AddIntervalsBorder = styled.tr`
 overflow: hidden;
@@ -52,6 +55,7 @@ height: 240px;
 overflow: hidden;
 overflow-x: scroll;
 white-space: nowrap;
+
 `;
 
 
@@ -60,6 +64,7 @@ width: 50%;
 height: 100%;
 border-right: 2px solid black;
 display: inline-block;
+overflow: hidden;
 `
 const CardTime = styled.div`
 position: absolute;
@@ -71,6 +76,7 @@ text-align: center;
 border-bottom: 2px solid black;
 font-size: 90%;
 font-weight: bold;
+overflow: hidden;
 `
 const CardCollect = styled.div`
 position: absolute;
@@ -79,7 +85,6 @@ text-align: left;
 font-size: 90%;
 font-weight: bold;
 `
-
 
 const CardStarting = styled.div`
 border-top: 2px solid black;
@@ -91,6 +96,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
+
 `
 const CardEnding = styled.div`
 position: absolute;
@@ -100,6 +106,7 @@ width: 20%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
+
 `
 const Image = styled.img`
 display:flex;
@@ -113,6 +120,7 @@ position: absolute;
 left: 17.5%;
 top: 35%;
 border: none;
+
 `
 const RideSelect = styled.select`
 align-content: right;
@@ -122,6 +130,7 @@ background: lightgray;
 font-size: 20px;
 width: 30%;
 border-radius: 10px;
+overflow: auto;
 `
 
 const DeleteButton = styled(MdClose)`
@@ -132,11 +141,13 @@ const DeleteButton = styled(MdClose)`
   width: 20px;
   height: 30px;
   padding: 0;
+  overflow: hidden;
 `
 
 const Variables = styled.li`
 font-size: 11.5px;
-margin-left: 10%;
+margin-left: 15px;
+overflow: hidden;
 `
 const InputVariables = styled.input`
 width: 70px;
@@ -147,10 +158,40 @@ const SubmitButton = styled.button`
   left: 200px;
   height: 20px;
   font-size: 10px;
+
+`
+
+const Border = styled.div`
+overflow: hidden;
+background: transparent;
+margin: 15px 0px;
+position: absolute;
+left: 0px;
+width: 25%;
+height: 240px;
+border-right: 2px solid black;
+`
+
+const InfoContainer = styled.div`
+overflow: hidden;
+overflow-y: scroll;
+background: transparent;
+position: absolute;
+left: 0px;
+width: 100%;
+
+`;
+
+const Label1 = styled.h1`
+margin-top: 2%;
+margin-left: 0%;
+font-size: 175%;
+text-align: center;
+font-weight: normal;
 `
 const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
-
+    const styleGray = {backgroundColor : '#AFAFAF'};
     const openModal = () => {
     setShowModal(prev => !prev);
     };
@@ -159,6 +200,8 @@ const AttractionIntervals = (props) => {
         //states
         const [intervalList, setIntervalList] = useState([]);
         const [rideSelect, setRideSelect] = useState('');
+        var cardCount = 0;
+        var currentRide = '';
 
 
         //state to get all attractions
@@ -167,7 +210,7 @@ const AttractionIntervals = (props) => {
         const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
-                Axios.get('http://localhost:3001/getAttraction').then(res => {
+                Axios.get('http://34.229.71.224:3001/getAttraction').then(res => {
                 setAttractionList(res.data);
                 }).catch(err => console.log(err));
                 }, [])
@@ -175,14 +218,14 @@ const AttractionIntervals = (props) => {
 
         const GetIntervals = () => {
 
-            Axios.get(`http://localhost:3001/getInterval/:${rideSelect}`).then(res => {
+            Axios.get(`http://34.229.71.224:3001/getInterval/:${rideSelect}`).then(res => {
             console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
         }
         
         const deleteInterval = (ride_name) => {
-            Axios.delete(`http://localhost:3001/deleteInterval/${ride_name}`);
+            Axios.delete(`http://34.229.71.224:3001/deleteInterval/${ride_name}`);
           };
 
           //edit info
@@ -192,7 +235,7 @@ const AttractionIntervals = (props) => {
           const [AvailableDown, setAvailableDown] = useState('');
 
           const editInterval = (id, rideName) =>{
-            Axios.put('http://localhost:3001/editInterval', {
+            Axios.put('http://34.229.71.224:3001/editInterval', {
 
                 id: id,
                 ride_name: rideName,
@@ -251,7 +294,7 @@ const AttractionIntervals = (props) => {
             </IntervalCard> 
 
             {/* {useEffect(() => {
-            Axios.get(`http://localhost:3001/getInterval/:${rideSelect}`).then(res => {
+            Axios.get(`http://34.229.71.224:3001/getInterval/:${rideSelect}`).then(res => {
             console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
@@ -271,12 +314,15 @@ const AttractionIntervals = (props) => {
                     }
 
                     const checkThroughput = () => {
+                        if (val.checkedThroughput == true){
                         return (
                             <div>
+                                
                                 <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
+                        }
                     }
 
                     const checkAvailable = () => {
@@ -300,6 +346,9 @@ const AttractionIntervals = (props) => {
                             );
                         }
                     }
+                    {currentRide = val.ride_name}
+                    {cardCount = cardCount + 1}
+
 
                         return (
                             <>
@@ -323,7 +372,8 @@ const AttractionIntervals = (props) => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
-                                    editInterval(id, val.ride_name)
+                                    editInterval(id, val.ride_name);
+                                    window.location.reload(); 
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 
@@ -331,11 +381,42 @@ const AttractionIntervals = (props) => {
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
                             
                             </IntervalCard>
+                            
                             </>
                         );
                         })}
-
             </AddIntervalsBorder>
+            <Border>
+            <Label1> Attraction Intervals </Label1>
+                <InfoContainer>
+                {window.addEventListener('load', GetAttractions())}
+                <table className="table table-bordered table-striped">
+                    <thead>
+                        <tr style = {styleGray}>
+                            <th scope="col">Name</th>
+                            <th scope="col"># of Specific Intervals</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr><td>{currentRide}</td><td>{cardCount}</td></tr>
+                    </tbody>
+
+                    {/* {attractionList.map((val, key) => {
+                        var ride = val.ride_name;
+                 
+                        return(
+                    <tbody>
+                        <tr><td>{ride}</td><td>{cardCount}</td></tr>
+                    </tbody>
+                        );
+                    })} */}
+
+             
+                </table>
+                </InfoContainer>    
+
+            </Border>
 
         </>
     )

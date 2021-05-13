@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md';
 
 const Label1 = styled.h1`
 margin-left: .8%;
-margin-top: .1%;
+margin-top: .9%;
 font-size: 175%;
 text-align: left;
 font-weight: normal;
@@ -43,6 +43,7 @@ width: 20%;;
 height: 100%;
 border-right: 2px solid black;
 display: inline-block;
+overflow: hidden;
 `
 const CardTime = styled.div`
 position: absolute;
@@ -54,6 +55,7 @@ text-align: center;
 padding-top: 1%;
 font-size: 18px;
 font-weight: bold;
+overflow: hidden;
 `
 const CardCollect = styled.div`
 position: absolute;
@@ -64,6 +66,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardFrom = styled.div`
@@ -75,6 +78,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardStarting = styled.div`
@@ -86,6 +90,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardEnding = styled.div`
@@ -93,18 +98,13 @@ position: absolute;
 top: 80%;
 height: 20%;
 width: 20%;
-border-bottom: 2px solid black;
+
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
-const CardH = styled.h1`
-position: absolute;
-left: 0%;
-top: 0%;
-margin-top: 3px;
-margin-left: 3px;
-`
+
 const Image = styled.img`
 display:flex;
 height: 70px;
@@ -126,21 +126,25 @@ const DeleteButton = styled(MdClose)`
   width: 20px;
   height: 30px;
   padding: 0;
+  
 `
 const Variables = styled.li`
-font-size: 11.5px;
-margin-left: 10%;
+font-size: 14px;
+margin-left: 5%;
+overflow: hidden;
 `
 const InputVariables = styled.input`
 width: 70px;
+
 `
 
 const SubmitButton = styled.button`
   position: absolute;
   bottom: 0px;
-  left: 170px;
+  left: 80%;
   height: 20px;
   font-size: 10px;
+  overflow: hidden;
 `
 const ParkwideIntervals = () => {
     const [showModal, setShowModal] = useState(false);
@@ -153,7 +157,7 @@ const ParkwideIntervals = () => {
     const [rideSelect, setRideSelect] = useState('');
 
     const deleteInterval = (id) => {
-        Axios.delete(`http://localhost:3001/deleteParkInterval/${id}`);
+        Axios.delete(`http://34.229.71.224:3001/deleteParkInterval/${id}`);
         };
     
     //edit info
@@ -163,7 +167,7 @@ const ParkwideIntervals = () => {
     const [AvailableDown, setAvailableDown] = useState('');
 
     const editParkInterval = (id) =>{
-        Axios.put('http://localhost:3001/editParkInterval', {
+        Axios.put('http://34.229.71.224:3001/editParkInterval', {
 
             id: id,
             WaitTime: WaitTime,
@@ -192,7 +196,7 @@ const ParkwideIntervals = () => {
 
             </IntervalCard>
             {useEffect(() => {
-                Axios.get('http://localhost:3001/getParkInterval').then(res => {
+                Axios.get('http://34.229.71.224:3001/getParkInterval').then(res => {
                 setParkIntervalList(res.data)
                 }).catch(err => console.log(err));
                 }, [])}
@@ -260,7 +264,8 @@ const ParkwideIntervals = () => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
-                                    editParkInterval(id)
+                                    editParkInterval(id);
+                                    window.location.reload(); 
                                 }}>Submit</SubmitButton>
                             
                         </CardCollect>

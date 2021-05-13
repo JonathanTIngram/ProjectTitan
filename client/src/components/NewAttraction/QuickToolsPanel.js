@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { NavLink, Link } from 'react-router-dom';
-
-const Button = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
+import { NavLink } from 'react-router-dom';
 
 export const QuickToolsSideNav = styled.div`
 background: transparent;
@@ -14,7 +8,7 @@ border-left: 2px solid black;
 border-right: 2px solid black;
 border-bottom: 2px solid black;
 position: absolute;
-  right: 0px;
+  right: 5px;
   width: 11.5%;
   height: 250px;
   margin: 13px -5px;

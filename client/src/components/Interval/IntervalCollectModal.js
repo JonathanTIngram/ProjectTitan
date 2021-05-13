@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
-import Axios from 'axios';
-
 
 const Background = styled.div`
   width: 0px;
@@ -15,9 +13,10 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  top: 200px;
-  width: 485px;
+  top: 100px;
+  width: 300px;
   height: 100%;
+  right: 80%;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: grey;
   position: relative;
@@ -79,7 +78,7 @@ export const Menu = styled.div`
 
 export const IntervalCollectModal = ({ showCollectModal, setShowCollectModal, id}) => {
 
-  console.log(id);
+  //console.log(id);
   const modalRef = useRef();
 
   const animation = useSpring({

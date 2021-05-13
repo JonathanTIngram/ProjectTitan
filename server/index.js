@@ -7,7 +7,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 
 var connection = mysql.createConnection({
-    host: 'localhost',
+    host: '34.229.71.224',
     user: 'titan',
     password: 'titanTeam123$',
     database: 'park_data'
@@ -16,6 +16,13 @@ var connection = mysql.createConnection({
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
+
+
+//global variables for sending back and forth for graphing purposes
+var rideListGraph;
+var rideJSONData = [];
+
+var statListGraph;
 
 app.post('/addAttraction', (req, res) =>{
     console.log(req.body);
@@ -359,6 +366,19 @@ app.put('/editInterval', (req, res) => {
     });
 })
 
+
+//For sending to graphs
+app.get('/getCollectedData', (req, res) =>{
+    connection.query("SELECT * FROM collectedData", (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
 app.post('/addParkInterval', (req, res) =>{
     console.log(req.body);
 
@@ -462,6 +482,32 @@ app.get('/getParkInterval', (req, res) =>{
         }
     });
 });
+
+
+app.post('/sendRideNameBackend', (req, res) =>{
+    console.log(req.body);
+
+    rideListGraph = req.body.rideList;
+
+});
+
+app.get('/sendRideNameGraph', (req, res) =>{
+    console.log(rideListGraph)
+    res.send(rideListGraph);
+});
+
+app.post('/sendStatsBackend', (req, res) => {
+    console.log(req.body);
+
+    statListGraph = req.body.statList;
+})
+
+
+app.get('/sendStatsGraph', (req, res) =>{
+    console.log(statListGraph);
+    res.send(statListGraph);
+});
+
 app.listen(3001, () =>{
     console.log('Running on port 3001');
 })

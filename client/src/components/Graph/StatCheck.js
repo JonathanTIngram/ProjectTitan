@@ -1,16 +1,40 @@
 import React, { useState, useEffect } from "react";
+import styled from 'styled-components';
+import Axios from 'axios'
+
+
+const SubmitButton = styled.button`
+  height: 40px;
+  width: 100%;
+  border-radius: 9px;
+  font-size: 20px;
+`
+
+
 
 function StatCheck() {
+
+  const sendStats = (statList) =>{
+    Axios.post('http://34.229.71.224:3001/sendStatsBackend', {
+      statList: statList
+                  }).then(() =>{
+                    alert('successful insert');
+                }).then( () => {
+                  console.log("Successfully sent to port 3001");
+                });
+  };
+
   const [statState, setStatState] = useState([]);
+  var [statList, setStatList] = useState([]);
+
   const styleGray = {backgroundColor : '#AFAFAF'};
   const styleLight = {backgroundColor : '#DFDFDF'};
   useEffect(() => {
     let statState = [
       { id: 1, statistic: "Throughput"},
       { id: 2, statistic: "Wait Time"},
-      { id: 3, statistic: "Number of Employees"},
-      { id: 4, statistic: "Operating Vehicles"},
-      { id: 5, statistic: "Downtime Events"},
+      { id: 3, statistic: "Available Seats"},
+      { id: 4, statistic: "Available Down"},
     ];
 
     setStatState(
@@ -35,23 +59,6 @@ function StatCheck() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-           <td>Check All</td>
-           <th scope="row">
-              <input
-                type="checkbox"
-                onChange={e => {
-                  let checked = e.target.checked;
-                  setStatState(
-                    statState.map(d => {
-                      d.select = checked;
-                      return d;
-                    })
-                  );
-                }}
-              ></input>
-              </th>
-              </tr>
           {statState.map((d, i) => (
             <tr key={d.id}>
               <td>{d.statistic}</td>
@@ -71,6 +78,14 @@ function StatCheck() {
                   }}
                   type="checkbox"
                   checked={d.select}
+
+                  onClick={() => {
+                    console.log(d.statistic)
+                    if (!statList.includes(d.statistic)){
+                      statList = statList.push(d.statistic)
+                    }
+
+                  }}
                 ></input>
                 
               </th>
@@ -78,6 +93,13 @@ function StatCheck() {
           ))}
         </tbody>
       </table>
+      <SubmitButton onClick={() => {
+        console.log(statList);
+        sendStats(statList);
+        setTimeout(function(){
+          window.location.reload(); 
+         }, 2);
+      }}>Submit</SubmitButton>
     </div>
   );
 }

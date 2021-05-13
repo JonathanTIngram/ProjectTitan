@@ -180,14 +180,10 @@ const [ridePrimary, setRidePrimary] = useState('');
 const [rideSecondary, setRideSecondary] = useState('');
 const [rideTertiary, setRideTertiary] = useState('');
 
-//state to get all attractions
-const [attractionList, setAttractionList] = useState([]);
-
-
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
-  Axios.post('http://localhost:3001/addAttraction', {
+  Axios.post('http://34.229.71.224:3001/addAttraction', {
     ride_name: ride_name,
     dailyOpening: dailyOpening,
     dailyClosing: dailyClosing,
@@ -215,12 +211,6 @@ const submitAttraction = () =>{
               });
 };
 
-const getAttractions = () => {
-  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
-    console.log(res); //response
-    setAttractionList(res.data);
-  });
-}
 return (
     <>
     <Navbar/>
