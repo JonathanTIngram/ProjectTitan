@@ -160,9 +160,38 @@ const SubmitButton = styled.button`
   font-size: 10px;
 
 `
+
+const Border = styled.div`
+overflow: hidden;
+background: transparent;
+margin: 15px 0px;
+position: absolute;
+left: 0px;
+width: 25%;
+height: 240px;
+border-right: 2px solid black;
+`
+
+const InfoContainer = styled.div`
+overflow: hidden;
+overflow-y: scroll;
+background: transparent;
+position: absolute;
+left: 0px;
+width: 100%;
+
+`;
+
+const Label1 = styled.h1`
+margin-top: 2%;
+margin-left: 0%;
+font-size: 175%;
+text-align: center;
+font-weight: normal;
+`
 const AttractionIntervals = (props) => {
     const [showModal, setShowModal] = useState(false);
-
+    const styleGray = {backgroundColor : '#AFAFAF'};
     const openModal = () => {
     setShowModal(prev => !prev);
     };
@@ -171,6 +200,8 @@ const AttractionIntervals = (props) => {
         //states
         const [intervalList, setIntervalList] = useState([]);
         const [rideSelect, setRideSelect] = useState('');
+        var cardCount = 0;
+        var currentRide = '';
 
 
         //state to get all attractions
@@ -315,6 +346,9 @@ const AttractionIntervals = (props) => {
                             );
                         }
                     }
+                    {currentRide = val.ride_name}
+                    {cardCount = cardCount + 1}
+
 
                         return (
                             <>
@@ -347,11 +381,42 @@ const AttractionIntervals = (props) => {
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
                             
                             </IntervalCard>
+                            
                             </>
                         );
                         })}
-
             </AddIntervalsBorder>
+            <Border>
+            <Label1> Attraction Intervals </Label1>
+                <InfoContainer>
+                {window.addEventListener('load', GetAttractions())}
+                <table className="table table-bordered table-striped">
+                    <thead>
+                        <tr style = {styleGray}>
+                            <th scope="col">Name</th>
+                            <th scope="col"># of Specific Intervals</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr><td>{currentRide}</td><td>{cardCount}</td></tr>
+                    </tbody>
+
+                    {/* {attractionList.map((val, key) => {
+                        var ride = val.ride_name;
+                 
+                        return(
+                    <tbody>
+                        <tr><td>{ride}</td><td>{cardCount}</td></tr>
+                    </tbody>
+                        );
+                    })} */}
+
+             
+                </table>
+                </InfoContainer>    
+
+            </Border>
 
         </>
     )

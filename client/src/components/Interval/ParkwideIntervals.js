@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md';
 
 const Label1 = styled.h1`
 margin-left: .8%;
-margin-top: .1%;
+margin-top: .9%;
 font-size: 175%;
 text-align: left;
 font-weight: normal;
@@ -98,7 +98,7 @@ position: absolute;
 top: 80%;
 height: 20%;
 width: 20%;
-border-bottom: 2px solid black;
+
 text-align: left;
 font-size: 120%;
 font-weight: bold;

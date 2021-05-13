@@ -36,18 +36,6 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
-    // const getGraphInfo = () => {
-
-    //     Axios.post(`http://localhost:3001/getGraphInfo`).then(res => {
-    //         rideList: CheckedRideName()
-    //     }).catch(err => console.log(err));
-    // }
-
-    
-    // window.addEventListener('load', () => {
-    //     CheckedRideName();
-    //     CheckedStat();
-    // })
     let index = 0;
     var rList = [];
     var wList = [];
@@ -56,28 +44,14 @@ function ChartLine() {
     var adList = [];
     var timeList = [];
     var dateList = [];
-    var idList = [];
 
-    var checkedRideList = [];
-    {rideList.map((val, key) => {
-        console.log(val);
-        checkedRideList.push(val);
-    
-    })}
-
-    var checkedStatList = [];
-    {statList.map((val, key) => {
-        console.log(val);
-        checkedStatList.push(val);
-    
-    })}
 
     {dataList.map((val, key) => {	
         if (val.ride_name){
             var time = val.ts;
-            time = time.substring(11,19);
+            time = time.substring(11,19)
             var date= val.ts;
-            date = date.substring(0,10);
+            date = date.substring(0,10)
             index = index + 1;
             console.log("Ride name = ", val.ride_name);
             console.log("Time = ", time);
@@ -85,49 +59,52 @@ function ChartLine() {
             rList.push(val.ride_name);
             timeList.push(time);
             dateList.push(date)
-            idList.push(val.id);
-
             console.log("Wait Time = ", val.WaitTime);
             wList.push(val.WaitTime);
-
+        
             console.log("Throughput = ", val.Throughput)
             tList.push(val.Throughput);
 
+
             console.log("Available Seats = ", val.AvailableSeats)
             asList.push(val.AvailableSeats);
-
-
             console.log("Available Down = ", val.AvailableDown)
-            adList.push(val.AvailableDown);
+            adList.push( val.AvailableDown);
 
-        console.log('');
+            console.log('');
      }
      })}
 
      const compareRide = () => {
         for(var i = 0; i < index; i++) {
+            //check box list is compared with collected data
             if(rideList.includes(rList[i])) {
                 console.log("Matched ", rList[i]);
+                //each variable is compared with the selected stat
                 if(statList.includes("Wait Time"))
                 {
+                    //locate variable
                     if(wList[i] != -1) {
                         console.log("Wait Time of " + rList[i] + " = " + wList[i]);
                      } 
                 }
                 if(statList.includes("Throughput"))
                 {
+                     //locate variable
                     if(tList[i] != -1) {
                         console.log("Throughput of " + rList[i] + " = " + tList[i]);
                     }
                 }
                 if(statList.includes("Available Seats"))
                 {
+                     //locate variable
                     if(asList[i] != -1) {
                         console.log("Available seats of " + rList[i] + " = " + asList[i]);
                     }
                 }   
                 if(statList.includes("Available Down"))
                 {
+                     //locate variable
                     if(adList[i] != -1) {
                         console.log("Available down of " + rList[i] + " = " + adList[i]);
                     }
@@ -138,14 +115,12 @@ function ChartLine() {
             }
         }
     }
+     
     const data = [
         {						
             color: "steelblue", 
             points: [
-                { x: 1, y: 64 },
-                { x: 2, y: 61 },
-                { x: 3, y: 64 },
-                { x: 4, y: 62 },
+  
             ]
         }
     ];  
@@ -163,13 +138,12 @@ function ChartLine() {
             {console.log("Ride names = ", rList)}
             {console.log("TimeList = ", timeList)}
             {console.log("DateList = ", dateList)}
-            {console.log("IDList = ", idList)}
             {console.log("WaitList = ", wList)}
             {console.log("ThroughputList = ", tList)}
             {console.log("AvailableSeatList = ", asList)}
             {console.log("AvailableDownList = ", adList)}
-            {console.log("Checked Ride List = ", checkedRideList)}
-            {console.log("Checked Stat List = ", checkedStatList)}
+
+
             {compareRide()}
             <div className="App">
                 <LineChart 

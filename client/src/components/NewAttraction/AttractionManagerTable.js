@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import { useSpring, animated } from 'react-spring';
+import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 
 const AttractionManagerTableContainer = styled.div`
@@ -14,41 +12,10 @@ border-bottom: 2px solid black;
 margin: 15px 0px;
 position: absolute;
 left: 0px;
-width: 88.8%;
-height: 600px;
+width: 88.5%;
+height: 83.5%;
 `;
 
-export const Table = styled.table`
-width: 100%;
-height: 100%;
-border-top: 2px solid black;
-overflow-y: scroll;
-overflow: hidden;
-`
-export const TH = styled.th`
-width: 7.69%;
-height: 10px;
-border-bottom: 2px solid black;
-border-left: 2px solid black;
-border-right: 2px solid black;
-background-color: darkgray;
-`
-
-export const TR = styled.tr`
-width: 100%;
-height: 50px;
-border-bottom: 2px solid black;
-`
-
-export const TD = styled.td`
-background-color: lightgrey;
-width: 7.69%;
-height: 50px;
-border-bottom: 2px solid black;
-border-left: 2px solid black;
-border-right: 2px solid black;
-text-align: center;
-`
 export const Select = styled.select`
 height: 95%;
 width: 95%;
@@ -57,8 +24,8 @@ font-weight: bold;
 `
 
 
-
-
+const styleBlue = {backgroundColor : '#8EAAD1'};
+const styleGray = {backgroundColor : '#AFAFAF'};
 const AttractionManagerTable = () => {
 
     //states
@@ -97,52 +64,53 @@ const AttractionManagerTable = () => {
 
         <AttractionManagerTableContainer>
         {window.addEventListener('load', GetAttractions())}
-            <Table className="sortable">
-                    <TR>
-                        
-                        <TH>Ride Name</TH>
-                        <TH>Daily Opening</TH>
-                        <TH>Daily Closing</TH>
-                        <TH>Theoretical Capacity</TH>
-                        <TH>Target Capacity</TH>
-                        <TH>Minimum Vehicles</TH>
-                        <TH>Maximum Vehicles</TH>
-                        <TH>Maximum Seats</TH>
-                        <TH>Minimum Staff</TH>
-                        <TH>Maximum Staff</TH>
-                        <TH>Park Section</TH>
-                        <TH>Weather Code</TH>
-                        <TH>Type</TH>
-                    </TR>
+            <table className="table table-bordered table-striped">
+                <thead>
+                    <tr style = {styleGray}>
+                        <th scope="col">Ride Name</th>
+                        <th scope="col">Daily Opening</th>
+                        <th scope="col">Daily Closing</th>
+                        <th scope="col">Theoretical Capacity</th>
+                        <th scope="col">Target Capacity</th>
+                        <th scope="col">Minimum Vehicles</th>
+                        <th scope="col">Maximum Vehicles</th>
+                        <th scope="col">Maximum Seats</th>
+                        <th scope="col">Minimum Staff</th>
+                        <th scope="col">Maximum Staff</th>
+                        <th scope="col">Park Section</th>
+                        <th scope="col">Weather Code</th>
+                        <th scope="col">Type</th>
+                    </tr>
+                </thead>
 
-                        {attractionList.map((val, key) => {
+                {attractionList.map((val, key) => {
                         var ride = val.ride_name;
                         return (
-                            <>
-                            <TR>
-                            <TD><NavLink to = {{
-                                pathname:'/rideInfo',
-                                ride_name: {ride}
-
-                            }}>{val.ride_name}</NavLink></TD> 
-                            <TD>{val.dailyOpening}</TD>
-                            <TD>{val.dailyClosing}</TD>
-                            <TD>{val.theoryCapacity}</TD>
-                            <TD>{val.targetCapacity}</TD>
-                            <TD>{val.minVehicles}</TD>
-                            <TD>{val.maxVehicles}</TD>
-                            <TD>{val.maxSeats}</TD>
-                            <TD>{val.minStaff}</TD>
-                            <TD>{val.maxStaff}</TD>
-                            <TD>{val.parkSection}</TD>
-                            <TD>{val.weatherCode}</TD>
-                            <TD>{val.rideType}</TD>
-                            </TR>
-                            </>
+                <tbody>
+                    <tr>
+                        <td><NavLink to = {{
+                            pathname:'/rideInfo',
+                            ride_name: {ride}
+                            
+                        }}>{val.ride_name}</NavLink></td>
+                        <td>{val.dailyOpening}</td>
+                        <td>{val.dailyClosing}</td>
+                        <td>{val.theoryCapacity}</td>
+                        <td>{val.targetCapacity}</td>
+                        <td>{val.minVehicles}</td>
+                        <td>{val.maxVehicles}</td>
+                        <td>{val.maxSeats}</td>
+                        <td>{val.minStaff}</td>
+                        <td>{val.maxStaff}</td>
+                        <td>{val.parkSection}</td>
+                        <td>{val.weatherCode}</td>
+                        <td>{val.rideType}</td>
+                    </tr>
+                </tbody>
                         );
-                        })}
-
-            </Table>
+                    })}
+                
+            </table>
         </AttractionManagerTableContainer>
         </>
     )
