@@ -15,7 +15,7 @@ const SubmitButton = styled.button`
 function StatCheck() {
 
   const sendStats = (statList) =>{
-    Axios.post('http://100.24.238.111:3001/sendStatsBackend', {
+    Axios.post('http://18.204.6.173:3001/sendStatsBackend', {
       statList: statList
                   }).then(() =>{
                     alert('successful insert');

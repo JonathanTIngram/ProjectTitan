@@ -41,7 +41,7 @@ const IntervalsCountDisplay = () => {
     const GetAttractions = () => {
         //console.log(res.data)
         useEffect(() => {
-            Axios.get('http://100.24.238.111:3001/getAttraction').then(res => {
+            Axios.get('http://18.204.6.173:3001/getAttraction').then(res => {
             setAttractionList(res.data);
             }).catch(err => console.log(err));
             }, [])

@@ -144,7 +144,7 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
 
 
   const submitInterval = () =>{
-    Axios.post('http://100.24.238.111:3001/addParkInterval', {
+    Axios.post('http://18.204.6.173:3001/addParkInterval', {
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
@@ -179,7 +179,7 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
 
 
   const getIntervals = () => {
-    Axios.get('http://100.24.238.111:3001/getParkInterval').then( (res) => {
+    Axios.get('http://18.204.6.173:3001/getParkInterval').then( (res) => {
       console.log(res); //response
       setIntervalList(res.data);
     });

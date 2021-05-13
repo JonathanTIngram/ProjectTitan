@@ -210,7 +210,7 @@ const AttractionIntervals = (props) => {
         const GetAttractions = () => {
             //console.log(res.data)
             useEffect(() => {
-                Axios.get('http://100.24.238.111:3001/getAttraction').then(res => {
+                Axios.get('http://18.204.6.173:3001/getAttraction').then(res => {
                 setAttractionList(res.data);
                 }).catch(err => console.log(err));
                 }, [])
@@ -218,14 +218,14 @@ const AttractionIntervals = (props) => {
 
         const GetIntervals = () => {
 
-            Axios.get(`http://100.24.238.111:3001/getInterval/:${rideSelect}`).then(res => {
+            Axios.get(`http://18.204.6.173:3001/getInterval/:${rideSelect}`).then(res => {
             console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
         }
         
         const deleteInterval = (ride_name) => {
-            Axios.delete(`http://100.24.238.111:3001/deleteInterval/${ride_name}`);
+            Axios.delete(`http://18.204.6.173:3001/deleteInterval/${ride_name}`);
           };
 
           //edit info
@@ -235,7 +235,7 @@ const AttractionIntervals = (props) => {
           const [AvailableDown, setAvailableDown] = useState('');
 
           const editInterval = (id, rideName) =>{
-            Axios.put('http://100.24.238.111:3001/editInterval', {
+            Axios.put('http://18.204.6.173:3001/editInterval', {
 
                 id: id,
                 ride_name: rideName,
@@ -294,7 +294,7 @@ const AttractionIntervals = (props) => {
             </IntervalCard> 
 
             {/* {useEffect(() => {
-            Axios.get(`http://100.24.238.111:3001/getInterval/:${rideSelect}`).then(res => {
+            Axios.get(`http://18.204.6.173:3001/getInterval/:${rideSelect}`).then(res => {
             console.log(rideSelect)
             setIntervalList(res.data)
             }).catch(err => console.log(err));
