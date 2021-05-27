@@ -182,7 +182,7 @@ const [attractionList, setAttractionList] = useState([]);
 
 //recieve data from backend to display
 const getAttractions = () => {
-  Axios.get('http://18.204.6.173:3001/getAttraction').then( (res) => {
+  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
       //console.log(res.data)
       return setAttractionList(res.data);
   });
@@ -191,7 +191,7 @@ const getAttractions = () => {
 
 
 const deleteAttraction = (ride_name) => {
-  Axios.delete(`http://18.204.6.173:3001/deleteAttraction/${ride_name}`);
+  Axios.delete(`http://localhost:3001/deleteAttraction/${rideSelect}`);
 };
 
 return (
@@ -506,8 +506,8 @@ return (
         </tbody>
 
           <DeleteButton onClick={() => {
-            deleteAttraction(rideSelect) //ride selected in drop down menu
-            window.alert(`The ride: ${ride_name} has been deleted`);
+            deleteAttraction(ride_name) //ride selected in drop down menu
+            window.alert(`The ride: ${rideSelect} has been deleted`);
             window.location.href='/newAttraction';
           }}>Delete Attraction</DeleteButton>
 
