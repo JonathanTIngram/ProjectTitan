@@ -210,9 +210,66 @@ const submitAttraction = () =>{
                 console.log("Successfully sent to port 3001");
               });
 };
-
+const [test, setTest] = useState(false);
+const checkEmpty = () => {
+  if(ride_name == '') {
+    alert("Ride name is empty");
+    setTest(true);
+  }
+  if(dailyOpening == '') {
+    alert("Daily Opening is empty");
+    setTest(true);
+  }
+  if(dailyClosing == '') {
+    alert("Daily Closing is empty");
+    setTest(true);
+  }
+  if(theoryCapacity == '') {
+    alert("Theoretical Capacity is empty");
+    setTest(true);
+  }
+  if(targetCapacity == '') {
+    alert("Target Capacity is empty");
+    setTest(true);
+  }
+  if(maxVehicles == '') {
+    alert("Max Vehicles is empty");
+    setTest(true);
+  }
+  if(minVehicles == '') {
+    alert("Min Vehicles is empty");
+    setTest(true);
+  }
+  if(maxSeats == '') {
+    alert("Max seats is empty");
+    setTest(true);
+  }
+  if(maxStaff == '') {
+    alert("Max Staff is empty");
+    setTest(true);
+  }
+  if(minStaff == '') {
+    alert("Min Staff is empty");
+    setTest(true);
+  }
+  if(parkSection == '') {
+    alert("Park Section is empty");
+    setTest(true);
+  }
+  if(weatherCode == '') {
+    alert("Weather Code is empty");
+    setTest(true);
+  }
+  if(rideType == '') {
+    alert("Ride Type is empty");
+    setTest(true);
+  }
+  return test;
+}
 return (
+  
     <>
+    
     <Navbar/>
     <Banner/>
     <OuterBorder>
@@ -244,7 +301,7 @@ return (
 
         <tr>
         <td>Name</td>
-        <td>                 
+        <td>              
                 <input type='text' name='ride_name' onChange={(e) => {
                   setRide_name(e.target.value);
                 }}></input> </td>
@@ -340,7 +397,14 @@ return (
         </th>
         </tr>
 
-
+        <tr>
+        <td>Weather Code</td>
+        <th>
+              <input type='text' name='weatherCode' onChange={(e) => {
+                            setWeatherCode(e.target.value);
+                          }}></input>
+        </th>
+        </tr>
         <tr>
         <td>Type</td>
         <th>
@@ -354,7 +418,8 @@ return (
 
         </table>
         <CreateButton>
-        <CreateLink to='/newAttraction' onClick={() => {
+        <CreateLink to='/newAttraction' onClick={() => { 
+            checkEmpty();
             window.alert(`The ride: ${ride_name} has been created`)
             submitAttraction();
             setTimeout(function(){
