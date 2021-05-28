@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
-import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link, Redirect } from 'react-router-dom';
 import FileUpload from '../components/FileUpload/FileUpload'; 
@@ -78,7 +76,8 @@ const EditBorder = styled.nav`
   border-right: 2px solid;
   font-family: 'Arial', sans-serif;
   font-size: 18px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 
 const InfoBar = styled.div`
@@ -99,7 +98,8 @@ const SafetyInfo = styled.div`
     height: 40%;
     width: 30%;
     border: 2px solid;
-    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
 `;
 
 const PhoneInfo = styled.div`
@@ -111,7 +111,8 @@ const PhoneInfo = styled.div`
     left: 69.9%;
     bottom: 0;
     border: 2px solid;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 `;
 
 const ReportInfo = styled.div`
