@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Axios from 'axios'
 
 const AttractionManagerTableContainer = styled.div`
-overflow: hidden;
 overflow-y: scroll;
 background: transparent;
 border-bottom: 2px solid black;
