@@ -7,6 +7,7 @@ const SubmitButton = styled.button`
   height: 40px;
   width: 100%;
   font-size: 20px;
+  border-radius: 9px;
 `
 
 const sendRideName = (rideList) =>{
@@ -39,11 +40,8 @@ const GetAttractions = () => {
           }).catch(err => console.log(err));
           }, [])
 }
-  const [rideState, setRideState] = useState([]);
-    
+
   
-
-
   return (
     <div>
       {window.addEventListener('load', GetAttractions())}
@@ -57,10 +55,6 @@ const GetAttractions = () => {
         <tbody>
 
                 {attractionList.map((val, key) => {
-
-                  var rideName = val.ride_name;
-
-                  
                   return (
                     <>     
                    
@@ -71,8 +65,7 @@ const GetAttractions = () => {
                             if (!rideList.includes(val.ride_name)){
                               rideList = rideList.push(val.ride_name)
                             }
-                            
-                          }}></input></td>
+                          }}></input> </td>
                         </tr>
                     </>
                   );

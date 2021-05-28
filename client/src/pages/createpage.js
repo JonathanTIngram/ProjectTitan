@@ -1,4 +1,6 @@
+
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
@@ -152,6 +154,8 @@ const styleGray = {backgroundColor : '#AFAFAF'};
 export default function CreatePage() {
 
 
+let history = useHistory();
+
 //states
 //for getting attraction 
 const [ride_name, setRide_name] = useState('');
@@ -179,10 +183,6 @@ const [numGates, setNumGates] = useState('');
 const [ridePrimary, setRidePrimary] = useState('');
 const [rideSecondary, setRideSecondary] = useState('');
 const [rideTertiary, setRideTertiary] = useState('');
-
-//state to get all attractions
-const [attractionList, setAttractionList] = useState([]);
-
 
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
@@ -214,15 +214,108 @@ const submitAttraction = () =>{
                 console.log("Successfully sent to port 3001");
               });
 };
+const [test, setTest] = useState(false);
 
-const getAttractions = () => {
-  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
-    console.log(res); //response
-    setAttractionList(res.data);
-  });
+
+var emptyBoxArray = [];
+var empty = false;
+
+const checkEmpty = () => {
+  if(ride_name == '') {
+    alert("Ride name is empty");
+    //setTest(true);
+    emptyBoxArray.push('ride_name');
+    empty = true;
+  }
+  if(dailyOpening == '') {
+    alert("Daily Opening is empty");
+    emptyBoxArray.push('dailyOpening');
+    //setTest(true);
+    empty = true;
+  }
+  if(dailyClosing == '') {
+    alert("Daily Closing is empty");
+    emptyBoxArray.push('dailyClosing');
+    //setTest(true);
+    empty = true;
+  }
+  if(theoryCapacity == '') {
+    alert("Theoretical Capacity is empty");
+    emptyBoxArray.push('theoryCapacity');
+    //setTest(true);
+    empty = true;
+  }
+  if(targetCapacity == '') {
+    alert("Target Capacity is empty");
+    emptyBoxArray.push('targetCapacity');
+    //setTest(true);
+    empty = true;
+  }
+  if(maxVehicles == '') {
+    alert("Max Vehicles is empty");
+    emptyBoxArray.push('maxVehiclesID');
+    //setTest(true);
+    empty = true;
+  }
+  if(minVehicles == '') {
+    alert("Min Vehicles is empty");
+    emptyBoxArray.push('minVehicles');
+    //setTest(true);
+    empty = true;
+  }
+  if(maxSeats == '') {
+    alert("Max seats is empty");
+    emptyBoxArray.push('maxSeats');
+    //setTest(true);
+    empty = true;
+  }
+  if(maxStaff == '') {
+    alert("Max Staff is empty");
+    emptyBoxArray.push('maxStaff');
+    //setTest(true);
+    empty = true;
+  }
+  if(minStaff == '') {
+    alert("Min Staff is empty");
+    emptyBoxArray.push('minStaff');
+    //setTest(true);
+    empty = true; 
+  }
+  if(parkSection == '') {
+    alert("Park Section is empty");
+    emptyBoxArray.push('parkSection');
+    empty = true;
+  }
+  if(weatherCode == '') {
+    alert("Weather Code is empty");
+    emptyBoxArray.push('weatherCode');
+    //setTest(true);
+    empty = true;
+  }
+  if(rideType == '') {
+    alert("Ride Type is empty");
+    emptyBoxArray.push('rideType');
+    //setTest(true);
+    empty = true;
+  }
+  return empty;
+
 }
+
+const changeInputColor = (emptyBoxArray) => {
+  for (let index = 0; index < emptyBoxArray.length; index++) {
+    var element = emptyBoxArray[index];
+    console.log(element);
+    document.getElementById(element).style.backgroundColor = "pink";
+  }
+}
+
 return (
+
+    
+  
     <>
+    
     <Navbar/>
     <Banner/>
     <OuterBorder>
@@ -254,8 +347,8 @@ return (
 
         <tr>
         <td>Name</td>
-        <td>                 
-                <input type='text' name='ride_name' onChange={(e) => {
+        <td>              
+                <input type='text' minlength='1' name='ride_name' onChange={(e) => {
                   setRide_name(e.target.value);
                 }}></input> </td>
         </tr>
@@ -263,7 +356,7 @@ return (
         <tr>
         <td>Daily Opening</td>
         <th> 
-              <input type='text' name='dailyOpening' onChange={(e) => {
+              <input id='dailyOpeningID' type='time' minlength='1' name='dailyOpening' onChange={(e) => {
                         setDailyOpening(e.target.value);
                       }}></input>
         </th>
@@ -272,7 +365,7 @@ return (
         <tr>
         <td>Daily Closing</td>
         <th> 
-            <input type='text' name='dailyClosing' onChange={(e) => {
+            <input type='time' minlength='1' name='dailyClosing' onChange={(e) => {
                       setDailyClosing(e.target.value);
                     }}></input>
         </th>
@@ -281,7 +374,7 @@ return (
         <tr>
         <td>Theoretical Capacity</td>
         <th> 
-            <input type='number' name='theoryCapacity' onChange={(e) => {
+            <input type='number' minlength='1' name='theoryCapacity' onChange={(e) => {
                           setTheoryCapacity(e.target.value);
                         }}></input>
         </th>
@@ -290,7 +383,7 @@ return (
         <tr>
         <td>Target Capacity</td>
         <th> 
-            <input type='number' name='targetCapcity' onChange={(e) => {
+            <input type='number' minlength='1' name='targetCapcity' onChange={(e) => {
                           setTargetCapacity(e.target.value);
                         }}></input>  
         </th>
@@ -299,7 +392,7 @@ return (
         <tr>
         <td>Max Vehicles</td>
         <th>
-            <input type='number' name='maxVehicles' onChange={(e) => {
+            <input id='maxVehiclesID' type='number' minlength='1' name='maxVehicles' onChange={(e) => {
                           setMaxVehicles(e.target.value);
                         }}></input>
         </th>
@@ -308,7 +401,7 @@ return (
         <tr>
         <td>Min Vehicles</td>
         <th>
-            <input type='number' name='minVehicles' onChange={(e) => {
+            <input type='number' minlength='1' name='minVehicles' onChange={(e) => {
                           setMinVehicles(e.target.value);
                         }}></input>
         </th>
@@ -317,7 +410,7 @@ return (
         <tr>
         <td>Seats per Vehicle</td>
         <th>
-            <input type='number' name='maxSeats' onChange={(e) => {
+            <input type='number' minlength='1' name='maxSeats' onChange={(e) => {
                           setMaxSeats(e.target.value);
                         }}></input>
         </th>
@@ -326,7 +419,7 @@ return (
         <tr>
         <td>Max Employees</td>
         <th>
-            <input type='number' name='maxStaff' onChange={(e) => {
+            <input type='number' minlength='1' name='maxStaff' onChange={(e) => {
                           setMaxStaff(e.target.value);
                         }}></input>
         </th>
@@ -335,7 +428,7 @@ return (
         <tr>
         <td>Min Employees</td>
         <th>
-            <input type='number' name='minStaff' onChange={(e) => {
+            <input type='number' minlength='1' name='minStaff' onChange={(e) => {
                           setMinStaff(e.target.value);
                         }}></input>
         </th>
@@ -344,17 +437,24 @@ return (
         <tr>
         <td>Park Section</td>
         <th>
-              <input type='text' name='parkSection' onChange={(e) => {
+              <input type='text' minlength='1' name='parkSection' onChange={(e) => {
                             setParkSection(e.target.value);
                           }}></input>
         </th>
         </tr>
 
-
+        <tr>
+        <td>Weather Code</td>
+        <th>
+              <input type='text' minlength='1' name='weatherCode' onChange={(e) => {
+                            setWeatherCode(e.target.value);
+                          }}></input>
+        </th>
+        </tr>
         <tr>
         <td>Type</td>
         <th>
-            <input type='text' name='rideType' onChange={(e) => {
+            <input type='text' minlength='1' name='rideType' onChange={(e) => {
                           setRideType(e.target.value);
               }}></input>
         </th>
@@ -363,14 +463,23 @@ return (
         </tbody>
 
         </table>
-        <CreateButton>
-        <CreateLink to='/newAttraction' onClick={() => {
-            window.alert(`The ride: ${ride_name} has been created`)
-            submitAttraction();
-            setTimeout(function(){
-              window.location.reload(); 
-          }, 0.1);
-        }}>Create Attraction</CreateLink></CreateButton>
+        <CreateButton onClick={() => { 
+
+
+            if (checkEmpty() == true){
+
+              window.alert(`There is an error`)
+              console.log(emptyBoxArray);
+              changeInputColor(emptyBoxArray);
+            }
+
+            else {
+              window.alert(`The ride: ${ride_name} has been created`)
+              submitAttraction();
+              history.push('/newAttraction')
+            }
+
+        }}>Create Attraction</CreateButton>
     </EditBorder>
     <ReportInfo>
         <Box> 
@@ -395,7 +504,7 @@ return (
           <tr>
             <td>Weather Code</td>
             <td>
-                        <input type='text' name='weatherCode' onChange={(e) => {
+                        <input type='text' minlength="1" name='weatherCode' onChange={(e) => {
                           setWeatherCode(e.target.value);
                         }}></input>
             </td>

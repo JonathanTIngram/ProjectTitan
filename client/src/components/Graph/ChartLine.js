@@ -6,15 +6,14 @@ import Axios from 'axios';
 function ChartLine() {
 
 
-    const [rideList, setRideList] = useState([]);
-    var statList = [];
-
-
-
+    var [rideList, setRideList] = useState([]);
+    var [statList, setStatList] = useState([]);
+    var [dataList, setDataList] = useState([]);
 
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+                //console.log(res.data)
                 setRideList(res.data)
             }).catch(err => console.log(err));
         
@@ -24,67 +23,128 @@ function ChartLine() {
     const CheckedStat = () => {
 
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
-            statList = res.data;
-            return statList;
+            //console.log(res.data)
+            setStatList(res.data)
         }).catch(err => console.log(err));
     }
 
-    // const getGraphInfo = () => {
+    const CheckedData = () => {
 
-    //     Axios.post(`http://localhost:3001/getGraphInfo`).then(res => {
-    //         rideList: CheckedRideName()
-    //     }).catch(err => console.log(err));
-    // }
+        Axios.get(`http://localhost:3001/getCollectedData`).then(res => {
+            //console.log(res.data)
+            setDataList(res.data)
+        }).catch(err => console.log(err));
+    }
 
-    
-    // window.addEventListener('load', () => {
-    //     CheckedRideName();
-    //     CheckedStat();
-    // })
+    let index = 0;
+    var rList = [];
+    var wList = [];
+    var tList = [];
+    var asList = [];
+    var adList = [];
+    var timeList = [];
+    var dateList = [];
 
+
+    {dataList.map((val, key) => {	
+        if (val.ride_name){
+            var time = val.ts;
+            time = time.substring(11,19)
+            var date= val.ts;
+            date = date.substring(0,10)
+            index = index + 1;
+            console.log("Ride name = ", val.ride_name);
+            console.log("Time = ", time);
+            console.log("Date = ", date);
+            rList.push(val.ride_name);
+            timeList.push(time);
+            dateList.push(date)
+            console.log("Wait Time = ", val.WaitTime);
+            wList.push(val.WaitTime);
+        
+            console.log("Throughput = ", val.Throughput)
+            tList.push(val.Throughput);
+
+
+            console.log("Available Seats = ", val.AvailableSeats)
+            asList.push(val.AvailableSeats);
+            console.log("Available Down = ", val.AvailableDown)
+            adList.push( val.AvailableDown);
+
+            console.log('');
+     }
+     })}
+
+     const compareRide = () => {
+        for(var i = 0; i < index; i++) {
+            //check box list is compared with collected data
+            if(rideList.includes(rList[i])) {
+                console.log("Matched ", rList[i]);
+                //each variable is compared with the selected stat
+                if(statList.includes("Wait Time"))
+                {
+                    //locate variable
+                    if(wList[i] != -1) {
+                        console.log("Wait Time of " + rList[i] + " = " + wList[i]);
+                     } 
+                }
+                if(statList.includes("Throughput"))
+                {
+                     //locate variable
+                    if(tList[i] != -1) {
+                        console.log("Throughput of " + rList[i] + " = " + tList[i]);
+                    }
+                }
+                if(statList.includes("Available Seats"))
+                {
+                     //locate variable
+                    if(asList[i] != -1) {
+                        console.log("Available seats of " + rList[i] + " = " + asList[i]);
+                    }
+                }   
+                if(statList.includes("Available Down"))
+                {
+                     //locate variable
+                    if(adList[i] != -1) {
+                        console.log("Available down of " + rList[i] + " = " + adList[i]);
+                    }
+                }
+
+                
+                console.log('');
+            }
+        }
+    }
+     
     const data = [
         {						
-    			
             color: "steelblue", 
             points: [
-                { x: 1, y: 64 },
-                { x: 2, y: 61 },
-                { x: 3, y: 64 },
-                { x: 4, y: 62 },
-                { x: 5, y: 64 },
-                { x: 6, y: 60 },
-                { x: 7, y: 58 },
-                { x: 8, y: 59 },
-                { x: 9, y: 53 },
-                { x: 10, y: 54 },
-                { x: 11, y: 61 },
-                { x: 12, y: 60 },
-                { x: 13, y: 55 },
-                { x: 14, y: 60 },
-                { x: 15, y: 56 },
-                { x: 16, y: 60 },
-                { x: 17, y: 59.5 },
-                { x: 18, y: 63 },
-                { x: 19, y: 58 },
-                { x: 20, y: 54 },
-                { x: 21, y: 59 },
-                { x: 22, y: 64 },
-                { x: 23, y: 59 }
+  
             ]
         }
-    ];
+    ];  
 
-
-    
     return (
-        
+
         <div>
+
             {useEffect(() => {
+            {window.addEventListener('load', CheckedData())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
-            console.log(rideList[2])
-            console.log(statList);
         }, [])}
+            {console.log("Amount of rides ", index)}
+            {console.log("Ride names = ", rList)}
+            {console.log("TimeList = ", timeList)}
+            {console.log("DateList = ", dateList)}
+            {console.log("WaitList = ", wList)}
+            {console.log("ThroughputList = ", tList)}
+            {console.log("AvailableSeatList = ", asList)}
+            {console.log("AvailableDownList = ", adList)}
+
+
+            {compareRide()}
             <div className="App">
                 <LineChart 
                     width={850}

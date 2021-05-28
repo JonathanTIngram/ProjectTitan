@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback, Component } from 'react';
 import BasicInfo from '../components/RideInfo/BasicInfo';
 import CollectedData from '../components/RideInfo/CollectedData';

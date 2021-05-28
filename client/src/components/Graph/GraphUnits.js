@@ -25,7 +25,6 @@ const UnitTab = styled.nav`
 const DateTab = styled.div`
     align-content: center;
     margin-top: -4px;
-
 `;
 
 const Dropdown = styled.span`
@@ -92,8 +91,6 @@ function GraphUnits() {
             const selectedUnit = e.target.value;
             setUnitState(selectedUnit);
           }}>
-                  <option value="Hours">Hours</option>
-                  <option value="Days">Days</option>
                   <option value="Weeks">Weeks</option>
                   <option value="Months">Months</option>
                   <option value="Years">Years</option>

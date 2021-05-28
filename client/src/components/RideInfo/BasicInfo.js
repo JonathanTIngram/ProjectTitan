@@ -71,54 +71,11 @@ font-size: 125%;
 align-content: center;
 border-bottom: 2px solid black;
 `
-
-const RideSelect = styled.select`
-    align: right;
-`
 const styleGray = {backgroundColor : '#AFAFAF'};
 
 
 
-
-
-//For some reason you have to put useState in a React component function
-// you cant put use state variable in a class or define them at the top level
-const RideData = (props) => {
-    //for the drop down menu
-    const [rideSelect, setRideSelect] = useState('');
-    const [ride_name, setRideName] = useState('');
-    const [parkSection, setParkSection] = useState('');
-
-    //state to get all attractions
-    const [attractionList, setAttractionList] = useState([]);
-
-
-    var ridePassed = props.ride;
-
-
-
-    return (
-
-        <td>{attractionList.map((val, key) => {
-            var parkSection;
-            if (ride_name == ridePassed){
-                parkSection = val.parkSection;
-                console.log(parkSection)
-            }
-          return (
-              <> 
-              
-                <p>{console.log(parkSection)}</p> 
-              </>
-          );
-          })}
-        </td>
-    );
-}
-
 class BasicInfo extends Component {
-
-
 
     render () {
     return (
@@ -136,19 +93,14 @@ class BasicInfo extends Component {
 
                     <tbody>
                     <tr>
-
-                        
                     
-                        <td>Name</td>   <td>   {this.props.ride_name}  </td>
-                    </tr>
-
-                    
-                    <tr>
-                        <td>Location</td>   <td>  {this.props.parkSection.parkSection}  </td>
+                        <td>Name</td>   <td>   {this.props.ride_name}   </td>
                     </tr>
                     <tr>
-                        
-                        <td>Model</td>   <td>   {this.props.rideModel.rideModel}   </td>
+                        <td>Location</td>   <td>     {this.props.ride_name}   </td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>   <td>        </td>
                     </tr>
                     <tr>
                         <td>Theoretical Throughput</td>   <td>        </td>
@@ -157,13 +109,13 @@ class BasicInfo extends Component {
                         <td>Target Throughput</td>   <td>        </td>
                     </tr>
                     <tr>
-                        <td>Max Vehicles</td>   <td>   {this.props.maxVehicles.maxVehicles}     </td>
+                        <td>Max Vehicles</td>   <td>        </td>
                     </tr>
                     <tr>
-                        <td>Min Vehicles</td>   <td> {this.props.minVehicles.minVehicles}    </td>
+                        <td>Min Vehicles</td>   <td>        </td>
                     </tr>
                     <tr>
-                        <td>Max Seats</td>   <td> {this.props.maxSeats.maxSeats}  </td>
+                        <td>Max Seats</td>   <td>        </td>
                     </tr>
                     <tr>
                         <td>Primary Extension</td>   <td>        </td>
@@ -175,7 +127,7 @@ class BasicInfo extends Component {
                         <td>Tertiary Extension</td>   <td>        </td>
                     </tr>
                     <tr>
-                        <td>Max Staff</td>   <td> {this.props.maxStaff.maxStaff}    </td>
+                        <td>Max Staff</td>   <td>        </td>
                     </tr>
                     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     <tr><td></td><td></td></tr>     
                     </tbody>

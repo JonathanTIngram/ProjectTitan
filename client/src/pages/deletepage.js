@@ -191,7 +191,7 @@ const getAttractions = () => {
 
 
 const deleteAttraction = (ride_name) => {
-  Axios.delete(`http://localhost:3001/deleteAttraction/${ride_name}`);
+  Axios.delete(`http://localhost:3001/deleteAttraction/${rideSelect}`);
 };
 
 return (
@@ -507,7 +507,7 @@ return (
 
           <DeleteButton onClick={() => {
             deleteAttraction(rideSelect) //ride selected in drop down menu
-            window.alert(`The ride: ${ride_name} has been deleted`);
+            window.alert(`The ride: ${rideSelect} has been deleted`);
             window.location.href='/newAttraction';
           }}>Delete Attraction</DeleteButton>
 
