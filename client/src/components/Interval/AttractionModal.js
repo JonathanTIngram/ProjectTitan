@@ -77,6 +77,7 @@ export const Menu = styled.div`
   overflow-x: auto;
 `;
 
+
 export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   const modalRef = useRef();
 
@@ -174,7 +175,38 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
                   console.log("Successfully sent to port 3001");
                 });
   };
-  
+  var emptyBoxArray = [];
+  const changeInputColor = (emptyBoxArray) => {
+    for (let index = 0; index < emptyBoxArray.length; index++) {
+      var element = emptyBoxArray[index];
+      console.log(element);
+      document.getElementById(element).style.backgroundColor = "pink";
+  }
+}
+  const checkEmpty = () => {
+    var empty = false;
+    if(timeValue == '') {
+      alert("Time Value is empty");
+      emptyBoxArray.push('timeValueID');
+      empty = true;
+    }
+    if(typeState.map((d, i)=>  {}) == '') {
+      alert("Data is empty");
+      emptyBoxArray.push('dataID');
+      empty = true;
+    }
+    if(startingTime == '') {
+      alert("Starting Time is empty");
+      emptyBoxArray.push('startingTimeID');
+      empty = true;
+    }
+    if(endingTime == '') {
+      alert("Edning Time is empty");
+      emptyBoxArray.push('endingTimeID');
+      empty = true;
+    }
+    return empty;
+  }
   return (
     <>
       {showModal ? (
@@ -189,7 +221,7 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
                   setRideName(e.target.value);
                 }}></InputStyle> */}
                 <form>Time Value:</form>
-                <InputStyle type='number' name='Time' onChange={(e) => {
+                <InputStyle id='timeValueID' type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);
                 }}></InputStyle>
                 <form >Collect:            </form>
@@ -224,21 +256,29 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
 
                 <form>Starting:</form>
 
-                <InputStyle type='time' name='startingTime' onChange={(e) => {
+                <InputStyle id='startingTimeID' type='time' name='startingTime' onChange={(e) => {
                   setStartingTime(e.target.value);
                 }}></InputStyle>
 
                 <form>Ending:</form>
-                <InputStyle type='time' name='endingTime' onChange={(e) => {
+                <InputStyle id='endingTimeID' type='time' name='endingTime' onChange={(e) => {
                   setEndingTime(e.target.value);
                 }}></InputStyle>
 
-                <Submit 
-                onClick={() => { setShowModal(prev => !prev);
-                                  submitInterval();
-                                  setTimeout(function(){
-                                    window.location.reload(); 
-                                }, 5);
+<Submit 
+                onClick={() => {
+
+                                  if(checkEmpty() == true){
+                                    changeInputColor(emptyBoxArray);
+                                  }
+                                  else {
+                                    setShowModal(prev => !prev);
+                                    submitInterval();
+                                    setTimeout(function(){
+                                      window.location.reload(); 
+                                    }, 1);
+                                  }
+
                                }}>Submit</Submit>
               
                 
