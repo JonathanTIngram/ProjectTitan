@@ -179,10 +179,11 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   const changeInputColor = (emptyBoxArray) => {
     for (let index = 0; index < emptyBoxArray.length; index++) {
       var element = emptyBoxArray[index];
-      console.log(element);
-      document.getElementById(element).style.backgroundColor = "pink";
+      console.log(document.getElementById(element));
+      document.getElementById(element).style.background = "pink";
   }
 }
+var checkArray = [];
   const checkEmpty = () => {
     var empty = false;
     if(timeValue == '') {
@@ -190,8 +191,12 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
       emptyBoxArray.push('timeValueID');
       empty = true;
     }
-    if(typeState.map((d, i)=>  {}) == '') {
-      alert("Data is empty");
+    typeState.map((d, i)=>  {
+    if (d.select === false) {
+        checkArray.push(d.type)
+    }})
+    if(checkArray.length == typeState.length) {
+      alert("No checkboxes are selected");
       emptyBoxArray.push('dataID');
       empty = true;
     }
@@ -201,7 +206,7 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
       empty = true;
     }
     if(endingTime == '') {
-      alert("Edning Time is empty");
+      alert("Ending Time is empty");
       emptyBoxArray.push('endingTimeID');
       empty = true;
     }
@@ -230,7 +235,8 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
                 <TR key={d.id}>
              <th>
 
-                <input
+                <input 
+                  id="dataID"
                   onChange={event => {
                     let checked = event.target.checked;
                     setTypeState(
