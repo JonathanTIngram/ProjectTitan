@@ -251,8 +251,16 @@ const AttractionIntervals = (props) => {
                 console.log("Successfully sent to port 3001");
             });
           };
-          
-      
+          var emptyBoxArray = [];
+          const checkEmpty = () => {
+            var empty = false;
+            if(WaitTime == '') {
+              alert("Weight time is empty");
+              emptyBoxArray.push('timeValueID');
+              empty = true;
+            }
+            return empty;
+        }
     return (
         <>
 
