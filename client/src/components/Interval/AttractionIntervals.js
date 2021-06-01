@@ -252,13 +252,36 @@ const AttractionIntervals = (props) => {
             });
           };
           var emptyBoxArray = [];
+          const changeInputColor = (emptyBoxArray) => {
+            for (let index = 0; index < emptyBoxArray.length; index++) {
+              var element = emptyBoxArray[index];
+              console.log(document.getElementById(element));
+              document.getElementById(element).style.backgroundColor = "pink";
+            }
+          }
           const checkEmpty = () => {
             var empty = false;
             if(WaitTime == '') {
-              alert("Weight time is empty");
-              emptyBoxArray.push('timeValueID');
+              alert("Wait time is empty");
+              emptyBoxArray.push('waitTimeID');
               empty = true;
             }
+            if(Throughput == '') {
+            alert("Throughput is empty");
+            emptyBoxArray.push('throughputID');
+            empty = true;
+            }
+            if(AvailableSeats == '') {
+                alert("Available Seats is empty");
+                emptyBoxArray.push('seatsID');
+                empty = true;
+            }
+            if(AvailableDown == '') {
+                alert("Available Down is empty");
+                emptyBoxArray.push('downID');
+                empty = true;
+            }
+
             return empty;
         }
     return (
@@ -313,7 +336,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id="waitTimeID" type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
 
                                 </div>
@@ -326,7 +349,7 @@ const AttractionIntervals = (props) => {
                         return (
                             <div>
                                 
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="throughputID" type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
@@ -337,7 +360,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id="seatsID" type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -348,7 +371,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableDown == true){
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables  id="downID" type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -380,8 +403,14 @@ const AttractionIntervals = (props) => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
-                                    editInterval(id, val.ride_name);
-                                    window.location.reload(); 
+                                if(checkEmpty() == true){
+                                changeInputColor(emptyBoxArray);
+                                alert("error")
+                                }
+                                else {
+                                editInterval(id, val.ride_name);
+                                window.location.reload(); 
+                                }
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 
