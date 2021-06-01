@@ -153,7 +153,8 @@ const RideSelect = styled.select`
 `
 
 const styleGray = {backgroundColor : '#AFAFAF'};
-export default function EditPage() {
+export default function EditPage(props) {
+  
 
     //states
 const [ride_name, setRideName] = useState('');
@@ -218,8 +219,10 @@ return (
     <>
     <Navbar/>
     <Banner/>
+    
     {useEffect(() =>{
       {window.addEventListener('load', getAttractions())}
+      
     })}
     <OuterBorder>
     <CreateBar> Edit an Attraction
@@ -239,17 +242,9 @@ return (
     </Nav>
     </CreateBar>
     <RideSelect onChange={(e) => {
-                        setRideSelect(e.target.value);
+                        setRideSelect(props.ride_name);
                       }}>
-                        <option>Select Attraction</option>
-            {attractionList.map((val, key) => {
 
-              return (
-                  <>                                
-                          <option>{val.ride_name}</option>
-                  </>
-              );
-              })}
 
           </RideSelect>
     <EditBorder>

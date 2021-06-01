@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useRef, useEffect, useCallback, Component } from 'react';
+import React, { Component } from 'react';
 import Axios from 'axios'
 
 const Border = styled.div`

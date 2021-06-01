@@ -4,11 +4,11 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
-import { NavLink as Link } from 'react-router-dom';
+import { NavLink as Link, Redirect } from 'react-router-dom';
 import FileUpload from '../components/FileUpload/FileUpload'; 
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
-
+import { useHistory } from 'react-router-dom';
 export const Nav = styled.nav`
   background: transparent;
   height: 3px;
@@ -78,7 +78,7 @@ const EditBorder = styled.nav`
   border-right: 2px solid;
   font-family: 'Arial', sans-serif;
   font-size: 18px;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const InfoBar = styled.div`
@@ -87,7 +87,7 @@ const InfoBar = styled.div`
   align-content: center;
   text-align: center;
   border-bottom: 2px solid;
-  border-right: 2px solid;
+  width: 113%;
 `;
 
 const SafetyInfo = styled.div`
@@ -99,7 +99,7 @@ const SafetyInfo = styled.div`
     height: 40%;
     width: 30%;
     border: 2px solid;
-    overflow: scroll;
+    overflow-y: auto;
 `;
 
 const PhoneInfo = styled.div`
@@ -111,11 +111,11 @@ const PhoneInfo = styled.div`
     left: 69.9%;
     bottom: 0;
     border: 2px solid;
-    overflow: scroll;
+    overflow-y: auto;
 `;
 
 const ReportInfo = styled.div`
-    overflow: hidden;
+    overflow-y: hidden;
     border: 2px solid;
     font-family: 'Arial', sans-serif;
     font-size: 16px;
@@ -210,61 +210,85 @@ const submitAttraction = () =>{
                 console.log("Successfully sent to port 3001");
               });
 };
-const [test, setTest] = useState(false);
+
+var emptyBoxArray = [];
 const checkEmpty = () => {
+  var empty = false;
   if(ride_name == '') {
     alert("Ride name is empty");
-    setTest(true);
+    emptyBoxArray.push('ride_nameID');
+    empty = true;
   }
   if(dailyOpening == '') {
     alert("Daily Opening is empty");
-    setTest(true);
+    emptyBoxArray.push('dailyOpeningID');
+    empty = true;
   }
   if(dailyClosing == '') {
     alert("Daily Closing is empty");
-    setTest(true);
+    emptyBoxArray.push('dailyClosingID');
+    empty = true;
   }
   if(theoryCapacity == '') {
     alert("Theoretical Capacity is empty");
-    setTest(true);
+    emptyBoxArray.push('theoryCapacityID');
+    empty = true;
   }
   if(targetCapacity == '') {
     alert("Target Capacity is empty");
-    setTest(true);
+    emptyBoxArray.push('targetCapacityID');
+    empty = true;
   }
   if(maxVehicles == '') {
     alert("Max Vehicles is empty");
-    setTest(true);
+    emptyBoxArray.push('maxVehiclesID');
+    empty = true;
   }
   if(minVehicles == '') {
     alert("Min Vehicles is empty");
-    setTest(true);
+    emptyBoxArray.push('minVehiclesID');
+    empty = true;
   }
   if(maxSeats == '') {
     alert("Max seats is empty");
-    setTest(true);
+    emptyBoxArray.push('maxSeatsID');
+    empty = true;
   }
   if(maxStaff == '') {
     alert("Max Staff is empty");
-    setTest(true);
+    emptyBoxArray.push('maxStaffID');
+    empty = true;
   }
   if(minStaff == '') {
     alert("Min Staff is empty");
-    setTest(true);
+    emptyBoxArray.push('minStaffID');
+    empty = true;
   }
   if(parkSection == '') {
     alert("Park Section is empty");
-    setTest(true);
+    emptyBoxArray.push('parkSectionID');
+    empty = true;
   }
   if(weatherCode == '') {
     alert("Weather Code is empty");
-    setTest(true);
+    emptyBoxArray.push('weatherCodeID');
+    empty = true;
   }
   if(rideType == '') {
     alert("Ride Type is empty");
-    setTest(true);
+    emptyBoxArray.push('rideTypeID');
+    empty = true;
   }
-  return test;
+  return empty;
+}
+let history = useHistory();
+
+const changeInputColor = (emptyBoxArray) => {
+  for (let index = 0; index < emptyBoxArray.length; index++) {
+    var element = emptyBoxArray[index];
+    console.log(element);
+    document.getElementById(element).style.backgroundColor = "pink";
+  }
 }
 return (
   
@@ -302,7 +326,7 @@ return (
         <tr>
         <td>Name</td>
         <td>              
-                <input type='text' name='ride_name' onChange={(e) => {
+                <input id='ride_nameID' type='text' name='ride_name' onChange={(e) => {
                   setRide_name(e.target.value);
                 }}></input> </td>
         </tr>
@@ -310,7 +334,7 @@ return (
         <tr>
         <td>Daily Opening</td>
         <th> 
-              <input type='time' name='dailyOpening' onChange={(e) => {
+              <input id='dailyOpeningID' type='time' name='dailyOpening' onChange={(e) => {
                         setDailyOpening(e.target.value);
                       }}></input>
         </th>
@@ -319,7 +343,7 @@ return (
         <tr>
         <td>Daily Closing</td>
         <th> 
-            <input type='time' name='dailyClosing' onChange={(e) => {
+            <input id='dailyClosingID' type='time' name='dailyClosing' onChange={(e) => {
                       setDailyClosing(e.target.value);
                     }}></input>
         </th>
@@ -328,7 +352,7 @@ return (
         <tr>
         <td>Theoretical Capacity</td>
         <th> 
-            <input type='number' name='theoryCapacity' onChange={(e) => {
+            <input id='theoryCapacityID' type='number' name='theoryCapacity' onChange={(e) => {
                           setTheoryCapacity(e.target.value);
                         }}></input>
         </th>
@@ -337,7 +361,7 @@ return (
         <tr>
         <td>Target Capacity</td>
         <th> 
-            <input type='number' name='targetCapcity' onChange={(e) => {
+            <input id='targetCapacityID' type='number' name='targetCapcity' onChange={(e) => {
                           setTargetCapacity(e.target.value);
                         }}></input>  
         </th>
@@ -346,7 +370,7 @@ return (
         <tr>
         <td>Max Vehicles</td>
         <th>
-            <input type='number' name='maxVehicles' onChange={(e) => {
+            <input id='maxVehiclesID' type='number' name='maxVehicles' onChange={(e) => {
                           setMaxVehicles(e.target.value);
                         }}></input>
         </th>
@@ -355,7 +379,7 @@ return (
         <tr>
         <td>Min Vehicles</td>
         <th>
-            <input type='number' name='minVehicles' onChange={(e) => {
+            <input id='minVehiclesID'type='number' name='minVehicles' onChange={(e) => {
                           setMinVehicles(e.target.value);
                         }}></input>
         </th>
@@ -364,7 +388,7 @@ return (
         <tr>
         <td>Seats per Vehicle</td>
         <th>
-            <input type='number' name='maxSeats' onChange={(e) => {
+            <input id='maxSeatsID' type='number' name='maxSeats' onChange={(e) => {
                           setMaxSeats(e.target.value);
                         }}></input>
         </th>
@@ -373,7 +397,7 @@ return (
         <tr>
         <td>Max Employees</td>
         <th>
-            <input type='number' name='maxStaff' onChange={(e) => {
+            <input id='maxStaffID' type='number' name='maxStaff' onChange={(e) => {
                           setMaxStaff(e.target.value);
                         }}></input>
         </th>
@@ -382,7 +406,7 @@ return (
         <tr>
         <td>Min Employees</td>
         <th>
-            <input type='number' name='minStaff' onChange={(e) => {
+            <input id='minStaffID' type='number' name='minStaff' onChange={(e) => {
                           setMinStaff(e.target.value);
                         }}></input>
         </th>
@@ -391,7 +415,7 @@ return (
         <tr>
         <td>Park Section</td>
         <th>
-              <input type='text' name='parkSection' onChange={(e) => {
+              <input id='parkSectionID' type='text' name='parkSection' onChange={(e) => {
                             setParkSection(e.target.value);
                           }}></input>
         </th>
@@ -400,7 +424,7 @@ return (
         <tr>
         <td>Weather Code</td>
         <th>
-              <input type='text' name='weatherCode' onChange={(e) => {
+              <input id='weatherCodeID' type='text' name='weatherCode' onChange={(e) => {
                             setWeatherCode(e.target.value);
                           }}></input>
         </th>
@@ -408,7 +432,7 @@ return (
         <tr>
         <td>Type</td>
         <th>
-            <input type='text' name='rideType' onChange={(e) => {
+            <input id='rideTypeID' type='text' name='rideType' onChange={(e) => {
                           setRideType(e.target.value);
               }}></input>
         </th>
@@ -417,15 +441,18 @@ return (
         </tbody>
 
         </table>
-        <CreateButton>
-        <CreateLink to='/newAttraction' onClick={() => { 
-            checkEmpty();
-            window.alert(`The ride: ${ride_name} has been created`)
-            submitAttraction();
-            setTimeout(function(){
-              window.location.reload(); 
-          }, 0.1);
-        }}>Create Attraction</CreateLink></CreateButton>
+        <CreateButton onClick={() => { 
+            if(checkEmpty() == true){
+              window.alert("Data entry error")
+              changeInputColor(emptyBoxArray);
+              console.log(emptyBoxArray);
+            }
+            else { 
+              window.alert(`The ride: ${ride_name} has been created`)
+              submitAttraction();
+              history.push('/newAttraction')
+        }
+        }}>Create Attraction</CreateButton>
     </EditBorder>
     <ReportInfo>
         <Box> 
