@@ -264,7 +264,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id="waitTimeID" type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
 
                                 </div>
@@ -275,7 +275,7 @@ const AttractionIntervals = (props) => {
                     const checkThroughput = () => {
                         return (
                             <div>
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="checkThroughputID" type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
@@ -285,7 +285,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id="checkAvailableID" type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -296,7 +296,7 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableDown == true){
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables id="checkDownID" type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );

@@ -149,11 +149,12 @@ const EditButton = styled.button`
 `
 
 const RideSelect = styled.select`
-    align: right;
+    text-align: right;
 `
 
 const styleGray = {backgroundColor : '#AFAFAF'};
-export default function EditPage() {
+export default function EditPage(props) {
+  
 
     //states
 const [ride_name, setRideName] = useState('');
@@ -218,12 +219,15 @@ return (
     <>
     <Navbar/>
     <Banner/>
+    
     {useEffect(() =>{
       {window.addEventListener('load', getAttractions())}
+      {window.addEventListener('load', setRideSelect(props.location.ride_name))}
+      
     })}
     <OuterBorder>
     <CreateBar> Edit an Attraction
-
+      {rideSelect}
           <Nav>
          <NavMenu>
              <NavLink to='/EditPage/Block' activeStyle>
@@ -238,20 +242,7 @@ return (
              </NavMenu>
     </Nav>
     </CreateBar>
-    <RideSelect onChange={(e) => {
-                        setRideSelect(e.target.value);
-                      }}>
-                        <option>Select Attraction</option>
-            {attractionList.map((val, key) => {
-
-              return (
-                  <>                                
-                          <option>{val.ride_name}</option>
-                  </>
-              );
-              })}
-
-          </RideSelect>
+  
     <EditBorder>
 
     <InfoBar> Basic Information</InfoBar>
@@ -272,20 +263,15 @@ return (
           <td>Name</td>
           <td>          
 
-              {attractionList.map((val, key) => {
-                    var ride_name;
-                    if (rideSelect == val.ride_name){
-                        ride_name = val.ride_name;
-                        return (
+              
                           <> 
-                            <input type='text' name='ride_name' placeHolder={ride_name} onChange={(e) => {
-                                setRideName(e.target.value);
+                            <input type='text' name='ride_name' placeHolder={props.location.ride_name} onChange={(e) => {
+                                setRideName(props.location.ride_name);
                               }}
                             ></input>  
                           </>
-                        );
-                    }
-                })}
+                    
+        
 
 
           </td>

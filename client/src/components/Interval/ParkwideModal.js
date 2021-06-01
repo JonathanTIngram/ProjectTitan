@@ -86,7 +86,7 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
       duration: 250
     },
     opacity: showModal ? 1 : 0,
-    transform: showModal ? `translateY(0%)` : `translateY(-100%)`
+    transform: showModal ? `translateY(0%)` : `translateY(100%)`
   });
 
   const closeModal = e => {
@@ -105,8 +105,7 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
     [setShowModal, showModal]
   );
 
-  useEffect(
-    () => {
+  useEffect(() => {
       document.addEventListener('keydown', keyPress);
       return () => document.removeEventListener('keydown', keyPress);
     },
@@ -114,6 +113,7 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
   );
 
   //states
+  const [ride_name, setRideName] = useState('');
   const [startingTime, setStartingTime] = useState('');
   const [endingTime, setEndingTime] = useState('');
   const [timeValue, setTime] = useState('');
@@ -126,7 +126,6 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
       { id: 2, type: "Throughput"},
       { id: 3, type: "Available Seats"},
       { id: 4, type: "Available Down"},
-
     ];
     setTypeState(
       typeState.map(d => {
@@ -141,10 +140,9 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
   //state to get all attractions
   //send the attraction data to the backend running on port 3001
   //specifically /addAttraction
-
-
+  
   const submitInterval = () =>{
-    Axios.post('http://localhost:3001/addParkInterval', {
+    Axios.post('http://localhost:3001/addInterval', {
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
                   if (d.select === true) {
@@ -176,15 +174,61 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
                   console.log("Successfully sent to port 3001");
                 });
   };
+  var emptyBoxArray = [];
+  const changeInputColor = (emptyBoxArray) => {
+    for (let index = 0; index < emptyBoxArray.length; index++) {
+      var element = emptyBoxArray[index];
+      var formElement = formArray[index];
 
+      console.log(document.getElementById(element));
+      
+      document.getElementById(formElement).style.color = "red";
 
-  const getIntervals = () => {
-    Axios.get('http://localhost:3001/getParkInterval').then( (res) => {
-      console.log(res); //response
-      setIntervalList(res.data);
-    });
+      if(element == "dataID"){
+        console.log("no checks")
+        document.getElementById("collectDataID").style.color = "red";
+      }
+      else {
+        
+        document.getElementById(element).style.background = "pink";
+      }
+
   }
-
+}
+var checkArray = [];
+var formArray = []
+  const checkEmpty = () => {
+    var empty = false;
+    if(timeValue == '') {
+      alert("Time Value is empty");
+      emptyBoxArray.push('timeValueID');
+      formArray.push('timeFormID')
+      empty = true;
+    }
+    typeState.map((d, i)=>  {
+    if (d.select === false) {
+        checkArray.push(d.type)
+    }})
+    if(checkArray.length == typeState.length) {
+      alert("No checkboxes are selected");
+      emptyBoxArray.push('dataID');
+      formArray.push('collectDataID');
+      empty = true;
+    }
+    if(startingTime == '') {
+      alert("Starting Time is empty");
+      emptyBoxArray.push('startingTimeID');
+      formArray.push('startingFormID');
+      empty = true;
+    }
+    if(endingTime == '') {
+      alert("Ending Time is empty");
+      emptyBoxArray.push('endingTimeID');
+      formArray.push('endingFormID');
+      empty = true;
+    }
+    return empty;
+  }
   return (
     <>
       {showModal ? (
@@ -194,23 +238,30 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
               <ModalContent>
 
                 <header>Add an Interval</header>
-                <form>Time Value:</form>
-                <InputStyle type='number' name='Time' onChange={(e) => {
+                {/* <form> Ride Name</form>
+                <InputStyle type='text' name='Name' onChange={(e) => {
+                  setRideName(e.target.value);
+                }}></InputStyle> */}
+                <form id="timeFormID">Time Value:</form>
+                <InputStyle id='timeValueID' type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);
                 }}></InputStyle>
-                <form >Collect:            </form>
+                <form id="collectDataID">Collect:            </form>
                   <Menu>
                 {typeState.map((d, i) => ( 
                 <TR key={d.id}>
              <th>
 
-                <input
+                <input 
+                  id="dataID"
                   onChange={event => {
                     let checked = event.target.checked;
                     setTypeState(
                       typeState.map(data => {
                         if (d.id === data.id) {
                           data.select = checked;
+                          var checkID = d.id;
+                          console.log(checkID);
                         }
                         return data;
                       })
@@ -219,31 +270,39 @@ export const ParkwideModal = ({ showModal, setShowModal }) => {
                   type="checkbox"
                   checked={d.select}
                 ></input>
-
                 </th>
               <td>{d.type}</td>
+
             </TR>
                 ))}
                 </Menu>
 
-                <form>Starting:</form>
-                <InputStyle type='time' name='startingTime' onChange={(e) => {
+                <form id="startingFormID">Starting:</form>
+
+                <InputStyle id='startingTimeID' type='time' name='startingTime' onChange={(e) => {
                   setStartingTime(e.target.value);
                 }}></InputStyle>
 
-                <form>Ending:</form>
-                <InputStyle type='time' name='endingTime' onChange={(e) => {
+                <form id="endingFormID">Ending:</form>
+                <InputStyle id='endingTimeID' type='time' name='endingTime' onChange={(e) => {
                   setEndingTime(e.target.value);
                 }}></InputStyle>
 
-                <Submit 
-                onClick={() => { setShowModal(prev => !prev);
-                                  submitInterval();
-                                  setTimeout(function(){
-                                    window.location.reload(); 
-                                }, 1);
-                               }}> Submit </Submit>
-              
+<Submit 
+                onClick={() => {
+
+                                  if(checkEmpty() == true){
+                                    changeInputColor(emptyBoxArray);
+                                  }
+                                  else {
+                                    setShowModal(prev => !prev);
+                                    submitInterval();
+                                    setTimeout(function(){
+                                      window.location.reload(); 
+                                    }, 1);
+                                  }
+
+                               }}>Submit</Submit>
                 
 
 
