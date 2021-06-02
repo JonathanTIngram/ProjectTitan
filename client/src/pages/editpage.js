@@ -221,6 +221,7 @@ return (
     <Banner/>
     
     {useEffect(() =>{
+      {window.addEventListener('load', getAttractions())}
       {window.addEventListener('load', setRideSelect(props.location.ride_name))}
       
     })}
@@ -264,12 +265,11 @@ return (
 
               
                           <> 
-                            <input type='text' name='ride_name' placeHolder={ride_name} onChange={(e) => {
+                            <input type='text' name='ride_name' placeHolder={props.location.ride_name} onChange={(e) => {
                                 setRideName(props.location.ride_name);
                               }}
                             ></input>  
                           </>
-                        );
                     
         
 

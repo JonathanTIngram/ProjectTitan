@@ -63,12 +63,15 @@ class QuickToolsBasicInfo extends Component {
                     <NavLink to = {{
                     pathname: '/EditPage',
                     ride_name: this.props.ride_name
-    }   }>
+                    }}>
                     <QuickToolsButtons> 
                         Edit Attraction 
                     </QuickToolsButtons>
                     </NavLink>
-                    <NavLink to = '/DeletePage'>
+                    <NavLink to = {{
+                    pathname: '/DeletePage',
+                    ride_name: this.props.ride_name
+                    }}>
                     <QuickToolsButtons>
                         Delete Attraction
                     </QuickToolsButtons>

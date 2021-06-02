@@ -154,12 +154,12 @@ const RideSelect = styled.select`
 
 
 const styleGray = {backgroundColor : '#AFAFAF'};
-export default function DeletePage() {
+export default function DeletePage(props) {
 
 
 
   //states
-  const [ride_name, setRide_name] = useState('');
+  const [ride_name, setRideName] = useState('');
   const [dailyOpening, setDailyOpening] = useState('');
   const [dailyClosing, setDailyClosing] = useState('');
   const [theoryCapacity, setTheoryCapacity] = useState('');
@@ -214,24 +214,12 @@ return (
              </NavMenu>
     </Nav>
     </DeleteBar>
-    <RideSelect onChange={(e) => {
-                        setRideSelect(e.target.value);
-                      }}>
-                        <option>Select Attraction</option>
-            {attractionList.map((val, key) => {
-
-              return (
-                  <>                                
-                          <option>{val.ride_name}</option>
-                  </>
-              );
-              })}
-
-    </RideSelect>
+    
     <EditBorder>
     <InfoBar> Basic Information</InfoBar>
         {useEffect(() =>{
               {window.addEventListener('load', getAttractions())}
+              {window.addEventListener('load', setRideSelect(props.location.ride_name))}
             })}
         <table className="table table-bordered table-striped">
         <thead>
@@ -242,272 +230,294 @@ return (
         </thead>
         <tbody>
 
+<tr>
+<td>Name</td>
+<td>          
 
-        <tr>
-        <td>Name</td>
-        <td>                 
-        
-          <label>{attractionList.map((val, key) => {
-                var ride_name;
-                if (rideSelect == val.ride_name){
-                    ride_name = val.ride_name;
-                }
+    
+                <> 
+                  <input type='text' name='ride_name' placeHolder={props.location.ride_name} onChange={(e) => {
+                      setRideName(props.location.ride_name);
+                    }}
+                  ></input>  
+                </>
+          
+
+
+
+</td>
+</tr>
+
+<tr>
+<td>Daily Opening</td>
+<th> 
+  
+    
+    {attractionList.map((val, key) => {
+      var dailyOpening;
+      if (rideSelect == val.ride_name){
+          dailyOpening = val.dailyOpening;
+          return (
+            <> 
+              <input type='text' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
+                  setDailyOpening(e.target.value);
+                }}
+              ></input>  
+            </>
+          );
+      }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Daily Closing</td>
+<th> 
+
+    {attractionList.map((val, key) => {
+          var dailyClosing;
+          if (rideSelect == val.ride_name){
+              dailyClosing = val.dailyClosing;
               return (
-                  <> 
-                    {ride_name}   
-                  </>
+                <> 
+                  <input type='text' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
+                      setDailyClosing(e.target.value);
+                    }}
+                  ></input>  
+                </>
               );
-              })}
-            </label>
+          }
+      })}
 
-        </td>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Daily Opening</td>
-        <th> 
-           
-          <label>{attractionList.map((val, key) => {
-              var dailyOpening;
-              if (rideSelect == val.ride_name){
-                  dailyOpening = val.dailyOpening;
-              }
-            return (
-                <> 
-                  {dailyOpening}   
-                </>
-            );
-            })}
-          </label>
+<tr>
+<td>Theoretical Capacity</td>
+<th> 
 
-        </th>
-        </tr>
-
-        <tr>
-        <td>Daily Closing</td>
-        <th> 
-
-            <label>{attractionList.map((val, key) => {
-              var dailyClosing;
-              if (rideSelect == val.ride_name){
-                  dailyClosing = val.dailyClosing;
-              }
-            return (
-                <> 
-                  {dailyClosing}   
-                </>
-            );
-            })}
-          </label>
-
-        </th>
-        </tr>
-
-        <tr>
-        <td>Theoretical Capacity</td>
-        <th> 
-
-            <label>{attractionList.map((val, key) => {
+    {attractionList.map((val, key) => {
               var theoryCapacity;
               if (rideSelect == val.ride_name){
                   theoryCapacity = val.theoryCapacity;
+                  return (
+                    <> 
+                      <input type='text' name='theoryCapacity' placeHolder={theoryCapacity} onChange={(e) => {
+                          setTheoryCapacity(e.target.value);
+                        }}
+                      ></input>  
+                    </>
+                  );
               }
-            return (
-                <> 
-                  {theoryCapacity}   
-                </>
-            );
-            })}
-          </label>
+    })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Target Capacity</td>
-        <th> 
+<tr>
+<td>Target Capacity</td>
+<th> 
 
-            <label>{attractionList.map((val, key) => {
-              var targetCapacity;
-              if (rideSelect == val.ride_name){
-                  targetCapacity = val.targetCapacity;
-              }
-            return (
-                <> 
-                  {targetCapacity}   
-                </>
-            );
-            })}
-          </label>
+  {attractionList.map((val, key) => {
+            var targetCapacity;
+            if (rideSelect == val.ride_name){
+                targetCapacity = val.targetCapacity;
+                return (
+                  <> 
+                    <input type='text' name='targetCapacity' placeHolder={targetCapacity} onChange={(e) => {
+                        setTargetCapacity(e.target.value);
+                      }}
+                    ></input>  
+                  </>
+                );
+            }
+    })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Maximum Vehicles</td>
-        <th>
+<tr>
+<td>Max Vehicles</td>
+<th>
 
-            <label>{attractionList.map((val, key) => {
-              var maxVehicles;
-              if (rideSelect == val.ride_name){
-                  maxVehicles = val.maxVehicles;
-              }
-            return (
-                <> 
-                  {maxVehicles}   
-                </>
-            );
-            })}
-          </label>
+    {attractionList.map((val, key) => {
+                var maxVehicles;
+                if (rideSelect == val.ride_name){
+                    maxVehicles = val.maxVehicles;
+                    return (
+                      <> 
+                        <input type='text' name='maxVehicles' placeHolder={maxVehicles} onChange={(e) => {
+                            setMaxVehicles(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Minimum Vehicles</td>
-        <th>
+<tr>
+<td>Min Vehicles</td>
+<th>
 
-            <label>{attractionList.map((val, key) => {
-              var minVehicles;
-              if (rideSelect == val.ride_name){
-                  minVehicles = val.minVehicles;
-              }
-            return (
-                <> 
-                  {minVehicles}   
-                </>
-            );
-            })}
-          </label>
+    {attractionList.map((val, key) => {
+                var minVehicles;
+                if (rideSelect == val.ride_name){
+                    minVehicles = val.minVehicles;
+                    return (
+                      <> 
+                        <input type='text' name='minVehicle' placeHolder={minVehicles} onChange={(e) => {
+                            setMinVehicles(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Seats per Vehicle</td>
-        <th>
+<tr>
+<td>Seats per Vehicle</td>
+<th>
 
-           <label>{attractionList.map((val, key) => {
-              var dailyClosing;
-              if (rideSelect == val.ride_name){
-                  dailyClosing = val.dailyClosing;
-              }
-            return (
-                <> 
-                  {dailyClosing}   
-                </>
-            );
-            })}
-          </label>
+    {attractionList.map((val, key) => {
+                var maxSeats;
+                if (rideSelect == val.ride_name){
+                    maxSeats = val.maxSeats;
+                    return (
+                      <> 
+                        <input type='text' name='maxSeats' placeHolder={maxSeats} onChange={(e) => {
+                            setMaxSeats(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Maximum Employees</td>
-        <th>
-            
-        <label>{attractionList.map((val, key) => {
-              var maxStaff;
-              if (rideSelect == val.ride_name){
-                  maxStaff = val.maxStaff;
-              }
-            return (
-                <> 
-                  {maxStaff}   
-                </>
-            );
-            })}
-          </label>
+<tr>
+<td>Max Employees</td>
+<th>
 
-        </th>
-        </tr>
+    {attractionList.map((val, key) => {
+                var maxStaff;
+                if (rideSelect == val.ride_name){
+                    maxStaff = val.maxStaff;
+                    return (
+                      <> 
+                        <input type='text' name='maxStaff' placeHolder={maxStaff} onChange={(e) => {
+                            setMaxStaff(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        <tr>
-        <td>Minimum Employees</td>
-        <th>
-            
-        <label>{attractionList.map((val, key) => {
-              var minStaff;
-              if (rideSelect == val.ride_name){
-                  minStaff = val.minStaff;
-              }
-            return (
-                <> 
-                  {minStaff}   
-                </>
-            );
-            })}
-          </label>
+</th>
+</tr>
 
-        </th>
-        </tr>
+<tr>
+<td>Min Employees</td>
+<th>
 
-        <tr>
-        <td>Park Section</td>
-        <th>
-            
-        <label>{attractionList.map((val, key) => {
-              var parkSection;
-              if (rideSelect == val.ride_name){
-                  parkSection = val.parkSection;
-              }
-            return (
-                <> 
-                  {parkSection}   
-                </>
-            );
-            })}
-          </label>
+    {attractionList.map((val, key) => {
+                var minStaff;
+                if (rideSelect == val.ride_name){
+                    minStaff = val.minStaff;
+                    return (
+                      <> 
+                        <input type='text' name='minStaff' placeHolder={minStaff} onChange={(e) => {
+                            setMinStaff(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        </th>
-        </tr>
+</th>
+</tr>
 
-        <tr>
-        <td>Weather Code</td>
-        <th>
-          
-        <label>{attractionList.map((val, key) => {
-              var weatherCode;
-              if (rideSelect == val.ride_name){
-                  weatherCode = val.weatherCode;
-              }
-            return (
-                <> 
-                  {weatherCode}   
-                </>
-            );
-            })}
-          </label>
+<tr>
+<td>Park Section</td>
+<th>
 
-        </th>
-        </tr>
+    {attractionList.map((val, key) => {
+                var parkSection;
+                if (rideSelect == val.ride_name){
+                    parkSection = val.parkSection;
+                    return (
+                      <> 
+                        <input type='text' name='parkSection' placeHolder={parkSection} onChange={(e) => {
+                            setParkSection(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
 
-        <tr>
-        <td>Type</td>
-        <th>
-            
-        <label>{attractionList.map((val, key) => {
-              var rideType;
-              if (rideSelect == val.ride_name){
-                  rideType = val.rideType;
-              }
-            return (
-                <> 
-                  {rideType}   
-                </>
-            );
-            })}
-          </label>
+</th>
+</tr>
 
-        </th>
-        </tr>
-      
-        </tbody>
+<tr>
+<td>Weather Code</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var weatherCode;
+                if (rideSelect == val.ride_name){
+                    weatherCode = val.weatherCode;
+                    return (
+                      <> 
+                        <input type='text' name='weatherCode' placeHolder={weatherCode} onChange={(e) => {
+                            setWeatherCode(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Type</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var rideType;
+                if (rideSelect == val.ride_name){
+                    rideType = val.rideType;
+                    return (
+                      <> 
+                        <input type='text' name='rideType' placeHolder={rideType} onChange={(e) => {
+                            setRideType(e.target.value);
+                          }}
+                        ></input>  
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+</tbody>
 
           <DeleteButton onClick={() => {
             deleteAttraction(ride_name) //ride selected in drop down menu
-            window.alert(`The ride: ${rideSelect} has been deleted`);
+            window.alert(`The ride: ${ride_name} has been deleted`);
             window.location.href='/newAttraction';
           }}>Delete Attraction</DeleteButton>
 
