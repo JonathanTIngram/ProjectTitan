@@ -339,7 +339,9 @@ const AttractionIntervals = (props) => {
 
                                     console.log(id)
 
-                                    document.getElementById('waitTime8').style.background = 'pink';
+                                    var wait = `waitTime${id}`
+
+                                    document.getElementById(wait).style.background = 'pink';
 
                                     // document.getElementById('3').style.background = "pink";
 
