@@ -262,14 +262,22 @@ const AttractionIntervals = (props) => {
             }, [])} */}
                 {intervalList.map((val, key) => {
                     var id = val.id;
+
+                    var emptyArrayTest = `emptyArray${id}`;
+
+                    emptyArrayTest = [];
+
+
                     const checkWait = () => {
 
+                        if (WaitTime == ""){
+                            emptyArrayTest.push(`waitTime${id}`)
+                        }
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
                                     <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
-
                                 </div>
                             );
                         }
@@ -278,9 +286,13 @@ const AttractionIntervals = (props) => {
 
                     const checkThroughput = () => {
 
+                        if (Throughput == ""){
+                            emptyArrayTest.push(`throughput${id}`)
+                        }
+
                         return (
                             <div>
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="checkThroughputID" type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id={`throughput${id}`} type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
@@ -289,10 +301,15 @@ const AttractionIntervals = (props) => {
                     }
 
                     const checkAvailable = () => {
+
+                        if (AvailableSeats == ""){
+                            emptyArrayTest.push(`available${id}`)
+                        }
+
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables id="checkAvailableID" type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id={`available${id}`} type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -301,9 +318,14 @@ const AttractionIntervals = (props) => {
 
                     const checkDown = () => {
                         if (val.checkedAvailableDown == true){
+
+                            if (AvailableDown == ""){
+                                emptyArrayTest.push(`down${id}`)
+                            }
+
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables id="checkDownID" type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables id={`down${id}`} type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -339,9 +361,47 @@ const AttractionIntervals = (props) => {
 
                                     console.log(id)
 
-                                    var wait = `waitTime${id}`
+                                    var wait = `waitTime${id}`;
+                                    var throughput = `throughput${id}`;
+                                    var available = `available${id}`;
+                                    var down = `down${id}`;
 
-                                    document.getElementById(wait).style.background = 'pink';
+                                    var refresh = 0;
+
+
+                                    if(emptyArrayTest.includes(wait)){
+                                        document.getElementById(wait).style.background = 'pink';
+                                        refresh = 1;
+                                    }
+
+                                    if(emptyArrayTest.includes(throughput)){
+                                        document.getElementById(throughput).style.background = 'pink';
+                                        refresh = 1;
+                                    }
+
+                                    if(emptyArrayTest.includes(available)){
+                                        document.getElementById(available).style.background = 'pink';
+                                        refresh = 1;
+                                    }
+
+                                    if(emptyArrayTest.includes(down)){
+                                        document.getElementById(down).style.background = 'pink';
+                                        refresh = 1;
+                                    }
+
+                                    if (refresh == 0){
+                                        setTimeout(function(){
+                                            window.location.reload(); 
+                                           }, 2);
+                                    }
+
+
+
+                                    
+                                    // document.getElementById(throughput).style.background = 'pink';
+                                    // document.getElementById(available).style.background = 'pink';
+                                    // document.getElementById(down).style.background = 'pink';
+
 
                                     // document.getElementById('3').style.background = "pink";
 
