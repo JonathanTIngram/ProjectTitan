@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -146,6 +143,9 @@ const Box = styled.div`
 const EditButton = styled.button`
   padding-left: 40%;
   padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
 const RideSelect = styled.select`
@@ -153,7 +153,8 @@ const RideSelect = styled.select`
 `
 
 const styleGray = {backgroundColor : '#AFAFAF'};
-export default function EditPage() {
+export default function EditPage(props) {
+  
 
     //states
 const [ride_name, setRideName] = useState('');
@@ -218,12 +219,15 @@ return (
     <>
     <Navbar/>
     <Banner/>
+    
     {useEffect(() =>{
       {window.addEventListener('load', getAttractions())}
+      {window.addEventListener('load', setRideSelect(props.location.ride_name))}
+      {window.addEventListener('load', setRideName(props.location.ride_name))}
+      
     })}
     <OuterBorder>
     <CreateBar> Edit an Attraction
-
           <Nav>
          <NavMenu>
              <NavLink to='/EditPage/Block' activeStyle>
@@ -238,20 +242,7 @@ return (
              </NavMenu>
     </Nav>
     </CreateBar>
-    <RideSelect onChange={(e) => {
-                        setRideSelect(e.target.value);
-                      }}>
-                        <option>Select Attraction</option>
-            {attractionList.map((val, key) => {
-
-              return (
-                  <>                                
-                          <option>{val.ride_name}</option>
-                  </>
-              );
-              })}
-
-          </RideSelect>
+  
     <EditBorder>
 
     <InfoBar> Basic Information</InfoBar>
@@ -272,20 +263,12 @@ return (
           <td>Name</td>
           <td>          
 
-              {attractionList.map((val, key) => {
-                    var ride_name;
-                    if (rideSelect == val.ride_name){
-                        ride_name = val.ride_name;
-                        return (
+              
                           <> 
-                            <input type='text' name='ride_name' placeHolder={ride_name} onChange={(e) => {
-                                setRideName(e.target.value);
-                              }}
-                            ></input>  
+                          <label> {props.location.ride_name} </label>
                           </>
-                        );
-                    }
-                })}
+                    
+        
 
 
           </td>
@@ -302,7 +285,7 @@ return (
                     dailyOpening = val.dailyOpening;
                     return (
                       <> 
-                        <input type='text' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
+                        <input type='time' name='dailyOpening' placeholder={dailyOpening} onChange={(e) => {
                             setDailyOpening(e.target.value);
                           }}
                         ></input>  
@@ -324,7 +307,7 @@ return (
                         dailyClosing = val.dailyClosing;
                         return (
                           <> 
-                            <input type='text' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
+                            <input type='time' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
                                 setDailyClosing(e.target.value);
                               }}
                             ></input>  
@@ -558,9 +541,10 @@ return (
 
           </tbody>
 
-        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
+        
 
         </table>
+        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
 
     </EditBorder>
     <ReportInfo>

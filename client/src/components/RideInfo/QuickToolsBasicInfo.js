@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
 
 export const QuickToolsSideNav = styled.div`
  background: transparent;
@@ -11,6 +12,7 @@ export const QuickToolsSideNav = styled.div`
  width: 16.5%;
  height: 210px;
  margin: 13px -5px;
+ overflow-y: scroll;
 `;
 
 export const QuickToolsHeader = styled.h1`
@@ -33,12 +35,8 @@ font-size: 16px;
 border-bottom: 1px solid black;
 `;
 
-const QuickToolsGraph = () => {
-const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => {
-    setShowModal(prev => !prev);
-  };
+class QuickToolsBasicInfo extends Component {
+    render(){
     return (
         <>
             <QuickToolsSideNav>
@@ -60,9 +58,27 @@ const [showModal, setShowModal] = useState(false);
                     <QuickToolsButtons>
                     Quick Export
                     </QuickToolsButtons>
+
+                    <NavLink to = {{
+                    pathname: '/EditPage',
+                    ride_name: this.props.ride_name
+                    }}>
+                    <QuickToolsButtons> 
+                        Edit Attraction 
+                    </QuickToolsButtons>
+                    </NavLink>
+                    <NavLink to = {{
+                    pathname: '/DeletePage',
+                    ride_name: this.props.ride_name
+                    }}>
+                    <QuickToolsButtons>
+                        Delete Attraction
+                    </QuickToolsButtons>
+                    </NavLink>
             </QuickToolsSideNav>
 
         </>
     );
 }
-export default QuickToolsGraph
+} 
+export default QuickToolsBasicInfo

@@ -334,34 +334,36 @@ const AttractionIntervals = (props) => {
                 {intervalList.map((val, key) => {
                     var id = val.id;
                     const checkWait = () => {
+
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id="waitTimeID" type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
-                            
+
                                 </div>
                             );
                         }
+
                     }
 
                     const checkThroughput = () => {
-                        if (val.checkedThroughput == true){
+
                         return (
                             <div>
-                                
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="throughputID" type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="checkThroughputID" type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
-                        }
+
+                        
                     }
 
                     const checkAvailable = () => {
                         if (val.checkedAvailableSeats == true){
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables id="seatsID" type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id="checkAvailableID" type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -372,19 +374,18 @@ const AttractionIntervals = (props) => {
                         if (val.checkedAvailableDown == true){
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables  id="downID" type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables id="checkDownID" type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
                         }
                     }
-                    {currentRide = val.ride_name}
-                    {cardCount = cardCount + 1}
-
-
+                      {currentRide = val.ride_name}
                         return (
                             <>
 
+                            {cardCount = cardCount + 1}
+                            {console.log(cardCount)}
 
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes
@@ -403,16 +404,20 @@ const AttractionIntervals = (props) => {
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
+
+
                                 <SubmitButton  onClick={() =>{
-                                console.log(id)
-                                if(checkEmpty() == true){
-                                changeInputColor(emptyBoxArray);
-                                alert("error")
-                                }
-                                else {
-                                editInterval(id, val.ride_name);
-                                window.location.reload(); 
-                                }
+
+                                    console.log(id)
+
+                                    var wait = `waitTime${id}`
+
+                                    document.getElementById(wait).style.background = 'pink';
+
+                                    // document.getElementById('3').style.background = "pink";
+
+                                    editInterval(id, val.ride_name)
+                                    // window.location.reload();
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 
@@ -420,10 +425,10 @@ const AttractionIntervals = (props) => {
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
                             
                             </IntervalCard>
-                            
                             </>
                         );
                         })}
+
             </AddIntervalsBorder>
             <Border>
             <Label1> Attraction Intervals </Label1>

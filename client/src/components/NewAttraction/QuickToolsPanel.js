@@ -48,16 +48,7 @@ setShowModal(prev => !prev);
                     <QuickToolsButtons>New Attraction</QuickToolsButtons>
                     </NavLink>
 
-                    <NavLink to = '/EditPage'>
-                    <QuickToolsButtons> Edit Attraction 
-                    </QuickToolsButtons>
-                    </NavLink>
 
-                    <NavLink to = '/DeletePage'>
-                    <QuickToolsButtons>
-                            Delete Attraction
-                    </QuickToolsButtons>
-                    </NavLink>
 
             </QuickToolsSideNav>
         </>

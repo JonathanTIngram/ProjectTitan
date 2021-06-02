@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Axios from 'axios'
-import { NavLink as Link, Redirect } from 'react-router-dom';
+import { NavLink as Link} from 'react-router-dom';
 import FileUpload from '../components/FileUpload/FileUpload'; 
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
@@ -77,7 +76,6 @@ const EditBorder = styled.nav`
   font-family: 'Arial', sans-serif;
   font-size: 18px;
   overflow-y: scroll;
-  overflow-x: hidden;
 `;
 
 const InfoBar = styled.div`
@@ -98,8 +96,7 @@ const SafetyInfo = styled.div`
     height: 40%;
     width: 30%;
     border: 2px solid;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-y: auto;
 `;
 
 const PhoneInfo = styled.div`
@@ -111,12 +108,11 @@ const PhoneInfo = styled.div`
     left: 69.9%;
     bottom: 0;
     border: 2px solid;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-y: auto;
 `;
 
 const ReportInfo = styled.div`
-    overflow: hidden;
+    overflow-y: hidden;
     border: 2px solid;
     font-family: 'Arial', sans-serif;
     font-size: 16px;
@@ -144,9 +140,11 @@ const Box = styled.div`
 `;
 
 const CreateButton = styled.button`
-    padding-right: 40%;
-    padding-left: 40%;
-    height: 8%;
+  padding-left: 40%;
+  padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
 const styleGray = {backgroundColor : '#AFAFAF'};

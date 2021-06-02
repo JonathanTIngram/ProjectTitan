@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import React, { useState, useRef, useEffect, useCallback, Component } from 'react';
-import Axios from 'axios'
+import React, { Component } from 'react';
+
 
 const Border = styled.div`
 overflow: hidden;

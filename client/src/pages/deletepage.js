@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
+import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -143,23 +140,24 @@ const Box = styled.div`
 `;
 
 const DeleteButton = styled.button`
-padding-right: 40%;
-padding-left: 40%;
+  padding-left: 40%;
+  padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
-const RideSelect = styled.select`
-    align: right;
-`
+
 
 
 
 const styleGray = {backgroundColor : '#AFAFAF'};
-export default function DeletePage() {
+export default function DeletePage(props) {
 
 
 
   //states
-  const [ride_name, setRide_name] = useState('');
+  const [ride_name, setRideName] = useState('');
   const [dailyOpening, setDailyOpening] = useState('');
   const [dailyClosing, setDailyClosing] = useState('');
   const [theoryCapacity, setTheoryCapacity] = useState('');
@@ -189,429 +187,401 @@ const getAttractions = () => {
 
 }
 
-const deleteAttraction = (rideSelect) => {
+
+const deleteAttraction = (ride_name) => {
   Axios.delete(`http://localhost:3001/deleteAttraction/${rideSelect}`);
 };
 
 return (
-  <>
-  <Navbar/>
-  <Banner/>
-  <OuterBorder>
-  <DeleteBar> Delete an Attraction 
-  <Nav>
-       <NavMenu>
-           <NavLink to='/DeletePage/Block' activeStyle>
-               Block Section
-           </NavLink>
-           <NavLink to='/DeletePage/Danger' activeStyle>
-               Danger Areas
-           </NavLink>
-           <NavLink to='/DeletePage/Restrict' activeStyle>
-               Restricted Areas
-           </NavLink>
-           </NavMenu>
-  </Nav>
-  </DeleteBar>
-  <RideSelect onChange={(e) => {
-                      setRideSelect(e.target.value);
-                    }}>
-                      <option>Select Attraction</option>
-          {attractionList.map((val, key) => {
-
-            return (
-                <>                                
-                        <option>{val.ride_name}</option>
-                </>
-            );
+    <>
+    <Navbar/>
+    <Banner/>
+    <OuterBorder>
+    <DeleteBar> Delete an Attraction 
+    <Nav>
+         <NavMenu>
+             <NavLink to='/DeletePage/Block' activeStyle>
+                 Block Section
+             </NavLink>
+             <NavLink to='/DeletePage/Danger' activeStyle>
+                 Danger Areas
+             </NavLink>
+             <NavLink to='/DeletePage/Restrict' activeStyle>
+                 Restricted Areas
+             </NavLink>
+             </NavMenu>
+    </Nav>
+    </DeleteBar>
+    
+    <EditBorder>
+    <InfoBar> Basic Information</InfoBar>
+        {useEffect(() =>{
+              {window.addEventListener('load', getAttractions())}
+              {window.addEventListener('load', setRideSelect(props.location.ride_name))}
             })}
+        <table className="table table-bordered table-striped">
+        <thead>
+          <tr style = {styleGray}>
+            <th scope="col">Property</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
 
-  </RideSelect>
-  <EditBorder>
-  <InfoBar> Basic Information</InfoBar>
-      {useEffect(() =>{
-            {window.addEventListener('load', getAttractions())}
-          })}
-      <table className="table table-bordered table-striped">
-      <thead>
-        <tr style = {styleGray}>
-          <th scope="col">Property</th>
-          <th scope="col">Value</th>
-        </tr>
-      </thead>
-      <tbody>
+<tr>
+<td>Name</td>
+<td>          
 
-
-      <tr>
-      <td>Name</td>
-      <td>                 
-      
-        <label>{attractionList.map((val, key) => {
-              var ride_name;
-              if (rideSelect == val.ride_name){
-                  ride_name = val.ride_name;
-              }
-            return (
+    
                 <> 
-                  {ride_name}   
+                <label> {props.location.ride_name} </label>
                 </>
-            );
-            })}
-          </label>
+          
 
-      </td>
-      </tr>
 
-      <tr>
-      <td>Daily Opening</td>
-      <th> 
-         
-        <label>{attractionList.map((val, key) => {
-            var dailyOpening;
-            if (rideSelect == val.ride_name){
-                dailyOpening = val.dailyOpening;
-            }
+
+</td>
+</tr>
+
+<tr>
+<td>Daily Opening</td>
+<th> 
+  
+    
+    {attractionList.map((val, key) => {
+      var dailyOpening;
+      if (rideSelect == val.ride_name){
+          dailyOpening = val.dailyOpening;
           return (
-              <> 
-                {dailyOpening}   
-              </>
+            <> 
+              <label> {dailyOpening} </label>
+            </>
           );
-          })}
-        </label>
+      }
+      })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Daily Closing</td>
-      <th> 
+<tr>
+<td>Daily Closing</td>
+<th> 
 
-          <label>{attractionList.map((val, key) => {
-            var dailyClosing;
-            if (rideSelect == val.ride_name){
-                dailyClosing = val.dailyClosing;
-            }
-          return (
-              <> 
-                {dailyClosing}   
-              </>
-          );
-          })}
-        </label>
+    {attractionList.map((val, key) => {
+          var dailyClosing;
+          if (rideSelect == val.ride_name){
+              dailyClosing = val.dailyClosing;
+              return (
+                <> 
+                  <label> {dailyClosing} </label>
+                </>
+              );
+          }
+      })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Theoretical Capacity</td>
-      <th> 
+<tr>
+<td>Theoretical Capacity</td>
+<th> 
 
-          <label>{attractionList.map((val, key) => {
-            var theoryCapacity;
-            if (rideSelect == val.ride_name){
-                theoryCapacity = val.theoryCapacity;
-            }
-          return (
-              <> 
-                {theoryCapacity}   
-              </>
-          );
-          })}
-        </label>
+    {attractionList.map((val, key) => {
+              var theoryCapacity;
+              if (rideSelect == val.ride_name){
+                  theoryCapacity = val.theoryCapacity;
+                  return (
+                    <> 
+                      <label> {theoryCapacity} </label>
+                    </>
+                  );
+              }
+    })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Target Capacity</td>
-      <th> 
+<tr>
+<td>Target Capacity</td>
+<th> 
 
-          <label>{attractionList.map((val, key) => {
+  {attractionList.map((val, key) => {
             var targetCapacity;
             if (rideSelect == val.ride_name){
                 targetCapacity = val.targetCapacity;
+                return (
+                  <> 
+                    <label> {targetCapacity} </label>
+                  </>
+                );
             }
-          return (
-              <> 
-                {targetCapacity}   
-              </>
-          );
-          })}
-        </label>
+    })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Maximum Vehicles</td>
-      <th>
+<tr>
+<td>Max Vehicles</td>
+<th>
 
-          <label>{attractionList.map((val, key) => {
-            var maxVehicles;
-            if (rideSelect == val.ride_name){
-                maxVehicles = val.maxVehicles;
-            }
-          return (
-              <> 
-                {maxVehicles}   
-              </>
-          );
-          })}
-        </label>
+    {attractionList.map((val, key) => {
+                var maxVehicles;
+                if (rideSelect == val.ride_name){
+                    maxVehicles = val.maxVehicles;
+                    return (
+                      <> 
+                        <label> {maxVehicles} </label>
+                      </>
+                    );
+                }
+      })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Minimum Vehicles</td>
-      <th>
+<tr>
+<td>Min Vehicles</td>
+<th>
 
-          <label>{attractionList.map((val, key) => {
-            var minVehicles;
-            if (rideSelect == val.ride_name){
-                minVehicles = val.minVehicles;
-            }
-          return (
-              <> 
-                {minVehicles}   
-              </>
-          );
-          })}
-        </label>
+    {attractionList.map((val, key) => {
+                var minVehicles;
+                if (rideSelect == val.ride_name){
+                    minVehicles = val.minVehicles;
+                    return (
+                      <> 
+                        <label> {minVehicles} </label>
+                      </>
+                    );
+                }
+      })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Seats per Vehicle</td>
-      <th>
+<tr>
+<td>Seats per Vehicle</td>
+<th>
 
-         <label>{attractionList.map((val, key) => {
-            var dailyClosing;
-            if (rideSelect == val.ride_name){
-                dailyClosing = val.dailyClosing;
-            }
-          return (
-              <> 
-                {dailyClosing}   
-              </>
-          );
-          })}
-        </label>
+    {attractionList.map((val, key) => {
+                var maxSeats;
+                if (rideSelect == val.ride_name){
+                    maxSeats = val.maxSeats;
+                    return (
+                      <> 
+                        <label> {maxSeats} </label>
+                      </>
+                    );
+                }
+      })}
 
-      </th>
-      </tr>
+</th>
+</tr>
 
-      <tr>
-      <td>Maximum Employees</td>
-      <th>
+<tr>
+<td>Max Employees</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var maxStaff;
+                if (rideSelect == val.ride_name){
+                    maxStaff = val.maxStaff;
+                    return (
+                      <> 
+                        <label> {maxStaff} </label>
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Min Employees</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var minStaff;
+                if (rideSelect == val.ride_name){
+                    minStaff = val.minStaff;
+                    return (
+                      <> 
+                        <label> {minStaff} </label>
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Park Section</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var parkSection;
+                if (rideSelect == val.ride_name){
+                    parkSection = val.parkSection;
+                    return (
+                      <> 
+                        <label> {parkSection} </label>  
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Weather Code</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var weatherCode;
+                if (rideSelect == val.ride_name){
+                    weatherCode = val.weatherCode;
+                    return (
+                      <> 
+                        <label> {weatherCode} </label>
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+<tr>
+<td>Type</td>
+<th>
+
+    {attractionList.map((val, key) => {
+                var rideType;
+                if (rideSelect == val.ride_name){
+                    rideType = val.rideType;
+                    return (
+                      <> 
+                        <label> {rideType} </label> 
+                      </>
+                    );
+                }
+      })}
+
+</th>
+</tr>
+
+</tbody>
+
           
-      <label>{attractionList.map((val, key) => {
-            var maxStaff;
-            if (rideSelect == val.ride_name){
-                maxStaff = val.maxStaff;
-            }
-          return (
-              <> 
-                {maxStaff}   
-              </>
-          );
-          })}
-        </label>
 
-      </th>
-      </tr>
-
-      <tr>
-      <td>Minimum Employees</td>
-      <th>
-          
-      <label>{attractionList.map((val, key) => {
-            var minStaff;
-            if (rideSelect == val.ride_name){
-                minStaff = val.minStaff;
-            }
-          return (
-              <> 
-                {minStaff}   
-              </>
-          );
-          })}
-        </label>
-
-      </th>
-      </tr>
-
-      <tr>
-      <td>Park Section</td>
-      <th>
-          
-      <label>{attractionList.map((val, key) => {
-            var parkSection;
-            if (rideSelect == val.ride_name){
-                parkSection = val.parkSection;
-            }
-          return (
-              <> 
-                {parkSection}   
-              </>
-          );
-          })}
-        </label>
-
-      </th>
-      </tr>
-
-      <tr>
-      <td>Weather Code</td>
-      <th>
-        
-      <label>{attractionList.map((val, key) => {
-            var weatherCode;
-            if (rideSelect == val.ride_name){
-                weatherCode = val.weatherCode;
-            }
-          return (
-              <> 
-                {weatherCode}   
-              </>
-          );
-          })}
-        </label>
-
-      </th>
-      </tr>
-
-      <tr>
-      <td>Type</td>
-      <th>
-          
-      <label>{attractionList.map((val, key) => {
-            var rideType;
-            if (rideSelect == val.ride_name){
-                rideType = val.rideType;
-            }
-          return (
-              <> 
-                {rideType}   
-              </>
-          );
-          })}
-        </label>
-
-      </th>
-      </tr>
-    
-      </tbody>
+        </table>
 
         <DeleteButton onClick={() => {
-          deleteAttraction(rideSelect) //ride selected in drop down menu
-          window.alert(`The ride: ${rideSelect} has been deleted`);
-          window.location.href='/newAttraction';
-        }}>Delete Attraction</DeleteButton>
+            deleteAttraction(ride_name) //ride selected in drop down menu
+            window.alert(`The ride: ${props.location.ride_name} has been deleted`);
+            window.location.href='/newAttraction';
+          }}>Delete Attraction</DeleteButton>
 
+    </EditBorder>
+    <ReportInfo>
+        <Box> 
+        Required <ul>  Documentation</ul> </Box>
+        <ul>Operations Report</ul>  
+        <ul>Turnstile Report</ul> 
+        <ul>Lockout Report</ul>
+    </ReportInfo>
+
+    <Upload>  
+    <h4 className='display-4 text-center mb-4'>
+      <i className='fab fa-react' /> Titan Upload</h4> </Upload>
+
+    <SafetyInfo>
+      <InfoBar>Safety Critical Information</InfoBar>
+      <table className="table table-bordered table-striped">
+        <thead>
+          <tr style = {styleGray}>
+            <th scope="col">Property</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Weather Code</td>
+            <td>Alpha</td>
+          </tr>
+
+          <tr>
+            <td>Max Operating Wind</td>
+            <td>34 MPH</td>
+          </tr>
+
+          <tr>
+            <td>Min Operating Temperature</td>
+            <td>41 F</td>
+          </tr>
+
+          <tr>
+            <td>Power Redundancy</td>
+            <td>On-Site</td>
+          </tr>
+
+          <tr>
+            <td>Number of Gates</td>
+            <td>11</td>
+          </tr>
+        </tbody>
       </table>
+    </SafetyInfo>
+    <PhoneInfo>
+      <InfoBar>Phone Information</InfoBar>
+      <table className="table table-bordered table-striped">
+        <thead>
+          <tr style = {styleGray}>
+            <th scope="col">Name</th>
+            <th scope="col">Number</th>
+            <th scope="col">Out</th>
+            <th scope="col">In</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Primary</td>
+            <td>3152</td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+          </tr>
 
+          <tr>
+            <td>Secondary</td>
+            <td>3153</td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+          </tr>
 
-
-  </EditBorder>
-  <ReportInfo>
-      <Box> 
-      Required <ul>  Documentation</ul> </Box>
-      <ul>Operations Report</ul>  
-      <ul>Turnstile Report</ul> 
-      <ul>Lockout Report</ul>
-  </ReportInfo>
-
-  <Upload>  
-  <h4 className='display-4 text-center mb-4'>
-    <i className='fab fa-react' /> Titan Upload</h4> </Upload>
-
-  <SafetyInfo>
-    <InfoBar>Safety Critical Information</InfoBar>
-    <table className="table table-bordered table-striped">
-      <thead>
-        <tr style = {styleGray}>
-          <th scope="col">Property</th>
-          <th scope="col">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Weather Code</td>
-          <td>Alpha</td>
-        </tr>
-
-        <tr>
-          <td>Max Operating Wind</td>
-          <td>34 MPH</td>
-        </tr>
-
-        <tr>
-          <td>Min Operating Temperature</td>
-          <td>41 F</td>
-        </tr>
-
-        <tr>
-          <td>Power Redundancy</td>
-          <td>On-Site</td>
-        </tr>
-
-        <tr>
-          <td>Number of Gates</td>
-          <td>11</td>
-        </tr>
-      </tbody>
-    </table>
-  </SafetyInfo>
-  <PhoneInfo>
-    <InfoBar>Phone Information</InfoBar>
-    <table className="table table-bordered table-striped">
-      <thead>
-        <tr style = {styleGray}>
-          <th scope="col">Name</th>
-          <th scope="col">Number</th>
-          <th scope="col">Out</th>
-          <th scope="col">In</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Primary</td>
-          <td>3152</td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-        </tr>
-
-        <tr>
-          <td>Secondary</td>
-          <td>3153</td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-        </tr>
-
-        <tr>
-          <td>Tertiary</td>
-          <td>3154</td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-          <td>
-            <input type='checkbox'></input>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </PhoneInfo>
-  </OuterBorder>
-  </>
-  );
+          <tr>
+            <td>Tertiary</td>
+            <td>3154</td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+            <td>
+              <input type='checkbox'></input>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </PhoneInfo>
+    </OuterBorder>
+    </>
+    );
 }
