@@ -255,12 +255,13 @@ const AttractionIntervals = (props) => {
           const changeInputColor = (emptyBoxArray) => {
             for (let index = 0; index < emptyBoxArray.length; index++) {
               var element = emptyBoxArray[index];
-              console.log(document.getElementById(element));
+              console.log(element);
               document.getElementById(element).style.backgroundColor = "pink";
             }
           }
           const checkEmpty = () => {
             var empty = false;
+
             if(WaitTime == '') {
               alert("Wait time is empty");
               emptyBoxArray.push('waitTimeID');
@@ -338,7 +339,7 @@ const AttractionIntervals = (props) => {
                                 <div>
                                     <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id="waitTimeID" type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
-
+                            
                                 </div>
                             );
                         }
@@ -403,6 +404,7 @@ const AttractionIntervals = (props) => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
+                                console.log(id)
                                 if(checkEmpty() == true){
                                 changeInputColor(emptyBoxArray);
                                 alert("error")
