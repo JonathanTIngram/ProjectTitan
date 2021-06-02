@@ -1,10 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
-import { NavLink as Link, Redirect } from 'react-router-dom';
+import { NavLink as Link} from 'react-router-dom';
 import FileUpload from '../components/FileUpload/FileUpload'; 
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
@@ -143,9 +140,11 @@ const Box = styled.div`
 `;
 
 const CreateButton = styled.button`
-    padding-right: 40%;
-    padding-left: 40%;
-    height: 8%;
+  padding-left: 40%;
+  padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
 const styleGray = {backgroundColor : '#AFAFAF'};

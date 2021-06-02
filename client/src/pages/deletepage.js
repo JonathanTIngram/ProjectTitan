@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -143,13 +140,14 @@ const Box = styled.div`
 `;
 
 const DeleteButton = styled.button`
-padding-right: 40%;
-padding-left: 40%;
+  padding-left: 40%;
+  padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
-const RideSelect = styled.select`
-    align: right;
-`
+
 
 
 
@@ -236,10 +234,7 @@ return (
 
     
                 <> 
-                  <input type='text' name='ride_name' placeHolder={props.location.ride_name} onChange={(e) => {
-                      setRideName(props.location.ride_name);
-                    }}
-                  ></input>  
+                <label> {props.location.ride_name} </label>
                 </>
           
 
@@ -259,10 +254,7 @@ return (
           dailyOpening = val.dailyOpening;
           return (
             <> 
-              <input type='text' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
-                  setDailyOpening(e.target.value);
-                }}
-              ></input>  
+              <label> {dailyOpening} </label>
             </>
           );
       }
@@ -281,10 +273,7 @@ return (
               dailyClosing = val.dailyClosing;
               return (
                 <> 
-                  <input type='text' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
-                      setDailyClosing(e.target.value);
-                    }}
-                  ></input>  
+                  <label> {dailyClosing} </label>
                 </>
               );
           }
@@ -303,10 +292,7 @@ return (
                   theoryCapacity = val.theoryCapacity;
                   return (
                     <> 
-                      <input type='text' name='theoryCapacity' placeHolder={theoryCapacity} onChange={(e) => {
-                          setTheoryCapacity(e.target.value);
-                        }}
-                      ></input>  
+                      <label> {theoryCapacity} </label>
                     </>
                   );
               }
@@ -325,10 +311,7 @@ return (
                 targetCapacity = val.targetCapacity;
                 return (
                   <> 
-                    <input type='text' name='targetCapacity' placeHolder={targetCapacity} onChange={(e) => {
-                        setTargetCapacity(e.target.value);
-                      }}
-                    ></input>  
+                    <label> {targetCapacity} </label>
                   </>
                 );
             }
@@ -347,10 +330,7 @@ return (
                     maxVehicles = val.maxVehicles;
                     return (
                       <> 
-                        <input type='text' name='maxVehicles' placeHolder={maxVehicles} onChange={(e) => {
-                            setMaxVehicles(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {maxVehicles} </label>
                       </>
                     );
                 }
@@ -369,10 +349,7 @@ return (
                     minVehicles = val.minVehicles;
                     return (
                       <> 
-                        <input type='text' name='minVehicle' placeHolder={minVehicles} onChange={(e) => {
-                            setMinVehicles(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {minVehicles} </label>
                       </>
                     );
                 }
@@ -391,10 +368,7 @@ return (
                     maxSeats = val.maxSeats;
                     return (
                       <> 
-                        <input type='text' name='maxSeats' placeHolder={maxSeats} onChange={(e) => {
-                            setMaxSeats(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {maxSeats} </label>
                       </>
                     );
                 }
@@ -413,10 +387,7 @@ return (
                     maxStaff = val.maxStaff;
                     return (
                       <> 
-                        <input type='text' name='maxStaff' placeHolder={maxStaff} onChange={(e) => {
-                            setMaxStaff(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {maxStaff} </label>
                       </>
                     );
                 }
@@ -435,10 +406,7 @@ return (
                     minStaff = val.minStaff;
                     return (
                       <> 
-                        <input type='text' name='minStaff' placeHolder={minStaff} onChange={(e) => {
-                            setMinStaff(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {minStaff} </label>
                       </>
                     );
                 }
@@ -457,10 +425,7 @@ return (
                     parkSection = val.parkSection;
                     return (
                       <> 
-                        <input type='text' name='parkSection' placeHolder={parkSection} onChange={(e) => {
-                            setParkSection(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {parkSection} </label>  
                       </>
                     );
                 }
@@ -479,10 +444,7 @@ return (
                     weatherCode = val.weatherCode;
                     return (
                       <> 
-                        <input type='text' name='weatherCode' placeHolder={weatherCode} onChange={(e) => {
-                            setWeatherCode(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {weatherCode} </label>
                       </>
                     );
                 }
@@ -501,10 +463,7 @@ return (
                     rideType = val.rideType;
                     return (
                       <> 
-                        <input type='text' name='rideType' placeHolder={rideType} onChange={(e) => {
-                            setRideType(e.target.value);
-                          }}
-                        ></input>  
+                        <label> {rideType} </label> 
                       </>
                     );
                 }
@@ -515,15 +474,15 @@ return (
 
 </tbody>
 
-          <DeleteButton onClick={() => {
-            deleteAttraction(ride_name) //ride selected in drop down menu
-            window.alert(`The ride: ${ride_name} has been deleted`);
-            window.location.href='/newAttraction';
-          }}>Delete Attraction</DeleteButton>
+          
 
         </table>
 
-
+        <DeleteButton onClick={() => {
+            deleteAttraction(ride_name) //ride selected in drop down menu
+            window.alert(`The ride: ${props.location.ride_name} has been deleted`);
+            window.location.href='/newAttraction';
+          }}>Delete Attraction</DeleteButton>
 
     </EditBorder>
     <ReportInfo>

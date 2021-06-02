@@ -1,8 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -146,6 +143,9 @@ const Box = styled.div`
 const EditButton = styled.button`
   padding-left: 40%;
   padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
 const RideSelect = styled.select`
@@ -227,7 +227,6 @@ return (
     })}
     <OuterBorder>
     <CreateBar> Edit an Attraction
-      {rideSelect}
           <Nav>
          <NavMenu>
              <NavLink to='/EditPage/Block' activeStyle>
@@ -265,10 +264,7 @@ return (
 
               
                           <> 
-                            <input type='text' name='ride_name' placeHolder={props.location.ride_name} onChange={(e) => {
-                                setRideName(props.location.ride_name);
-                              }}
-                            ></input>  
+                          <label> {props.location.ride_name} </label>
                           </>
                     
         
@@ -288,7 +284,7 @@ return (
                     dailyOpening = val.dailyOpening;
                     return (
                       <> 
-                        <input type='text' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
+                        <input type='time' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
                             setDailyOpening(e.target.value);
                           }}
                         ></input>  
@@ -310,7 +306,7 @@ return (
                         dailyClosing = val.dailyClosing;
                         return (
                           <> 
-                            <input type='text' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
+                            <input type='time' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
                                 setDailyClosing(e.target.value);
                               }}
                             ></input>  
@@ -544,9 +540,10 @@ return (
 
           </tbody>
 
-        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
+        
 
         </table>
+        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
 
     </EditBorder>
     <ReportInfo>
