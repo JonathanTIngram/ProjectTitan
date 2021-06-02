@@ -193,6 +193,8 @@ const AttractionIntervals = (props) => {
           const [AvailableSeats, setAvailableSeats] = useState('');
           const [AvailableDown, setAvailableDown] = useState('');
 
+          var emptyCollectData = [];
+
           const editInterval = (id, rideName) =>{
             Axios.put('http://localhost:3001/editInterval', {
 
@@ -261,24 +263,29 @@ const AttractionIntervals = (props) => {
                 {intervalList.map((val, key) => {
                     var id = val.id;
                     const checkWait = () => {
+
                         if (val.checkedWaitTime == true){
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id="waitTimeID" type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
 
                                 </div>
                             );
                         }
+
                     }
 
                     const checkThroughput = () => {
+
                         return (
                             <div>
                                 <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id="checkThroughputID" type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
+
+                        
                     }
 
                     const checkAvailable = () => {
@@ -326,9 +333,18 @@ const AttractionIntervals = (props) => {
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
+
+
                                 <SubmitButton  onClick={() =>{
+
+                                    console.log(id)
+
+                                    document.getElementById('waitTime8').style.background = 'pink';
+
+                                    // document.getElementById('3').style.background = "pink";
+
                                     editInterval(id, val.ride_name)
-                                    window.location.reload();
+                                    // window.location.reload();
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 
