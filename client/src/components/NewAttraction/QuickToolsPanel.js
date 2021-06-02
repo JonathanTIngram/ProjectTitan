@@ -10,9 +10,6 @@ const Button = styled.button`
 
 export const QuickToolsSideNav = styled.div`
 background: transparent;
-border-left: 2px solid black;
-border-right: 2px solid black;
-border-bottom: 2px solid black;
 position: absolute;
   right: 0px;
   width: 11.5%;
@@ -54,16 +51,6 @@ setShowModal(prev => !prev);
                     <QuickToolsButtons>New Attraction</QuickToolsButtons>
                     </NavLink>
 
-                    <NavLink to = '/EditPage'>
-                    <QuickToolsButtons> Edit Attraction 
-                    </QuickToolsButtons>
-                    </NavLink>
-
-                    <NavLink to = '/DeletePage'>
-                    <QuickToolsButtons>
-                            Delete Attraction
-                    </QuickToolsButtons>
-                    </NavLink>
 
             </QuickToolsSideNav>
         </>
