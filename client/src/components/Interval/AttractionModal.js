@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+iimport React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
@@ -213,19 +213,16 @@ var formArray = []
     if(checkArray.length == typeState.length) {
       alert("No checkboxes are selected");
       emptyBoxArray.push('dataID');
-      formArray.push('collectDataID');
       empty = true;
     }
     if(startingTime == '') {
       alert("Starting Time is empty");
       emptyBoxArray.push('startingTimeID');
-      formArray.push('startingFormID');
       empty = true;
     }
     if(endingTime == '') {
       alert("Ending Time is empty");
       emptyBoxArray.push('endingTimeID');
-      formArray.push('endingFormID');
       empty = true;
     }
     return empty;
@@ -284,7 +281,7 @@ var formArray = []
                   setStartingTime(e.target.value);
                 }}></InputStyle>
 
-                <form id="endingFormID">Ending:</form>
+                <form id="EndingFormID">Ending:</form>
                 <InputStyle id='endingTimeID' type='time' name='endingTime' onChange={(e) => {
                   setEndingTime(e.target.value);
                 }}></InputStyle>
