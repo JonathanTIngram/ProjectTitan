@@ -4,19 +4,19 @@ import { NavLink } from 'react-router-dom';
 
 export const QuickToolsSideNav = styled.div`
 background: transparent;
-border-left: 2px solid black;
-border-right: 2px solid black;
-border-bottom: 2px solid black;
 position: absolute;
+  top: 68px;
   right: 5px;
   width: 11.5%;
-  height: 250px;
+  height: 12%;
   margin: 13px -5px;
 `;
 
 export const QuickToolsHeader = styled.h1`
-height: 17%;
+height: 30%;
 border-bottom: 2px solid black;
+border-left: 2px solid black;
+border-right: 2px solid black;
 text-align: center;
 padding: 3px;
 font-size: 20px;
@@ -26,11 +26,12 @@ margin: 0px 0px;
 
 export const QuickToolsButtons = styled.button`
 width: 100%;
-height: 28%;
+height: 88%;
 padding: 1px;
 font-size: 16px;
 border-bottom: 1px solid black;
 `;
+
 
 const QuickToolsPanel = () => {
 const [showModal, setShowModal] = useState(false);

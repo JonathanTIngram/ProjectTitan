@@ -372,10 +372,10 @@ const AttractionIntervals = (props) => {
                     }
 
                       {currentRide = val.ride_name}
+                      {cardCount = cardCount + 1}
                         return (
                             <>
 
-                            {cardCount = cardCount + 1}
 
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes
