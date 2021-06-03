@@ -184,6 +184,15 @@ const [ridePrimary, setRidePrimary] = useState('');
 const [rideSecondary, setRideSecondary] = useState('');
 const [rideTertiary, setRideTertiary] = useState('');
 
+const [attractionList, setAttractionList] = useState([]);
+
+
+const getAttractionNames = () => {
+  Axios.get('http://localhost:3001/getAttractionNames').then(res => {
+  setAttractionList(res.data);
+  }).catch(err => console.log(err));
+  }
+
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
@@ -315,6 +324,9 @@ return (
     
   
     <>
+
+    {window.addEventListener('load', getAttractionNames())}
+      
     
     <Navbar/>
     <Banner/>
@@ -465,6 +477,9 @@ return (
         </table>
         <CreateButton onClick={() => { 
 
+          console.log(attractionList);
+          console.log(ride_name)
+
 
             if (checkEmpty() == true){
 
@@ -474,9 +489,15 @@ return (
             }
 
             else {
-              window.alert(`The ride: ${ride_name} has been created`)
-              submitAttraction();
-              history.push('/newAttraction')
+              if(attractionList.includes(ride_name)){
+                window.alert(`The ride ${ride_name} already exists`);
+              }
+              else {
+                submitAttraction();
+                // history.push('/newAttraction')
+                window.alert(`The ride: ${ride_name} has been created`)
+              }
+
             }
 
         }}>Create Attraction</CreateButton>

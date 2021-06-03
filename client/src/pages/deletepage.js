@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
+import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -143,13 +140,14 @@ const Box = styled.div`
 `;
 
 const DeleteButton = styled.button`
-padding-right: 40%;
-padding-left: 40%;
+  padding-left: 40%;
+  padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
-const RideSelect = styled.select`
-    align: right;
-`
+
 
 
 
@@ -220,7 +218,6 @@ return (
         {useEffect(() =>{
               {window.addEventListener('load', getAttractions())}
               {window.addEventListener('load', setRideSelect(props.location.ride_name))}
-              {window.addEventListener('load', setRideName(props.location.ride_name))}
             })}
         <table className="table table-bordered table-striped">
         <thead>
@@ -237,7 +234,7 @@ return (
 
     
                 <> 
-                  <label> {ride_name} </label>
+                <label> {props.location.ride_name} </label>
                 </>
           
 
@@ -250,15 +247,14 @@ return (
 <td>Daily Opening</td>
 <th> 
   
+    
     {attractionList.map((val, key) => {
       var dailyOpening;
-
       if (rideSelect == val.ride_name){
           dailyOpening = val.dailyOpening;
           return (
             <> 
               <label> {dailyOpening} </label>
-
             </>
           );
       }
@@ -277,7 +273,7 @@ return (
               dailyClosing = val.dailyClosing;
               return (
                 <> 
-                 <label> {dailyClosing} </label>
+                  <label> {dailyClosing} </label>
                 </>
               );
           }
@@ -353,7 +349,7 @@ return (
                     minVehicles = val.minVehicles;
                     return (
                       <> 
-                        <label> {minVehicles} </label> 
+                        <label> {minVehicles} </label>
                       </>
                     );
                 }
@@ -429,7 +425,7 @@ return (
                     parkSection = val.parkSection;
                     return (
                       <> 
-                        <label> {parkSection} </label>
+                        <label> {parkSection} </label>  
                       </>
                     );
                 }
@@ -467,7 +463,7 @@ return (
                     rideType = val.rideType;
                     return (
                       <> 
-                        <label> {rideType} </label>
+                        <label> {rideType} </label> 
                       </>
                     );
                 }
@@ -478,15 +474,15 @@ return (
 
 </tbody>
 
-          <DeleteButton onClick={() => {
-            deleteAttraction(ride_name) //ride selected in drop down menu
-            window.alert(`The ride: ${ride_name} has been deleted`);
-            window.location.href='/newAttraction';
-          }}>Delete Attraction</DeleteButton>
+          
 
         </table>
 
-
+        <DeleteButton onClick={() => {
+            deleteAttraction(ride_name) //ride selected in drop down menu
+            window.alert(`The ride: ${props.location.ride_name} has been deleted`);
+            window.location.href='/newAttraction';
+          }}>Delete Attraction</DeleteButton>
 
     </EditBorder>
     <ReportInfo>

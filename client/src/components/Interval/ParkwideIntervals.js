@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md';
 
 const Label1 = styled.h1`
 margin-left: .8%;
-margin-top: .1%;
+margin-top: .9%;
 font-size: 175%;
 text-align: left;
 font-weight: normal;
@@ -43,6 +43,7 @@ width: 20%;;
 height: 100%;
 border-right: 2px solid black;
 display: inline-block;
+overflow: hidden;
 `
 const CardTime = styled.div`
 position: absolute;
@@ -54,6 +55,7 @@ text-align: center;
 padding-top: 1%;
 font-size: 18px;
 font-weight: bold;
+overflow: hidden;
 `
 const CardCollect = styled.div`
 position: absolute;
@@ -64,6 +66,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardFrom = styled.div`
@@ -75,6 +78,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardStarting = styled.div`
@@ -86,6 +90,7 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
 
 const CardEnding = styled.div`
@@ -93,18 +98,12 @@ position: absolute;
 top: 80%;
 height: 20%;
 width: 20%;
-border-bottom: 2px solid black;
 text-align: left;
 font-size: 120%;
 font-weight: bold;
+overflow: hidden;
 `
-const CardH = styled.h1`
-position: absolute;
-left: 0%;
-top: 0%;
-margin-top: 3px;
-margin-left: 3px;
-`
+
 const Image = styled.img`
 display:flex;
 height: 70px;
@@ -126,10 +125,12 @@ const DeleteButton = styled(MdClose)`
   width: 20px;
   height: 30px;
   padding: 0;
+  
 `
 const Variables = styled.li`
 font-size: 14px;
 margin-left: 5%;
+overflow: hidden;
 `
 const InputVariables = styled.input`
 width: 70px;
@@ -138,11 +139,11 @@ width: 70px;
 const SubmitButton = styled.button`
   position: absolute;
   bottom: 0px;
-  left: 170px;
+  left: 80%;
   height: 20px;
   font-size: 10px;
+  overflow: hidden;
 `
-
 const ParkwideIntervals = () => {
     const [showModal, setShowModal] = useState(false);
 
@@ -199,34 +200,49 @@ const ParkwideIntervals = () => {
                 }, [])}
             {parkIntervalList.map((val, key) => {
                     var id = val.id;
+                    var emptyArrayTest = `emptyArray${id}`;
+                    emptyArrayTest = [];
+
                     const checkWait = () => {
                         if (val.checkedWaitTime == true){
+                        if (WaitTime == ''){
+                            console.log(`waitTime${id}`)
+                            emptyArrayTest.push(`waitTime${id}`)
+                        }
+
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
-
                                 </div>
                             );
                         }
+
                     }
 
                     const checkThroughput = () => {
                         if (val.checkedThroughput == true){
+                            if (Throughput == ''){
+                                emptyArrayTest.push(`throughput${id}`)
+                            }
                         return (
                             <div>
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id={`throughput${id}`} type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
+
                         }
                     }
 
                     const checkAvailable = () => {
                         if (val.checkedAvailableSeats == true){
+                            if (AvailableSeats == ''){
+                                emptyArrayTest.push(`available${id}`)
+                            }
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id={`available${id}`} type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -234,10 +250,14 @@ const ParkwideIntervals = () => {
                     }
 
                     const checkDown = () => {
+
                         if (val.checkedAvailableDown == true){
+                            if (AvailableDown == ''){
+                                emptyArrayTest.push(`down${id}`)
+                            }
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables id={`down${id}`} type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -261,8 +281,42 @@ const ParkwideIntervals = () => {
                                 {checkAvailable()}
                                 {checkDown()}
                                 <SubmitButton  onClick={() =>{
-                                    editParkInterval(id)
-                                    window.location.reload(); 
+                                    console.log(id)
+
+                                    var wait = `waitTime${id}`;
+                                    var throughput = `throughput${id}`;
+                                    var seats = `available${id}`;
+                                    var down = `down${id}`;
+
+                                    var refresh = 0;
+                                    console.log(emptyArrayTest);
+                                    if(emptyArrayTest.includes(wait)){
+                                        document.getElementById(wait).style.background = 'pink';
+                                        alert("Error! Wait time is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(throughput)){
+                                        document.getElementById(throughput).style.background = 'pink';
+                                        alert("Error! Throughput is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(seats)){
+                                        document.getElementById(seats).style.background = 'pink';
+                                        alert("Error! Available Seats is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(down)){
+                                        document.getElementById(down).style.background = 'pink';
+                                        alert("Error! Available Down is empty.")
+                                        refresh = 1;
+                                    }
+                                    if (refresh == 0){
+                                        setTimeout(function(){
+                                            window.location.reload(); 
+                                           }, 2);
+                                           editParkInterval(id);
+                                    }
+
                                 }}>Submit</SubmitButton>
                             
                         </CardCollect>

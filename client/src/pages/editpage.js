@@ -1,8 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-
-import { useSpring, animated } from 'react-spring';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { MdClose } from 'react-icons/md';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
@@ -146,6 +143,9 @@ const Box = styled.div`
 const EditButton = styled.button`
   padding-left: 40%;
   padding-right: 40%;
+  margin-top: -500px;
+  width: 100%;
+  height: 8%;
 `
 
 const RideSelect = styled.select`
@@ -183,7 +183,6 @@ const [attractionList, setAttractionList] = useState([]);
 const getAttractions = () => {
       Axios.get('http://localhost:3001/getAttraction').then(res => {
       setAttractionList(res.data);
-      return attractionList;
       }).catch(err => console.log(err));
       }
 
@@ -224,11 +223,10 @@ return (
       {window.addEventListener('load', getAttractions())}
       {window.addEventListener('load', setRideSelect(props.location.ride_name))}
       {window.addEventListener('load', setRideName(props.location.ride_name))}
-      
     })}
+    
     <OuterBorder>
     <CreateBar> Edit an Attraction
-      {rideSelect}
           <Nav>
          <NavMenu>
              <NavLink to='/EditPage/Block' activeStyle>
@@ -266,7 +264,7 @@ return (
 
               
                           <> 
-                            <label> {ride_name} </label>
+                          <label> {props.location.ride_name} </label>
                           </>
                     
         
@@ -286,7 +284,7 @@ return (
                     dailyOpening = val.dailyOpening;
                     return (
                       <> 
-                        <input type='time' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
+                        <input type='time' name='dailyOpening' placeholder={dailyOpening} onChange={(e) => {
                             setDailyOpening(e.target.value);
                           }}
                         ></input>  
@@ -542,9 +540,10 @@ return (
 
           </tbody>
 
-        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
+        
 
         </table>
+        <EditButton onClick={(editAttraction)}>Edit Attraction</EditButton>
 
     </EditBorder>
     <ReportInfo>
