@@ -55,7 +55,6 @@ height: 240px;
 overflow: hidden;
 overflow-x: scroll;
 white-space: nowrap;
-
 `;
 
 
@@ -96,7 +95,6 @@ border-bottom: 2px solid black;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
-
 `
 const CardEnding = styled.div`
 position: absolute;
@@ -106,7 +104,6 @@ width: 20%;
 text-align: left;
 font-size: 90%;
 font-weight: bold;
-
 `
 const Image = styled.img`
 display:flex;
@@ -120,7 +117,6 @@ position: absolute;
 left: 17.5%;
 top: 35%;
 border: none;
-
 `
 const RideSelect = styled.select`
 align-content: right;
@@ -158,7 +154,6 @@ const SubmitButton = styled.button`
   left: 200px;
   height: 20px;
   font-size: 10px;
-
 `
 
 const Border = styled.div`
@@ -179,7 +174,6 @@ background: transparent;
 position: absolute;
 left: 0px;
 width: 100%;
-
 `;
 
 const Label1 = styled.h1`
@@ -251,8 +245,7 @@ const AttractionIntervals = (props) => {
                 console.log("Successfully sent to port 3001");
             });
           };
-          
-      
+         
     return (
         <>
 
@@ -301,35 +294,55 @@ const AttractionIntervals = (props) => {
             }, [])} */}
                 {intervalList.map((val, key) => {
                     var id = val.id;
+
+                    var emptyArrayTest = `emptyArray${id}`;
+
+                    emptyArrayTest = [];
+
+
                     const checkWait = () => {
                         if (val.checkedWaitTime == true){
+                        if (WaitTime == ''){
+                            console.log(`waitTime${id}`)
+                            emptyArrayTest.push(`waitTime${id}`)
+                        }
+
                             return (
                                 <div>
-                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables type="text" onChange={(e) => {
+                                    <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
                                 setWaitTime(e.target.value)}}></InputVariables></Variables>
-
                                 </div>
                             );
                         }
+
                     }
 
                     const checkThroughput = () => {
                         if (val.checkedThroughput == true){
+                        if (Throughput == ''){
+                            emptyArrayTest.push(`throughput${id}`)
+                        }
+
                         return (
                             <div>
-                                
-                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables type="text" onChange={(e) => {
+                                <Variables>Throughput {'\u00A0'} {'\u00A0'} {'\u00A0'} <InputVariables id={`throughput${id}`} type="text" onChange={(e) => {
                                 setThroughput(e.target.value)}}></InputVariables></Variables>
                             </div>
                         );
+
                         }
                     }
 
                     const checkAvailable = () => {
                         if (val.checkedAvailableSeats == true){
+                        if (AvailableSeats == ''){
+                            emptyArrayTest.push(`available${id}`)
+                        }
+
+
                             return (
                                 <div>
-                                    <Variables>Available Seats <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Seats <InputVariables id={`available${id}`} type="text" onChange={(e) => {
                                 setAvailableSeats(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
@@ -337,22 +350,27 @@ const AttractionIntervals = (props) => {
                     }
 
                     const checkDown = () => {
+
                         if (val.checkedAvailableDown == true){
+                            if (AvailableDown == ''){
+                                emptyArrayTest.push(`down${id}`)
+                            }
+
                             return (
                                 <div>
-                                    <Variables>Available Down <InputVariables type="text" onChange={(e) => {
+                                    <Variables>Available Down <InputVariables id={`down${id}`} type="text" onChange={(e) => {
                                 setAvailableDown(e.target.value)}}></InputVariables></Variables>
                                 </div>
                             );
                         }
                     }
-                    {currentRide = val.ride_name}
-                    {cardCount = cardCount + 1}
 
-
+                      {currentRide = val.ride_name}
+                      {cardCount = cardCount + 1}
                         return (
                             <>
 
+                            
 
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes
@@ -371,9 +389,51 @@ const AttractionIntervals = (props) => {
                                 {checkThroughput()}
                                 {checkAvailable()}
                                 {checkDown()}
+
+
                                 <SubmitButton  onClick={() =>{
-                                    editInterval(id, val.ride_name);
-                                    window.location.reload(); 
+
+                                    console.log(id)
+
+                                    var wait = `waitTime${id}`;
+                                    var throughput = `throughput${id}`;
+                                    var seats = `available${id}`;
+                                    var down = `down${id}`;
+
+                                    var refresh = 0;
+                                    console.log(emptyArrayTest);
+                                    if(emptyArrayTest.includes(wait)){
+                                        document.getElementById(wait).style.background = 'pink';
+                                        alert("Error! Wait time is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(throughput)){
+                                        document.getElementById(throughput).style.background = 'pink';
+                                        alert("Error! Throughput is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(seats)){
+                                        document.getElementById(seats).style.background = 'pink';
+                                        alert("Error! Available Seats is empty.")
+                                        refresh = 1;
+                                    }
+                                    if(emptyArrayTest.includes(down)){
+                                        document.getElementById(down).style.background = 'pink';
+                                        alert("Error! Available Down is empty.")
+                                        refresh = 1;
+                                    }
+                                    if (refresh == 0){
+                                        setTimeout(function(){
+                                            window.location.reload(); 
+                                           }, 2);
+                                        editInterval(id, val.ride_name)
+                                    }
+
+
+                                    // document.getElementById('3').style.background = "pink";
+
+                                    //editInterval(id, val.ride_name)
+                                    // window.location.reload();
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 
@@ -381,10 +441,10 @@ const AttractionIntervals = (props) => {
                             <CardEnding>Ending<ul>At Park Closing</ul>{val.endingTime}</CardEnding>
                             
                             </IntervalCard>
-                            
                             </>
                         );
                         })}
+
             </AddIntervalsBorder>
             <Border>
             <Label1> Attraction Intervals </Label1>

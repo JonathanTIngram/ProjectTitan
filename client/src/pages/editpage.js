@@ -223,6 +223,7 @@ return (
     {useEffect(() =>{
       {window.addEventListener('load', getAttractions())}
       {window.addEventListener('load', setRideSelect(props.location.ride_name))}
+      {window.addEventListener('load', setRideName(props.location.ride_name))}
       
     })}
     <OuterBorder>
@@ -264,7 +265,7 @@ return (
 
               
                           <> 
-                          <label> {props.location.ride_name} </label>
+                          <label > {props.location.ride_name} </label>
                           </>
                     
         
@@ -284,10 +285,10 @@ return (
                     dailyOpening = val.dailyOpening;
                     return (
                       <> 
-                        <input type='time' name='dailyOpening' placeHolder={dailyOpening} onChange={(e) => {
+                        <input type='time' name='dailyOpening' onChange={(e) => {
                             setDailyOpening(e.target.value);
                           }}
-                        ></input>  
+                        ></input>  {dailyOpening}
                       </>
                     );
                 }
@@ -306,10 +307,11 @@ return (
                         dailyClosing = val.dailyClosing;
                         return (
                           <> 
-                            <input type='time' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
+                            <input type='time' name='dailyClosing' onChange={(e) => {
+                  
                                 setDailyClosing(e.target.value);
                               }}
-                            ></input>  
+                            ></input>  {dailyClosing}
                           </>
                         );
                     }

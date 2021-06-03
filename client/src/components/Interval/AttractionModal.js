@@ -71,13 +71,15 @@ padding-right: 10px;
 font-size: 17px;
 `
 
-export const Menu = styled.div`
+const Menu = styled.div`
   display: flex;
   width: 100%;
   overflow-x: auto;
 `;
 
-
+const Form = styled.form`
+width: 11%;
+`
 export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   const modalRef = useRef();
 
@@ -113,13 +115,11 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   );
 
   //states
-  const [ride_name, setRideName] = useState('');
   const [startingTime, setStartingTime] = useState('');
   const [endingTime, setEndingTime] = useState('');
   const [timeValue, setTime] = useState('');
   const [typeState, setTypeState] = useState([]);
-  const [unitState, setUnitState] = useState("");
-  const [intervalList, setIntervalList] = useState([]);
+
   useEffect(() => {
     let typeState = [
       { id: 1, type: "Wait Time"},
@@ -180,17 +180,21 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
     for (let index = 0; index < emptyBoxArray.length; index++) {
       var element = emptyBoxArray[index];
       console.log(document.getElementById(element));
-      if(element == "dataID"){
-        console.log("no checks")
+      document.getElementById(element).style.backgroundColor = "pink";
+      if(element == 'dataID'){
         document.getElementById("collectDataID").style.color = "red";
       }
-      else {
-        document.getElementById(element).style.background = "pink";
+      if(element == 'timeValueID'){
+        document.getElementById("timeID").style.color = "red";
       }
-
+      if(element == 'startingTimeID'){
+        document.getElementById("startingID").style.color = "red";
+      }
+      if(element == 'endingTimeID'){
+        document.getElementById("endingID").style.color = "red";
+      }
+    }
   }
-}
-  
 var checkArray = [];
   const checkEmpty = () => {
     var empty = false;
@@ -199,7 +203,7 @@ var checkArray = [];
       emptyBoxArray.push('timeValueID');
       empty = true;
     }
-    typeState.map((d, i)=>  {
+    typeState.map((d)=>  {
     if (d.select === false) {
         checkArray.push(d.type)
     }})
@@ -233,20 +237,19 @@ var checkArray = [];
                 <InputStyle type='text' name='Name' onChange={(e) => {
                   setRideName(e.target.value);
                 }}></InputStyle> */}
-                <form>Time Value:</form>
+                <form id='timeID' >Time Value:</form>
                 <InputStyle id='timeValueID' type='number' name='Time' onChange={(e) => {
                   setTime(e.target.value);
                 }}></InputStyle>
-                <form id='collectDataID'>Collect:            </form>
+                <form id='collectDataID' >Collect:            </form>
                   <Menu>
-                  
                 {typeState.map((d, i) => ( 
-             
                 <TR key={d.id}>
              <th>
-                
+     
                 <input 
-                  id="dataID"
+                  id = 'dataID'
+                  class="checkbox"
                   onChange={event => {
                     let checked = event.target.checked;
                     setTypeState(
@@ -263,22 +266,20 @@ var checkArray = [];
                   type="checkbox"
                   checked={d.select}
                 ></input>
-                
-                </th>
+                  </th>
               <td>{d.type}</td>
-                  
+
             </TR>
-        
-                ))} 
+                ))}
                 </Menu>
 
-                <form>Starting:</form>
+                <form id='startingID'>Starting:</form>
 
                 <InputStyle id='startingTimeID' type='time' name='startingTime' onChange={(e) => {
                   setStartingTime(e.target.value);
                 }}></InputStyle>
 
-                <form>Ending:</form>
+                <form id='endingID'>Ending:</form>
                 <InputStyle id='endingTimeID' type='time' name='endingTime' onChange={(e) => {
                   setEndingTime(e.target.value);
                 }}></InputStyle>
