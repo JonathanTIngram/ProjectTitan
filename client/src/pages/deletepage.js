@@ -482,6 +482,7 @@ return (
             deleteAttraction(ride_name) //ride selected in drop down menu
             window.alert(`The ride: ${props.location.ride_name} has been deleted`);
             window.location.href='/newAttraction';
+
           }}>Delete Attraction</DeleteButton>
 
     </EditBorder>
