@@ -183,7 +183,7 @@ const [rideTertiary, setRideTertiary] = useState('');
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
-  Axios.post('http://localhost:3001/addAttraction', {
+  Axios.post('http://18.204.6.173:3001/addAttraction', {
     ride_name: ride_name,
     dailyOpening: dailyOpening,
     dailyClosing: dailyClosing,
@@ -294,7 +294,7 @@ const changeInputColor = (emptyBoxArray) => {
 const [nameList, setNameList] = useState([]);
 const GetNames = () => {
   useEffect(() => {
-      Axios.get('http://localhost:3001/getAttractionNames').then(res => {
+      Axios.get('http://18.204.6.173:3001/getAttractionNames').then(res => {
       return setNameList(res.data);
       }).catch(err => console.log(err));
       }, [])
@@ -451,8 +451,8 @@ return (
 
         </table>
         <CreateButton onClick={() => { 
-             var names = [];
-            nameList.map((e) => { 
+              var names = [];
+              nameList.map((e) => { 
               var ridename = e.ride_name;
               //console.log(ridename);
 
