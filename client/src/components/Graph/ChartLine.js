@@ -12,7 +12,7 @@ function ChartLine() {
 
     const CheckedRideName = () => {
 
-            Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+            Axios.get(`http://18.204.6.173:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
             }).catch(err => console.log(err));
@@ -22,7 +22,7 @@ function ChartLine() {
 
     const CheckedStat = () => {
 
-        Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
+        Axios.get(`http://18.204.6.173:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
         }).catch(err => console.log(err));
@@ -30,7 +30,7 @@ function ChartLine() {
 
     const CheckedData = () => {
 
-        Axios.get(`http://localhost:3001/getCollectedData`).then(res => {
+        Axios.get(`http://18.204.6.173:3001/getCollectedData`).then(res => {
             //console.log(res.data)
             setDataList(res.data)
         }).catch(err => console.log(err));

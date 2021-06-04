@@ -142,7 +142,7 @@ export const ParkwideModal = ({ showModal, setShowModal, ride }) => {
   //specifically /addAttraction
   
   const submitInterval = () =>{
-    Axios.post('http://localhost:3001/addParkInterval', {
+    Axios.post('http://18.204.6.173:3001/addParkInterval', {
                   ride_name: ride,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {

@@ -1,4 +1,3 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Axios from 'axios'
 import { NavLink as Link} from 'react-router-dom';
@@ -6,6 +5,8 @@ import FileUpload from '../components/FileUpload/FileUpload';
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
 import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+
 export const Nav = styled.nav`
   background: transparent;
   height: 3px;
@@ -182,7 +183,7 @@ const [rideTertiary, setRideTertiary] = useState('');
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
-  Axios.post('http://localhost:3001/addAttraction', {
+  Axios.post('http://18.204.6.173:3001/addAttraction', {
     ride_name: ride_name,
     dailyOpening: dailyOpening,
     dailyClosing: dailyClosing,
@@ -289,10 +290,19 @@ const changeInputColor = (emptyBoxArray) => {
     document.getElementById(element).style.backgroundColor = "pink";
   }
 }
+
+const [nameList, setNameList] = useState([]);
+const GetNames = () => {
+  useEffect(() => {
+      Axios.get('http://18.204.6.173:3001/getAttractionNames').then(res => {
+      return setNameList(res.data);
+      }).catch(err => console.log(err));
+      }, [])
+}
 return (
   
     <>
-    
+     {window.addEventListener('load', GetNames())}
     <Navbar/>
     <Banner/>
     <OuterBorder>
@@ -441,15 +451,33 @@ return (
 
         </table>
         <CreateButton onClick={() => { 
+             var names = [];
+            nameList.map((e) => { 
+              var ridename = e.ride_name;
+              //console.log(ridename);
+
+              names.push(ridename);
+              console.log(names);
+            });
             if(checkEmpty() == true){
               window.alert("Data entry error")
               changeInputColor(emptyBoxArray);
               console.log(emptyBoxArray);
             }
             else { 
-              window.alert(`The ride: ${ride_name} has been created`)
-              submitAttraction();
-              history.push('/newAttraction')
+              if(names.includes(ride_name))
+              {
+                window.alert(`The ride: ${ride_name} exists`)
+              }
+              else {
+                window.alert(`The ride: ${ride_name} has been created`)
+                submitAttraction();
+                history.push('/newAttraction')
+                setTimeout(function(){
+                  window.location.reload(); 
+                }, 1);
+              }
+              
         }
         }}>Create Attraction</CreateButton>
     </EditBorder>
