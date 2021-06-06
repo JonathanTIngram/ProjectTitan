@@ -143,7 +143,7 @@ export const AttractionModal = ({ showModal, setShowModal, ride }) => {
   //specifically /addAttraction
   
   const submitInterval = () =>{
-    Axios.post('http://18.204.6.173:3001/addInterval', {
+    Axios.post('http://localhost:3001/addInterval', {
                   ride_name: ride,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
@@ -201,6 +201,11 @@ var checkArray = [];
     var empty = false;
     if(timeValue == '') {
       alert("Time Value is empty");
+      emptyBoxArray.push('timeValueID');
+      empty = true;
+    }
+    else if(timeValue <= 0) {
+      alert("Time Value must be greater than 0");
       emptyBoxArray.push('timeValueID');
       empty = true;
     }

@@ -186,7 +186,7 @@ app.put("/editAttraction", (req, res) => {
 
 
 app.delete('/deleteAttraction/:ride_name', (req, res) => {
-    const ride_name = req.params.ride_name
+    var ride_name = req.params.ride_name
 
     sqlInsert = "DELETE FROM ATTRACTION WHERE ride_name = ?"
     connection.query(sqlInsert, ride_name, (err, result) =>{

@@ -158,18 +158,7 @@ export default function DeletePage(props) {
 
   //states
   const [ride_name, setRideName] = useState('');
-  const [dailyOpening, setDailyOpening] = useState('');
-  const [dailyClosing, setDailyClosing] = useState('');
-  const [theoryCapacity, setTheoryCapacity] = useState('');
-  const [targetCapacity, setTargetCapacity] = useState('');
-  const [minVehicles, setMinVehicles] = useState('');
-  const [maxVehicles, setMaxVehicles] = useState('');
-  const [maxSeats, setMaxSeats] = useState('');
-  const [minStaff, setMinStaff] = useState('');
-  const [maxStaff, setMaxStaff] = useState('');
-  const [parkSection, setParkSection] = useState('');
-  const [weatherCode, setWeatherCode] = useState('');
-  const [rideType, setRideType] = useState('');
+
 
 const [rideSelect, setRideSelect] = useState('');
 
@@ -180,7 +169,7 @@ const [attractionList, setAttractionList] = useState([]);
 
 //recieve data from backend to display
 const getAttractions = () => {
-  Axios.get('http://18.204.6.173:3001/getAttraction').then( (res) => {
+  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
       //console.log(res.data)
       return setAttractionList(res.data);
   });
@@ -188,8 +177,8 @@ const getAttractions = () => {
 }
 
 
-const deleteAttraction = (ride_name) => {
-  Axios.delete(`http://18.204.6.173:3001/deleteAttraction/${rideSelect}`);
+const deleteAttraction = (rideSelect) => {
+  Axios.delete(`http://localhost:3001/deleteAttraction/${rideSelect}`);
 };
 
 return (
@@ -479,10 +468,11 @@ return (
         </table>
 
         <DeleteButton onClick={() => {
-            deleteAttraction(ride_name) //ride selected in drop down menu
+            deleteAttraction(props.location.ride_name) //ride selected in drop down menu
             window.alert(`The ride: ${props.location.ride_name} has been deleted`);
-            window.location.href='/newAttraction';
-
+            setTimeout(function(){
+              window.location.href='/newAttraction';
+            }, 10);
           }}>Delete Attraction</DeleteButton>
 
     </EditBorder>

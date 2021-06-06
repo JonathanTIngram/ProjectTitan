@@ -183,7 +183,7 @@ const [rideTertiary, setRideTertiary] = useState('');
 //send the attraction data to the backend running on port 3001
 //specifically /addAttraction
 const submitAttraction = () =>{
-  Axios.post('http://18.204.6.173:3001/addAttraction', {
+  Axios.post('http://localhost:3001/addAttraction', {
     ride_name: ride_name,
     dailyOpening: dailyOpening,
     dailyClosing: dailyClosing,
@@ -219,63 +219,141 @@ const checkEmpty = () => {
     emptyBoxArray.push('ride_nameID');
     empty = true;
   }
+  else if(ride_name < 0) {
+    alert("Ride name is negative");
+    emptyBoxArray.push('ride_nameID');
+    empty = true;
+  }
+
   if(dailyOpening == '') {
     alert("Daily Opening is empty");
     emptyBoxArray.push('dailyOpeningID');
     empty = true;
   }
+  else if(dailyOpening < 0) {
+    alert("Daily Opening is negative");
+    emptyBoxArray.push('dailyOpeningID');
+    empty = true;
+  }
+
   if(dailyClosing == '') {
     alert("Daily Closing is empty");
     emptyBoxArray.push('dailyClosingID');
     empty = true;
   }
+  else if(dailyClosing < 0) {
+    alert("Daily Closing is negative");
+    emptyBoxArray.push('dailyClosingID');
+    empty = true;
+  }
+
   if(theoryCapacity == '') {
     alert("Theoretical Capacity is empty");
     emptyBoxArray.push('theoryCapacityID');
     empty = true;
   }
+  else if(theoryCapacity < 0) {
+    alert("Theoretical Capacity is negative");
+    emptyBoxArray.push('theoryCapacityID');
+    empty = true;
+  }
+
   if(targetCapacity == '') {
     alert("Target Capacity is empty");
     emptyBoxArray.push('targetCapacityID');
     empty = true;
   }
+  else if(targetCapacity < 0) {
+    alert("Targer Capacity is negative");
+    emptyBoxArray.push('targetCapacityID');
+    empty = true;
+  }
+
   if(maxVehicles == '') {
     alert("Max Vehicles is empty");
     emptyBoxArray.push('maxVehiclesID');
     empty = true;
   }
+  else if(maxVehicles < 0) {
+    alert("Max Vehicles is negative");
+    emptyBoxArray.push('maxVehiclesID');
+    empty = true;
+  }
+
   if(minVehicles == '') {
     alert("Min Vehicles is empty");
     emptyBoxArray.push('minVehiclesID');
     empty = true;
   }
+  else if(minVehicles < 0) {
+    alert("Min Vehicles is negative");
+    emptyBoxArray.push('minVehiclesID');
+    empty = true;
+  }
+
   if(maxSeats == '') {
     alert("Max seats is empty");
     emptyBoxArray.push('maxSeatsID');
     empty = true;
   }
+  else if(maxSeats < 0) {
+    alert("Max Vehicles is negative");
+    emptyBoxArray.push('maxSeatsID');
+    empty = true;
+  }
+
   if(maxStaff == '') {
     alert("Max Staff is empty");
     emptyBoxArray.push('maxStaffID');
     empty = true;
   }
+  else if(maxStaff < 0) {
+    alert("Max Staff is negative");
+    emptyBoxArray.push('maxStaffID');
+    empty = true;
+  }
+
   if(minStaff == '') {
     alert("Min Staff is empty");
     emptyBoxArray.push('minStaffID');
     empty = true;
   }
+  else if(minStaff < 0) {
+    alert("Min Staff is negative");
+    emptyBoxArray.push('minStaffID');
+    empty = true;
+  }
+
   if(parkSection == '') {
     alert("Park Section is empty");
     emptyBoxArray.push('parkSectionID');
     empty = true;
   }
+  else if(parkSection < 0) {
+    alert("Park Section is negative");
+    emptyBoxArray.push('parkSectionID');
+    empty = true;
+  }
+
+  
   if(weatherCode == '') {
     alert("Weather Code is empty");
     emptyBoxArray.push('weatherCodeID');
     empty = true;
   }
+  else if(weatherCode < 0) {
+    alert("Weather Code is negative");
+    emptyBoxArray.push('weatherCodeID');
+    empty = true;
+  }
+
   if(rideType == '') {
     alert("Ride Type is empty");
+    emptyBoxArray.push('rideTypeID');
+    empty = true;
+  }
+  else if(rideType < 0) {
+    alert("Park Section is negative");
     emptyBoxArray.push('rideTypeID');
     empty = true;
   }
@@ -294,11 +372,12 @@ const changeInputColor = (emptyBoxArray) => {
 const [nameList, setNameList] = useState([]);
 const GetNames = () => {
   useEffect(() => {
-      Axios.get('http://18.204.6.173:3001/getAttractionNames').then(res => {
+      Axios.get('http://localhost:3001/getAttractionNames').then(res => {
       return setNameList(res.data);
       }).catch(err => console.log(err));
       }, [])
 }
+
 return (
   
     <>
@@ -475,9 +554,8 @@ return (
                 history.push('/newAttraction')
                 setTimeout(function(){
                   window.location.reload(); 
-                }, 1);
-              }
-              
+                }, 10);
+              }  
         }
         }}>Create Attraction</CreateButton>
     </EditBorder>

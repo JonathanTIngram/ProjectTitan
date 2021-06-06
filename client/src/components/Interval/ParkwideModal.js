@@ -143,7 +143,7 @@ export const ParkwideModal = ({ showModal, setShowModal, ride }) => {
   //specifically /addAttraction
   
   const submitInterval = () =>{
-    Axios.post('http://18.204.6.173:3001/addParkInterval', {
+    Axios.post('http://localhost:3001/addParkInterval', {
                   ride_name: ride,
                   timeValue: timeValue,
                   typeState: typeState.map((d, i)=>  {
@@ -204,6 +204,11 @@ var checkArray = [];
       alert("Time Value is empty");
       emptyBoxArray.push('timeValueID');
       empty = true;
+    }
+    else if(timeValue <= 0){
+    alert("Time Value must be greater than 0");
+    emptyBoxArray.push('timeValueID');
+    empty = true;
     }
     typeState.map((d)=>  {
     if (d.select === false) {
