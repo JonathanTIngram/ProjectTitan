@@ -291,24 +291,47 @@ const changeInputColor = (emptyBoxArray) => {
     document.getElementById(element).style.backgroundColor = "pink";
   }
 }
+var storeOld = [];
 const setOldValues = () => {
-  {attractionList.map((val, key) => {
-    setDailyOpening(val.dailyOpening);
-    setDailyClosing(val.dailyClosing);
-    setTheoryCapacity(val.theoryCapacity);
-    setTargetCapacity(val.targetCapacity);
-    setMaxVehicles(val.maxVehicles);
-    setMinVehicles(val.minVehicles);
-    setMaxSeats(val.MaxSeats);
-    setMaxStaff(val.maxStaff);
-    setMinStaff(val.minStaff);
-    setParkSection(val.parkSection);
-    setWeatherCode(val.weatherCode);
-    setRideType(val.rideType);
-  })}
+  if(dailyOpening === ''){
+    dailyOpening = storeOld[0];
+  }
+  if(dailyClosing === ''){
+    dailyClosing = storeOld[1];
+  }
+  if(theoryCapacity === ''){
+    theoryCapacity = storeOld[2];
+  }
+  if(targetCapacity === ''){
+    targetCapacity = storeOld[3];
+  }
+  if(maxVehicles === ''){
+    maxVehicles = storeOld[4];
+  }
+  if(minVehicles === ''){
+    minVehicles = storeOld[5];
+  }
+  if(maxSeats === ''){
+    maxSeats = storeOld[6];
+  }
+  if(maxStaff === ''){
+    maxStaff = storeOld[7];
+  }
+  if(minStaff === ''){
+    minStaff = storeOld[8];
+  }
+  if(parkSection === ''){
+    parkSection = storeOld[9];
+  }
+  if(weatherCode === ''){
+    weatherCode = storeOld[10];
+  }      
+  if(rideType === ''){
+    rideType = storeOld[11];
+  } 
 }
 
-var storeOld = [];
+
 return (
     <>
     <Navbar/>
@@ -649,45 +672,16 @@ return (
 
         </table>
         <EditButton onClick={() => { 
-              if(dailyOpening === ''){
-                dailyOpening = storeOld[0];
-              }
-              if(dailyClosing === ''){
-                dailyClosing = storeOld[1];
-              }
-              if(theoryCapacity === ''){
-                theoryCapacity = storeOld[2];
-              }
-              if(targetCapacity === ''){
-                targetCapacity = storeOld[3];
-              }
-              if(minVehicles === ''){
-                minVehicles = storeOld[4];
-              }
-              if(maxVehicles === ''){
-                maxVehicles = storeOld[5];
-              }
-              if(maxSeats === ''){
-                maxSeats = storeOld[6];
-              }
-              if(minStaff === ''){
-                minStaff = storeOld[7];
-              }
-              if(maxStaff === ''){
-                maxStaff = storeOld[8];
-              }
-              if(parkSection === ''){
-                parkSection = storeOld[9];
-              }
-              if(weatherCode === ''){
-                weatherCode = storeOld[10];
-              }      
-              if(rideType === ''){
-                rideType = storeOld[11];
-              }      
-              window.alert(`The ride: ${ride_name} has been edited`);
-              editAttraction();
-              console.log(storeOld);
+          if(checkNegative() == true){
+            changeInputColor(emptyBoxArray);
+          }
+          else{
+            setOldValues(); 
+            window.alert(`The ride: ${ride_name} has been edited`);
+            editAttraction();
+            console.log(storeOld);
+          }
+
 
         }}>Edit Attraction</EditButton>
 
