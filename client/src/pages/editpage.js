@@ -359,11 +359,15 @@ return (
                     return (
                       <> 
                         <input type='time' id='dailyOpeningID' name='dailyOpening' placeholder={dailyOpening} onChange={(e) => {
-                            setDailyOpening(e.target.value);
-                          }}
-                        ></input>  
+                        if(!e.target.value){
+                          setDailyOpening(dailyOpening);
+                        }
+                        else{
+                          setDailyOpening(e.target.value);
+                        }
+                        }}></input>  
                       </>
-                    );
+                      );
                 }
                 })}
 
@@ -381,7 +385,12 @@ return (
                         return (
                           <> 
                             <input type='time' id='dailyClosingID' name='dailyClosing' placeHolder={dailyClosing} onChange={(e) => {
+                              if(!e.target.value){
+                                setDailyClosing(dailyClosing);
+                              }
+                              else{
                                 setDailyClosing(e.target.value);
+                              }
                               }}
                             ></input>  
                           </>
@@ -403,7 +412,12 @@ return (
                             return (
                               <> 
                                 <input type='text' id='theoryCapacityID' name='theoryCapacity' placeHolder={theoryCapacity} onChange={(e) => {
+                                  if(!e.target.value){
+                                    setTheoryCapacity(theoryCapacity);
+                                  }
+                                  else{
                                     setTheoryCapacity(e.target.value);
+                                  }
                                   }}
                                 ></input>  
                               </>
@@ -425,7 +439,12 @@ return (
                           return (
                             <> 
                               <input type='text' id='targetCapacityID' name='targetCapacity' placeHolder={targetCapacity} onChange={(e) => {
-                                  setTargetCapacity(e.target.value);
+                                  if(!e.target.value){
+                                    setTargetCapacity(theoryCapacity);
+                                  }
+                                  else{
+                                    setTargetCapacity(e.target.value);
+                                  }
                                 }}
                               ></input>  
                             </>
@@ -447,7 +466,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='maxVehiclesID' name='maxVehicles' placeHolder={maxVehicles} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setMaxVehicles(maxVehicles);
+                                    }
+                                    else{
                                       setMaxVehicles(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -469,7 +493,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='minVehiclesID' name='minVehicle' placeHolder={minVehicles} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setMinVehicles(minVehicles);
+                                    }
+                                    else{
                                       setMinVehicles(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -491,7 +520,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='maxSeatsID' name='maxSeats' placeHolder={maxSeats} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setMaxSeats(maxSeats);
+                                    }
+                                    else{
                                       setMaxSeats(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -513,7 +547,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='maxStaffID' name='maxStaff' placeHolder={maxStaff} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setMaxStaff(maxStaff);
+                                    }
+                                    else{
                                       setMaxStaff(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -535,7 +574,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='minStaffID' name='minStaff' placeHolder={minStaff} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setMinStaff(minStaff);
+                                    }
+                                    else{
                                       setMinStaff(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -557,7 +601,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='parkSectionID' name='parkSection' placeHolder={parkSection} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setParkSection(parkSection);
+                                    }
+                                    else{
                                       setParkSection(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -579,7 +628,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='weatherCodeID' name='weatherCode' placeHolder={weatherCode} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setWeatherCode(weatherCode);
+                                    }
+                                    else{
                                       setWeatherCode(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -601,7 +655,12 @@ return (
                               return (
                                 <> 
                                   <input type='text' id='rideTypeID' name='rideType' placeHolder={rideType} onChange={(e) => {
+                                    if(!e.target.value){
+                                      setRideType(rideType);
+                                    }
+                                    else{
                                       setRideType(e.target.value);
+                                    }
                                     }}
                                   ></input>  
                                 </>
@@ -618,15 +677,10 @@ return (
 
         </table>
         <EditButton onClick={() => { 
-            if(checkEmpty() == true){
-              window.alert("Data entry error")
-              changeInputColor(emptyBoxArray);
-              console.log(emptyBoxArray);
-            }
-            else { 
+
               window.alert(`The ride: ${ride_name} has been edited`);
               editAttraction();
-        }}}>Edit Attraction</EditButton>
+        }}>Edit Attraction</EditButton>
 
     </EditBorder>
     <ReportInfo>
