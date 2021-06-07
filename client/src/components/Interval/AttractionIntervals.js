@@ -248,7 +248,6 @@ const AttractionIntervals = (props) => {
          
     return (
         <>
-
             <CallsBorder>
                 <RideName>  
                 {window.addEventListener('load', GetAttractions())}
@@ -306,7 +305,9 @@ const AttractionIntervals = (props) => {
                             console.log(`waitTime${id}`)
                             emptyArrayTest.push(`waitTime${id}`)
                         }
-
+                        else if(WaitTime < 0) {
+                            emptyArrayTest.push(`waitTime${id}`)
+                        }
                             return (
                                 <div>
                                     <Variables>Wait Time {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'} {'\u00A0'}<InputVariables id={`waitTime${id}`} type="text" onChange={(e) => {
@@ -320,6 +321,9 @@ const AttractionIntervals = (props) => {
                     const checkThroughput = () => {
                         if (val.checkedThroughput == true){
                         if (Throughput == ''){
+                            emptyArrayTest.push(`throughput${id}`)
+                        }
+                        else if(Throughput < 0) {
                             emptyArrayTest.push(`throughput${id}`)
                         }
 
@@ -336,6 +340,9 @@ const AttractionIntervals = (props) => {
                     const checkAvailable = () => {
                         if (val.checkedAvailableSeats == true){
                         if (AvailableSeats == ''){
+                            emptyArrayTest.push(`available${id}`)
+                        }
+                        else if (AvailableSeats < 0){
                             emptyArrayTest.push(`available${id}`)
                         }
 
@@ -355,6 +362,9 @@ const AttractionIntervals = (props) => {
                             if (AvailableDown == ''){
                                 emptyArrayTest.push(`down${id}`)
                             }
+                            else if (AvailableDown < 0){
+                                emptyArrayTest.push(`down${id}`)
+                            }
 
                             return (
                                 <div>
@@ -367,9 +377,9 @@ const AttractionIntervals = (props) => {
 
                       {currentRide = val.ride_name}
                       {cardCount = cardCount + 1}
-                      
                         return (
                             <>
+
 
                             <IntervalCard>
                             <CardTime>Every {val.timeValue} Minutes
@@ -377,7 +387,7 @@ const AttractionIntervals = (props) => {
                              onClick={() => {console.log(id); deleteInterval(id);
                                   setTimeout(function(){
                                     window.location.reload(); 
-                                   }, 2);
+                                   }, 10);
                                }}/>
                              
                              </CardTime>
@@ -398,33 +408,32 @@ const AttractionIntervals = (props) => {
                                     var throughput = `throughput${id}`;
                                     var seats = `available${id}`;
                                     var down = `down${id}`;
-
+                                    console.log(wait);
                                     var refresh = 0;
                                     console.log(emptyArrayTest);
                                     if(emptyArrayTest.includes(wait)){
                                         document.getElementById(wait).style.background = 'pink';
-                                        alert("Error! Wait time is empty.")
+                                        alert("Error! Wait Time has invalid input.")
                                         refresh = 1;
                                     }
+
                                     if(emptyArrayTest.includes(throughput)){
                                         document.getElementById(throughput).style.background = 'pink';
-                                        alert("Error! Throughput is empty.")
+                                        alert("Error! Throughput has invalid input..")
                                         refresh = 1;
                                     }
                                     if(emptyArrayTest.includes(seats)){
                                         document.getElementById(seats).style.background = 'pink';
-                                        alert("Error! Available Seats is empty.")
+                                        alert("Error! Available Seats has invalid input.")
                                         refresh = 1;
                                     }
                                     if(emptyArrayTest.includes(down)){
                                         document.getElementById(down).style.background = 'pink';
-                                        alert("Error! Available Down is empty.")
+                                        alert("Error! Available Down has invalid input.")
                                         refresh = 1;
                                     }
                                     if (refresh == 0){
-                                        setTimeout(function(){
-                                            window.location.reload(); 
-                                           }, 2);
+
                                         editInterval(id, val.ride_name)
                                     }
 
