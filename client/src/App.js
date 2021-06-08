@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom';
 import Main from './pages/main';
 import Historical from './pages/historical';

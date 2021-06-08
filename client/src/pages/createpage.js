@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import styled from 'styled-components';
 import Axios from 'axios'
 import { NavLink as Link} from 'react-router-dom';
@@ -335,7 +337,6 @@ const checkEmpty = () => {
     empty = true;
   }
 
-  
   if(weatherCode == '') {
     alert("Weather Code is empty");
     emptyBoxArray.push('weatherCodeID');

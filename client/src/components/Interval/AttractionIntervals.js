@@ -1,3 +1,4 @@
+/* eslint-disable */
 import styled from 'styled-components';
 import plus from './plusSign.png'
 import { AttractionModal } from './AttractionModal';

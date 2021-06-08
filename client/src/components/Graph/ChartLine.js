@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, useState, useEffect} from 'react';
 import LineChart from 'react-linechart';
 import Axios from 'axios';

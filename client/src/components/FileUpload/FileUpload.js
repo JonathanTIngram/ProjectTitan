@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment, useState } from 'react';
 
 import Progress from './Progress';

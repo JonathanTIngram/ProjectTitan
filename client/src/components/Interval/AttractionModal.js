@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';

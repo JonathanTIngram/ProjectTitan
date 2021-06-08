@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import Axios from 'axios'
 import { MdSignalCellularConnectedNoInternet4Bar } from "react-icons/md";
