@@ -203,6 +203,11 @@ var checkArray = [];
       emptyBoxArray.push('timeValueID');
       empty = true;
     }
+    else if(timeValue <= 0) {
+      alert("Time Value must be greater than 0");
+      emptyBoxArray.push('timeValueID');
+      empty = true;
+    }
     typeState.map((d)=>  {
     if (d.select === false) {
         checkArray.push(d.type)

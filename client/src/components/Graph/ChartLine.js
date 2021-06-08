@@ -16,7 +16,6 @@ function ChartLine() {
                 //console.log(res.data)
                 setRideList(res.data)
             }).catch(err => console.log(err));
-        
     }
 
 
