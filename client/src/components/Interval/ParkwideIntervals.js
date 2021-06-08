@@ -157,7 +157,7 @@ const ParkwideIntervals = () => {
     const [rideSelect, setRideSelect] = useState('');
 
     const deleteInterval = (id) => {
-        Axios.delete(`http://18.204.6.173:3001/deleteParkInterval/${id}`);
+        Axios.delete(`http://localhost:3001/deleteParkInterval/${id}`);
         };
     
     //edit info
@@ -167,7 +167,7 @@ const ParkwideIntervals = () => {
     const [AvailableDown, setAvailableDown] = useState('');
 
     const editParkInterval = (id) =>{
-        Axios.put('http://18.204.6.173:3001/editParkInterval', {
+        Axios.put('http://localhost:3001/editParkInterval', {
 
             id: id,
             WaitTime: WaitTime,
@@ -196,7 +196,7 @@ const ParkwideIntervals = () => {
 
             </IntervalCard>
             {useEffect(() => {
-                Axios.get('http://18.204.6.173:3001/getParkInterval').then(res => {
+                Axios.get('http://localhost:3001/getParkInterval').then(res => {
                 setParkIntervalList(res.data)
                 }).catch(err => console.log(err));
                 }, [])}
