@@ -197,6 +197,20 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
             res.send(result);
         }
     })
+
+    intervalInsert = "DELETE FROM intervals WHERE ride_name = ?"
+    connection.query(intervalInsert, ride_name, (err, result) =>{
+        if (err){
+            console.log(err);
+        }
+    })
+
+    colletedDataInsert = "DELETE FROM collectData WHERE ride_name = ?"
+    connection.query(collectedDataInsert, ride_name, (err, result) =>{
+        if (err){
+            console.log(err);
+        }
+    })
 });
  
 
