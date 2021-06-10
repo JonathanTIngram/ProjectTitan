@@ -188,13 +188,26 @@ app.put("/editAttraction", (req, res) => {
 app.delete('/deleteAttraction/:ride_name', (req, res) => {
     const ride_name = req.params.ride_name
 
-    sqlInsert = "DELETE FROM ATTRACTION WHERE ride_name = ?"
+    sqlInsert = "DELETE FROM attraction WHERE ride_name = ?"
     connection.query(sqlInsert, ride_name, (err, result) =>{
         if (err){
             console.log(err);
         }
         else {
             res.send(result);
+        }
+    })
+    intervalInsert = "DELETE FROM intervals WHERE ride_name = ?"
+    connection.query(intervalInsert, ride_name, (err, result) =>{
+        if (err){
+            console.log(err);
+        }
+    })
+
+    collectedDataInsert = "DELETE FROM collectedData WHERE ride_name = ?"
+    connection.query(collectedDataInsert, ride_name, (err, result) =>{
+        if (err){
+            console.log(err);
         }
     })
 });
