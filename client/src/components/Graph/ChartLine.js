@@ -125,17 +125,12 @@ function ChartLine() {
             });
         }
     }
+    data[data.length] = {x: 1200, y: 50 };  //test for ordering
+    data[data.length] = {x: 1100, y: 40 };  //test for ordering
+    data[data.length] = {x: 1300, y: 60 };  //test for ordering
 
-    // data.sort(sortFunction);
-
-    // function sortFunction(a, b) {
-    //     if (a[0] === b[0]) {
-    //         return 0;
-    //     }
-    //     else {
-    //         return (a[0] < b[0]) ? -1 : 1;
-    //     }
-    // }
+    data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+    console.log(data)
 
     return (
 
