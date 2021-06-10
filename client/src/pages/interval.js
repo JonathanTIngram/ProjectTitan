@@ -18,5 +18,4 @@ const Interval = () => {
       
       );
 }
-
 export default  Interval

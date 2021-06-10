@@ -1,9 +1,24 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect} from 'react';
-import LineChart from 'react-linechart';
+import '../../../node_modules/react-vis/dist/style.css';
+import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
+import {
+  FlexibleXYPlot,
+  FlexibleWidthXYPlot,
+  FlexibleHeightXYPlot
+} from 'react-vis';
 import Axios from 'axios';
-
-//
+import {timeFormatDefaultLocale} from 'd3-time-format';
+timeFormatDefaultLocale({
+    dateTime    : '%a %b %e %X %Y',
+    date        : '%d/%m/%Y',
+    time        : '%H : %M : %S',
+    periods     : ['AM', 'PM'],
+    days        : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+    shortDays   : ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+    months      : ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+    shortMonths : ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
+});
 function ChartLine() {
 
 
@@ -48,10 +63,8 @@ function ChartLine() {
 
     {dataList.map((val, key) => {	
         if (val.ride_name){
-            var time = val.ts;
-            time = time.substring(11,19)
-            var date= val.ts;
-            date = date.substring(0,10)
+            var time = new Date(val.ts).getTime();
+            var date = new Date(val.ts).toString().substring(0,15);
             index = index + 1;
             console.log("Ride name = ", val.ride_name);
             console.log("Time = ", time);
@@ -116,15 +129,29 @@ function ChartLine() {
         }
     }
      
-    const data = [
-        {						
-            color: "steelblue", 
-            points: [
-  
-            ]
-        }
-    ];  
+   var data = [
+       
+   ]
 
+   for (let i = 0; i < tList.length; i++) {
+       data.push({
+           x: timeList[i],
+           y: tList[i]
+       })
+   }
+
+   function msToTime(duration) {
+    var milliseconds = Math.floor((duration % 1000) / 100),
+      seconds = Math.floor((duration / 1000) % 60),
+      minutes = Math.floor((duration / (1000 * 60)) % 60),
+      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+  
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+  
+    return hours + ":" + minutes
+  }
     return (
 
         <div>
@@ -146,11 +173,26 @@ function ChartLine() {
 
             {compareRide()}
             <div className="App">
-                <LineChart 
-                    width={850}
-                    height={630}
-                    data={data}
+             <FlexibleXYPlot height={500} width={900}>
+                <VerticalGridLines />
+                <HorizontalGridLines />
+    
+                <XAxis title="Time of interval card"
+                tickTotal={data.length} 
+                tickLabelAngle={-25} 
+            
+
+                tickFormat={d => {
+                 return msToTime(d).toString()
+                }}
                 />
+                <YAxis title="throughput"/>
+
+                 <LineMarkSeries data={data} color="lightblue"
+                       markStyle={{stroke: 'black'}}
+                       style={{ strokeWidth: '3px' }}
+                       strokeStyle="solid"/>
+            </FlexibleXYPlot>
             </div>				
         </div>
     );

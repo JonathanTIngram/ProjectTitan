@@ -1,10 +1,11 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Axios from 'axios'
 import { NavLink as Link } from 'react-router-dom';
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
-/* eslint-disable */
+
 export const Nav = styled.nav`
   background: transparent;
   height: 3px;
