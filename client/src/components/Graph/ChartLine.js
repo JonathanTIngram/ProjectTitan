@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect} from 'react';
 import '../../../node_modules/react-vis/dist/style.css';
-import {XYPlot, LineSeries, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
+import {XYPlot, Borders, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
 import {
   FlexibleXYPlot,
   FlexibleWidthXYPlot,
@@ -19,6 +19,7 @@ timeFormatDefaultLocale({
     months      : ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
     shortMonths : ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
 });
+
 function ChartLine() {
 
 
@@ -172,24 +173,31 @@ function ChartLine() {
 
             {compareRide()}
             <div className="App">
-             <FlexibleXYPlot height={500} width={900}>
+             <FlexibleXYPlot height={500} width={900} xType="ordinal">
                 <VerticalGridLines />
                 <HorizontalGridLines />
-    
+
                 <XAxis title="Time of interval card"
+                style={{
+                    line: {stroke: 'black'},
+                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                  }}
                 tickTotal={data.length} 
                 tickLabelAngle={-25} 
-            
-
                 tickFormat={d => {
                  return msToTime(d).toString()
                 }}
                 />
-                <YAxis title="throughput"/>
+                <YAxis title="throughput"
+                 style={{
+                    line: {stroke: 'black'},
+                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                  }}/>
 
-                 <LineMarkSeries data={data} color="lightblue"
+                 <LineMarkSeries data={data} curve={'curveMonotoneX'} color="#ADDDE1"
+
                        markStyle={{stroke: 'black'}}
-                       style={{ strokeWidth: '3px' }}
+                       style={{ strokeLinejoin: "round"}}
                        strokeStyle="solid"/>
             </FlexibleXYPlot>
             </div>				
