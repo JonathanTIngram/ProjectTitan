@@ -129,9 +129,7 @@ function ChartLine() {
         }
     }
      
-   var data = [
-       
-   ]
+   var data = []
 
    for (let i = 0; i < tList.length; i++) {
        data.push({
@@ -152,6 +150,7 @@ function ChartLine() {
   
     return hours + ":" + minutes
   }
+
     return (
 
         <div>

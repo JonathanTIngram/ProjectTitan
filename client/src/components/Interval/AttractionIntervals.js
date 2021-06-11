@@ -395,6 +395,7 @@ const AttractionIntervals = (props) => {
                                   setTimeout(function(){
                                     window.location.reload(); 
                                    }, 10);
+                                   
                                }}/>
                              
                              </CardTime>
