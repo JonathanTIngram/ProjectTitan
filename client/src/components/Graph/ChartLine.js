@@ -8,17 +8,6 @@ import {
   FlexibleHeightXYPlot
 } from 'react-vis';
 import Axios from 'axios';
-import {timeFormatDefaultLocale} from 'd3-time-format';
-timeFormatDefaultLocale({
-    dateTime    : '%a %b %e %X %Y',
-    date        : '%d/%m/%Y',
-    time        : '%H : %M : %S',
-    periods     : ['AM', 'PM'],
-    days        : ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-    shortDays   : ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-    months      : ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
-    shortMonths : ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Jui', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec']
-});
 
 function ChartLine() {
 
@@ -64,7 +53,11 @@ function ChartLine() {
 
     {dataList.map((val, key) => {	
         if (val.ride_name){
-            var time = new Date(val.ts).getTime();
+            var minutes = new Date(val.ts).getMinutes();
+            if(minutes < 11){
+                minutes = "0" + minutes;
+            }
+            var time = new Date(val.ts).getHours() + ":" + minutes;
             var date = new Date(val.ts).toString().substring(0,15);
             index = index + 1;
             console.log("Ride name = ", val.ride_name);
@@ -139,19 +132,6 @@ function ChartLine() {
        })
    }
 
-   function msToTime(duration) {
-    var milliseconds = Math.floor((duration % 1000) / 100),
-      seconds = Math.floor((duration / 1000) % 60),
-      minutes = Math.floor((duration / (1000 * 60)) % 60),
-      hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-  
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-    seconds = (seconds < 10) ? "0" + seconds : seconds;
-  
-    return hours + ":" + minutes
-  }
-
     return (
 
         <div>
@@ -185,7 +165,7 @@ function ChartLine() {
                 tickTotal={data.length} 
                 tickLabelAngle={-25} 
                 tickFormat={d => {
-                 return msToTime(d).toString()
+                 return d
                 }}
                 />
                 <YAxis title="throughput"
