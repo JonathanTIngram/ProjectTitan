@@ -441,7 +441,7 @@ const AttractionIntervals = (props) => {
                                     // document.getElementById('3').style.background = "pink";
 
                                     //editInterval(id, val.ride_name)
-                                    // window.location.reload();
+                                    window.location.reload();
                                 }}>Submit</SubmitButton>
                                 </CardCollect>
                                 

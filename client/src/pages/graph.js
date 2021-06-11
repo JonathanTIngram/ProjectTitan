@@ -64,16 +64,13 @@ const MapWidget = styled.nav`
 const ChartBorder = styled.nav`
   overflow: hidden;
   padding-left: 2%;
-  margin-top: -650px;
+  margin-top: -570px;
   width: 62%;
   position: absolute;
-  left: 18%;
-`;
+  left: 20%;
+  `;
 
-
-class Graph extends React.Component {
-    
-  render () {
+export default function Graph() {
     return (
         <>
         <Navbar />
@@ -92,6 +89,4 @@ class Graph extends React.Component {
           </OuterBorder>
         </>
     );
-  }
 }
-export default Graph;

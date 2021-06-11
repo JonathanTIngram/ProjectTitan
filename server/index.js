@@ -205,7 +205,7 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
         }
     })
 
-    colletedDataInsert = "DELETE FROM collectData WHERE ride_name = ?"
+    collectedDataInsert = "DELETE FROM collectedData WHERE ride_name = ?"
     connection.query(collectedDataInsert, ride_name, (err, result) =>{
         if (err){
             console.log(err);

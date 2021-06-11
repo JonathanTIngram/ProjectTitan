@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+const saveSvgAsPng = require('save-svg-as-png')
+
 const Button = styled.button`
   border: none;
   background: none;
@@ -65,7 +67,12 @@ const [showModal, setShowModal] = useState(false);
                         Significant Changes
                     </QuickToolsButtons>
 
-                    <QuickToolsButtons>
+                    <QuickToolsButtons onClick={() => {
+
+                            var element = document.getElementsByClassName('rv-xy-plot__inner');
+                            saveSvgAsPng.saveSvgAsPng(element[0], 'ride-graph.png');
+
+                    }}>
                         Quick Export
                     </QuickToolsButtons>
             </QuickToolsSideNav>
