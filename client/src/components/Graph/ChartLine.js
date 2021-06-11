@@ -54,7 +54,7 @@ function ChartLine() {
     {dataList.map((val, key) => {	
         if (val.ride_name){
             var minutes = new Date(val.ts).getMinutes();
-            if(minutes < 11){
+            if(minutes < 10){
                 minutes = "0" + minutes;
             }
             var time = new Date(val.ts).getHours() + ":" + minutes;
@@ -131,7 +131,7 @@ function ChartLine() {
            y: tList[i]
        })
    }
-
+   data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     return (
 
         <div>
