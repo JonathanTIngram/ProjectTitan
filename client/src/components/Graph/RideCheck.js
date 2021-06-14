@@ -56,6 +56,7 @@ const GetAttractions = () => {
         <tbody>
 
                 {attractionList.map((val, key) => {
+
                   return (
                     <>     
                    
@@ -78,7 +79,7 @@ const GetAttractions = () => {
                 sendRideName(rideList);
                 setTimeout(function(){
                   window.location.reload(); 
-                 }, 2);
+                 }, 1);
       }
       }>Submit</SubmitButton>
     </div>

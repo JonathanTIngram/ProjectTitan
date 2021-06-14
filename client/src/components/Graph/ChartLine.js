@@ -8,6 +8,7 @@ import {
   FlexibleHeightXYPlot
 } from 'react-vis';
 import Axios from 'axios';
+import styled from 'styled-components';
 
 function ChartLine() {
 
@@ -58,8 +59,7 @@ function ChartLine() {
                 minutes = "0" + minutes;
             }
             var time = new Date(val.ts).getHours() + ":" + minutes;
-            var date = new Date(val.ts).toString().substring(0,15);
-            index = index + 1;
+            var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             console.log("Ride name = ", val.ride_name);
             console.log("Time = ", time);
             console.log("Date = ", date);
@@ -87,12 +87,15 @@ function ChartLine() {
             //check box list is compared with collected data
             if(rideList.includes(rList[i])) {
                 console.log("Matched ", rList[i]);
+       
                 //each variable is compared with the selected stat
                 if(statList.includes("Wait Time"))
                 {
                     //locate variable
                     if(wList[i] != -1) {
                         console.log("Wait Time of " + rList[i] + " = " + wList[i]);
+         
+
                      } 
                 }
                 if(statList.includes("Throughput"))
@@ -100,6 +103,7 @@ function ChartLine() {
                      //locate variable
                     if(tList[i] != -1) {
                         console.log("Throughput of " + rList[i] + " = " + tList[i]);
+   
                     }
                 }
                 if(statList.includes("Available Seats"))
@@ -107,6 +111,7 @@ function ChartLine() {
                      //locate variable
                     if(asList[i] != -1) {
                         console.log("Available seats of " + rList[i] + " = " + asList[i]);
+
                     }
                 }   
                 if(statList.includes("Available Down"))
@@ -114,6 +119,7 @@ function ChartLine() {
                      //locate variable
                     if(adList[i] != -1) {
                         console.log("Available down of " + rList[i] + " = " + adList[i]);
+      
                     }
                 }
 
@@ -124,14 +130,46 @@ function ChartLine() {
     }
      
    var data = []
+    const eachStat = (list) => {
+        for (let i = 0; i < list.length; i++) {
+            if(list[i] != -1){
+            data.push({
+                x: timeList[i],
+                y: list[i]
+            })
+            data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+            }
+        }
+    }
+    const selectedRide = () => {
+        var count = 0
+        for (let i = 0; i < rList.length; i++) {
+             var element = rList[i];
+             if(rideList.includes(element)){
+                console.log(rideList.includes(element));
+                count++;
+             }
+        }
+        console.log(count)
+    }
 
-   for (let i = 0; i < tList.length; i++) {
-       data.push({
-           x: timeList[i],
-           y: tList[i]
-       })
-   }
-   data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+    const selectedStat = (list) => {
+        if(list == "Throughput") {
+            eachStat(tList)
+        }
+        if(list == "Wait Time") {
+            eachStat(wList)
+        }
+        if(list == "Available Seats") {
+            eachStat(asList)
+        }
+        if(list == "Available Down") {
+            eachStat(adList)
+        }
+    }
+
+    
+
     return (
 
         <div>
@@ -149,10 +187,12 @@ function ChartLine() {
             {console.log("ThroughputList = ", tList)}
             {console.log("AvailableSeatList = ", asList)}
             {console.log("AvailableDownList = ", adList)}
-
-
+            {selectedRide()}
+            {selectedStat(statList)}
             {compareRide()}
+
             <div className="App">
+
              <FlexibleXYPlot height={500} width={900} xType="ordinal">
                 <VerticalGridLines />
                 <HorizontalGridLines />
@@ -161,6 +201,7 @@ function ChartLine() {
                 style={{
                     line: {stroke: 'black'},
                     text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                    
                   }}
                 tickTotal={data.length} 
                 tickLabelAngle={-25} 
@@ -168,21 +209,28 @@ function ChartLine() {
                  return d
                 }}
                 />
-                <YAxis title="throughput"
+                <YAxis title={statList}
                  style={{
                     line: {stroke: 'black'},
                     text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
                   }}/>
 
-                 <LineMarkSeries data={data} curve={'curveMonotoneX'} color="#ADDDE1"
-
-                       markStyle={{stroke: 'black'}}
-                       style={{ strokeLinejoin: "round"}}
-                       strokeStyle="solid"/>
+                 <LineMarkSeries 
+                 
+                    data={data} 
+                    onValueMouseOver={(datapoint, event)=>{
+                        console.log(datapoint)
+                      }}
+                      
+                    curve={'curveMonotoneX'} color="#ADDDE1"
+                    markStyle={{stroke: 'black'}}
+                    style={{ strokeLinejoin: "round"}}
+                    strokeStyle="solid"/>
             </FlexibleXYPlot>
             </div>				
         </div>
     );
+    
 }
 
 export default ChartLine
