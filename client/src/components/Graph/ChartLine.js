@@ -17,6 +17,7 @@ function ChartLine() {
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
+
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
@@ -42,15 +43,9 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
-    let index = 0;
-    var rList = [];
-    var wList = [];
-    var tList = [];
-    var asList = [];
-    var adList = [];
-    var timeList = [];
-    var dateList = [];
 
+
+    var intervalCard = [];
 
     {dataList.map((val, key) => {	
         if (val.ride_name){
@@ -58,115 +53,88 @@ function ChartLine() {
             if(minutes < 10){
                 minutes = "0" + minutes;
             }
-            var time = new Date(val.ts).getHours() + ":" + minutes;
+            var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
-            console.log("Ride name = ", val.ride_name);
-            console.log("Time = ", time);
-            console.log("Date = ", date);
-            rList.push(val.ride_name);
-            timeList.push(time);
-            dateList.push(date)
-            console.log("Wait Time = ", val.WaitTime);
-            wList.push(val.WaitTime);
-        
-            console.log("Throughput = ", val.Throughput)
-            tList.push(val.Throughput);
 
-
-            console.log("Available Seats = ", val.AvailableSeats)
-            asList.push(val.AvailableSeats);
-            console.log("Available Down = ", val.AvailableDown)
-            adList.push( val.AvailableDown);
-
-            console.log('');
+            intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
+            Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
+            AvailableDown: val.AvailableDown, Time: time, Date: date})
      }
      })}
-
-     const compareRide = () => {
-        for(var i = 0; i < index; i++) {
-            //check box list is compared with collected data
-            if(rideList.includes(rList[i])) {
-                console.log("Matched ", rList[i]);
-       
-                //each variable is compared with the selected stat
-                if(statList.includes("Wait Time"))
-                {
-                    //locate variable
-                    if(wList[i] != -1) {
-                        console.log("Wait Time of " + rList[i] + " = " + wList[i]);
+    //  const compareRide = () => {
+    //     for(var i = 0; i < index; i++) {
+    //         //check box list is compared with collected data
+    //         if(rideList.includes(rList[i])) {
+    //             console.log("Matched ", rList[i]);
+    //             check = true;
+    //             //each variable is compared with the selected stat
+    //             if(statList.includes("Wait Time"))
+    //             {
+    //                 //locate variable
+    //                 if(wList[i] != -1) {
+    //                     console.log("Wait Time of " + rList[i] + " = " + wList[i]);
          
 
-                     } 
-                }
-                if(statList.includes("Throughput"))
-                {
-                     //locate variable
-                    if(tList[i] != -1) {
-                        console.log("Throughput of " + rList[i] + " = " + tList[i]);
+    //                  } 
+    //             }
+    //             if(statList.includes("Throughput"))
+    //             {
+    //                  //locate variable
+    //                 if(tList[i] != -1) {
+    //                     console.log("Throughput of " + rList[i] + " = " + tList[i]);
    
-                    }
-                }
-                if(statList.includes("Available Seats"))
-                {
-                     //locate variable
-                    if(asList[i] != -1) {
-                        console.log("Available seats of " + rList[i] + " = " + asList[i]);
+    //                 }
+    //             }
+    //             if(statList.includes("Available Seats"))
+    //             {
+    //                  //locate variable
+    //                 if(asList[i] != -1) {
+    //                     console.log("Available seats of " + rList[i] + " = " + asList[i]);
 
-                    }
-                }   
-                if(statList.includes("Available Down"))
-                {
-                     //locate variable
-                    if(adList[i] != -1) {
-                        console.log("Available down of " + rList[i] + " = " + adList[i]);
+    //                 }
+    //             }   
+    //             if(statList.includes("Available Down"))
+    //             {
+    //                  //locate variable
+    //                 if(adList[i] != -1) {
+    //                     console.log("Available down of " + rList[i] + " = " + adList[i]);
       
-                    }
-                }
+    //                 }
+    //             }
 
                 
-                console.log('');
-            }
-        }
-    }
+    //             console.log('');
+    //         }
+    //     }
+    // }
      
    var data = []
-    const eachStat = (list) => {
-        for (let i = 0; i < list.length; i++) {
-            if(list[i] != -1){
-            data.push({
-                x: timeList[i],
-                y: list[i]
-            })
-            data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+    var selected = '';
+    const checkStat = () => {	
+        {intervalCard.map((val) => {	
+            if(statList == "Throughput") {
+                selected = val.Throughput
             }
-        }
+            if(statList == "Wait Time") {
+                selected = val.WaitTime
+            }
+            if(statList == "Available Seats"){
+                selected = val.AvailableSeats
+            }
+            if(statList == "Available Down") {
+                selected = val.AvailableSeats
+            }
+            if(selected != -1) 
+            {
+                data.push({
+                    x: val.Time,
+                    y: selected
+                })
+            }
+        })}
+        data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     }
-    const selectedRide = () => {
-        var count = 0
-        for (let i = 0; i < rList.length; i++) {
-             var element = rList[i];
-             if(rideList.includes(element)){
-                console.log(rideList.includes(element));
-                count++;
-             }
-        }
-        console.log(count)
-    }
-
-    const selectedStat = (list) => {
-        if(list == "Throughput") {
-            eachStat(tList)
-        }
-        if(list == "Wait Time") {
-            eachStat(wList)
-        }
-        if(list == "Available Seats") {
-            eachStat(asList)
-        }
-        if(list == "Available Down") {
-            eachStat(adList)
-        }
-    }
+ 
 
     
 
@@ -179,18 +147,8 @@ function ChartLine() {
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
         }, [])}
-            {console.log("Amount of rides ", index)}
-            {console.log("Ride names = ", rList)}
-            {console.log("TimeList = ", timeList)}
-            {console.log("DateList = ", dateList)}
-            {console.log("WaitList = ", wList)}
-            {console.log("ThroughputList = ", tList)}
-            {console.log("AvailableSeatList = ", asList)}
-            {console.log("AvailableDownList = ", adList)}
-            {selectedRide()}
-            {selectedStat(statList)}
-            {compareRide()}
-
+            {checkStat()}
+            {console.log(intervalCard)}
             <div className="App">
 
              <FlexibleXYPlot height={500} width={900} xType="ordinal">
@@ -206,10 +164,14 @@ function ChartLine() {
                 tickTotal={data.length} 
                 tickLabelAngle={-25} 
                 tickFormat={d => {
-                 return d
+                var minutes = new Date(d).getMinutes();
+                if(minutes < 10){
+                    minutes = "0" + minutes;
+                }
+                 return new Date(d).getHours()+ ":" + minutes
                 }}
                 />
-                <YAxis title={statList}
+                <YAxis title={''}
                  style={{
                     line: {stroke: 'black'},
                     text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
