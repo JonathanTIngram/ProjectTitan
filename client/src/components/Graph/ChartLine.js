@@ -46,7 +46,6 @@ function ChartLine() {
 
 
     var intervalCard = [];
-    var id = 0;
     {dataList.map((val, key) => {	
         if (val.ride_name){
             var time = new Date(val.ts)
@@ -107,30 +106,30 @@ function ChartLine() {
      
     var data = []
     var selected = '';
-    const checkStat = () => {	
+    const checkStat = (ride) => {	
+        console.log(intervalCard)
         {intervalCard.map((val) => {
-            for (let index = 0; index < rideList.length; index++) {
-            if(rideList[index] == val.rideName){
-                if(statList == "Throughput") {
-                    selected = val.Throughput
-                }
-                if(statList == "Wait Time") {
-                    selected = val.WaitTime
-                }
-                if(statList == "Available Seats"){
-                    selected = val.AvailableSeats
-                }
-                if(statList == "Available Down") {
-                    selected = val.AvailableSeats
-                }
-                if(selected != -1) 
-                {
-                    data.push({
-                        x: val.Time,
-                        y: selected
-                    })
-                 }
-        }}
+            if(val.rideName == ride){
+            if(statList == "Throughput") {
+                selected = val.Throughput
+            }
+            if(statList == "Wait Time") {
+                selected = val.WaitTime
+            }
+            if(statList == "Available Seats"){
+                selected = val.AvailableSeats
+            }
+            if(statList == "Available Down") {
+                selected = val.AvailableSeats
+            }
+            if(selected != -1) 
+            {
+                data.push({
+                    x: val.Time,
+                    y: selected
+                })
+            }
+        }
         })}
         data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     }
@@ -138,16 +137,13 @@ function ChartLine() {
     return (
 
         <div>
-
             {useEffect(() => {
             {window.addEventListener('load', CheckedData())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
         }, [])}
-            {checkStat()}
-            {console.log(intervalCard)}
             <div className="App">
-             <FlexibleXYPlot height={500} width={900} xType="ordinal">
+             <FlexibleXYPlot height={500} width={900} xType="time">
                 <VerticalGridLines />
                 <HorizontalGridLines />
 
@@ -157,7 +153,6 @@ function ChartLine() {
                     text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
                     
                   }}
-                tickTotal={data.length} 
                 tickLabelAngle={-25} 
                 tickFormat={d => {
                 var minutes = new Date(d).getMinutes();
@@ -167,13 +162,15 @@ function ChartLine() {
                  return new Date(d).getHours()+ ":" + minutes
                 }}
                 />
-                <YAxis title={''}
+                <YAxis title={selected}
                  style={{
                     line: {stroke: 'black'},
                     text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
                   }}/>
-
-                 <LineMarkSeries 
+            {rideList.map((i) => {
+                {checkStat(i)}
+                return (
+                    <LineMarkSeries 
                  
                     data={data} 
                     onValueMouseOver={(datapoint, event)=>{
@@ -184,6 +181,8 @@ function ChartLine() {
                     markStyle={{stroke: 'black'}}
                     style={{ strokeLinejoin: "round"}}
                     strokeStyle="solid"/>
+                )
+                })}
             </FlexibleXYPlot>
             </div>				
         </div>
