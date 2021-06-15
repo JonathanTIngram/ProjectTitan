@@ -46,21 +46,18 @@ function ChartLine() {
 
 
     var intervalCard = [];
-
+    var id = 0;
     {dataList.map((val, key) => {	
         if (val.ride_name){
-            var minutes = new Date(val.ts).getMinutes();
-            if(minutes < 10){
-                minutes = "0" + minutes;
-            }
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
-
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
             Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
             AvailableDown: val.AvailableDown, Time: time, Date: date})
      }
      })}
+    
+    
     //  const compareRide = () => {
     //     for(var i = 0; i < index; i++) {
     //         //check box list is compared with collected data
@@ -108,35 +105,35 @@ function ChartLine() {
     //     }
     // }
      
-   var data = []
+    var data = []
     var selected = '';
     const checkStat = () => {	
-        {intervalCard.map((val) => {	
-            if(statList == "Throughput") {
-                selected = val.Throughput
-            }
-            if(statList == "Wait Time") {
-                selected = val.WaitTime
-            }
-            if(statList == "Available Seats"){
-                selected = val.AvailableSeats
-            }
-            if(statList == "Available Down") {
-                selected = val.AvailableSeats
-            }
-            if(selected != -1) 
-            {
-                data.push({
-                    x: val.Time,
-                    y: selected
-                })
-            }
+        {intervalCard.map((val) => {
+            for (let index = 0; index < rideList.length; index++) {
+            if(rideList[index] == val.rideName){
+                if(statList == "Throughput") {
+                    selected = val.Throughput
+                }
+                if(statList == "Wait Time") {
+                    selected = val.WaitTime
+                }
+                if(statList == "Available Seats"){
+                    selected = val.AvailableSeats
+                }
+                if(statList == "Available Down") {
+                    selected = val.AvailableSeats
+                }
+                if(selected != -1) 
+                {
+                    data.push({
+                        x: val.Time,
+                        y: selected
+                    })
+                 }
+        }}
         })}
         data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     }
- 
-
-    
 
     return (
 
@@ -150,7 +147,6 @@ function ChartLine() {
             {checkStat()}
             {console.log(intervalCard)}
             <div className="App">
-
              <FlexibleXYPlot height={500} width={900} xType="ordinal">
                 <VerticalGridLines />
                 <HorizontalGridLines />
