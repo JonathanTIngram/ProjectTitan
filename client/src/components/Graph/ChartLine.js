@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
+/* eslint-disable */
+import React, { Component, useState, useEffect} from 'react';
 import '../../../node_modules/react-vis/dist/style.css';
-import { XYPlot, LineSeries, HorizontalGridLines, VerticalGridLines, XAxis, YAxis, DecorativeAxis } from 'react-vis';
+import {XYPlot, Borders, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
+import {
+  FlexibleXYPlot,
+  FlexibleWidthXYPlot,
+  FlexibleHeightXYPlot
+} from 'react-vis';
+import Axios from 'axios';
+import styled from 'styled-components';
 
 function ChartLine() {
 
@@ -9,15 +16,14 @@ function ChartLine() {
     var [rideList, setRideList] = useState([]);
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
-    var graphData = [];
+
 
     const CheckedRideName = () => {
 
-        Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
-            //console.log(res.data)
-            setRideList(res.data)
-        }).catch(err => console.log(err));
-
+            Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+                //console.log(res.data)
+                setRideList(res.data)
+            }).catch(err => console.log(err));
     }
 
 
@@ -37,133 +43,240 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
-    let index = 0;
-    var rList = [];
-    var wList = [];
-    var tList = [];
-    var asList = [];
-    var adList = [];
-    var timeList = [];
-    var dateList = [];
+
+    var showRideList = () => {
 
 
+        rideList.map((val, key) => {
+
+            return (
+
+                    <>
+                                            <VerticalGridLines />
+                <HorizontalGridLines />
+
+                <XAxis title="Time of interval card"
+                style={{
+                    line: {stroke: 'black'},
+                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                    
+                  }}
+                tickLabelAngle={-25} 
+                tickFormat={d => {
+                var minutes = new Date(d).getMinutes();
+                if(minutes < 10){
+                    minutes = "0" + minutes;
+                }
+                 return new Date(d).getHours()+ ":" + minutes
+                }}
+                />
+                <YAxis title={selected}
+                 style={{
+                    line: {stroke: 'black'},
+                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                  }}/>
+            {rideList.map((i) => {
+                {checkStat(i)}
+                return (
+                    <LineMarkSeries 
+                 
+                    data={data} 
+                    onValueMouseOver={(datapoint, event)=>{
+                        console.log(datapoint)
+                      }}
+                      
+                    curve={'curveMonotoneX'} color="#ADDDE1"
+                    markStyle={{stroke: 'black'}}
+                    style={{ strokeLinejoin: "round"}}
+                    strokeStyle="solid"/>
+                )
+                })}
+                    
+                    </>
+                
+                
+            );
+        });
+        
+    }
+
+
+
+    var intervalCard = [];
+    var intervalCard1 = [];
+    for(let i =0; i < rideList.length; i++)
     {
-        dataList.map((val, key) => {
-            if (val.ride_name) {
-                var time = new Date(val.ts).toString().substring(16, 24); //time conversion
-                var date = val.ts;
-                date = date.substring(0, 10)
-                index = index + 1;
-                console.log("Ride name = ", val.ride_name);
-                console.log("Time = ", time);
-                console.log("Date = ", date);
-                rList.push(val.ride_name);
-                timeList.push(parseInt(time.split(":").join("").substring(0,4)));
-                dateList.push(date)
-                console.log("Wait Time = ", val.WaitTime);
-                wList.push(val.WaitTime);
+        var tempName = rideList[i];
 
-                console.log("Throughput = ", val.Throughput)
-                tList.push(val.Throughput);
+    {dataList.map((val, key) => {	
 
 
-                console.log("Available Seats = ", val.AvailableSeats)
-                asList.push(val.AvailableSeats);
-                console.log("Available Down = ", val.AvailableDown)
-                adList.push(val.AvailableDown);
-
-                console.log('');
-            }
-        })
-    }
-
-    const compareRide = () => {
-        for (var i = 0; i < index; i++) {
-            //check box list is compared with collected data
-            if (rideList.includes(rList[i])) {
-                console.log("Matched ", rList[i]);
-                //each variable is compared with the selected stat
-                if (statList.includes("Wait Time")) {
-                    //locate variable
-                    if (wList[i] != -1) {
-                        console.log("Wait Time of " + rList[i] + " = " + wList[i]);
-                    }
-                }
-                if (statList.includes("Throughput")) {
-                    //locate variable
-                    if (tList[i] != -1) {
-                        console.log("Throughput of " + rList[i] + " = " + tList[i]);
-                    }
-                }
-                if (statList.includes("Available Seats")) {
-                    //locate variable
-                    if (asList[i] != -1) {
-                        console.log("Available seats of " + rList[i] + " = " + asList[i]);
-                    }
-                }
-                if (statList.includes("Available Down")) {
-                    //locate variable
-                    if (adList[i] != -1) {
-                        console.log("Available down of " + rList[i] + " = " + adList[i]);
-                    }
-                }
-
-
-                console.log('');
-            }
+     if (val.ride_name == tempName){
+            var time = new Date(val.ts)
+            var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
+            intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
+            Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
+            AvailableDown: val.AvailableDown, Time: time, Date: date})
         }
-    }
-
-    var data = [];
-
-    for (var i = 0; i < tList.length; i += 1) {
-        if(tList[i] > 0)
+        if(i > 0)
         {
-            data.push({
-                 x:  timeList[i],
-                y: tList[i]
-            });
+            var lastName = rideList[i -1]
+            if(tempName != lastName)
+            {
+                
+            }
         }
-    }
-    data[data.length] = {x: 1200, y: 50 };  //test for ordering
-    data[data.length] = {x: 1100, y: 40 };  //test for ordering
-    data[data.length] = {x: 1300, y: 60 };  //test for ordering
+    })}}
 
-    data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
-    console.log(data)
+    
+    //  const compareRide = () => {
+    //     for(var i = 0; i < index; i++) {
+    //         //check box list is compared with collected data
+    //         if(rideList.includes(rList[i])) {
+    //             console.log("Matched ", rList[i]);
+    //             check = true;
+    //             //each variable is compared with the selected stat
+    //             if(statList.includes("Wait Time"))
+    //             {
+    //                 //locate variable
+    //                 if(wList[i] != -1) {
+    //                     console.log("Wait Time of " + rList[i] + " = " + wList[i]);
+         
+
+    //                  } 
+    //             }
+    //             if(statList.includes("Throughput"))
+    //             {
+    //                  //locate variable
+    //                 if(tList[i] != -1) {
+    //                     console.log("Throughput of " + rList[i] + " = " + tList[i]);
+   
+    //                 }
+    //             }
+    //             if(statList.includes("Available Seats"))
+    //             {
+    //                  //locate variable
+    //                 if(asList[i] != -1) {
+    //                     console.log("Available seats of " + rList[i] + " = " + asList[i]);
+
+    //                 }
+    //             }   
+    //             if(statList.includes("Available Down"))
+    //             {
+    //                  //locate variable
+    //                 if(adList[i] != -1) {
+    //                     console.log("Available down of " + rList[i] + " = " + adList[i]);
+      
+    //                 }
+    //             }
+
+                
+    //             console.log('');
+    //         }
+    //     }
+    // }
+     
+    var data = []
+    var selected = '';
+    const checkStat = (ride) => {	
+        console.log(intervalCard)
+        console.log(intervalCard1)
+        {intervalCard.map((val) => {
+            if(val.rideName == ride){
+            if(statList == "Throughput") {
+                selected = val.Throughput
+            }
+            if(statList == "Wait Time") {
+                selected = val.WaitTime
+            }
+            if(statList == "Available Seats"){
+                selected = val.AvailableSeats
+            }
+            if(statList == "Available Down") {
+                selected = val.AvailableSeats
+            }
+            if(selected != -1) 
+            {
+                data.push({
+                    x: val.Time,
+                    y: selected
+                })
+            }
+        }
+        })}
+        data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+    }
 
     return (
 
         <div>
-
             {useEffect(() => {
-                { window.addEventListener('load', CheckedData()) }
-                { window.addEventListener('load', CheckedRideName()) }
-                { window.addEventListener('load', CheckedStat()) }
-            }, [])}
-            {console.log("Amount of rides ", index)}
-            {console.log("Ride names = ", rList)}
-            {console.log("TimeList = ", timeList)}
-            {console.log("DateList = ", dateList)}
-            {console.log("WaitList = ", wList)}
-            {console.log("ThroughputList = ", tList)}
-            {console.log("AvailableSeatList = ", asList)}
-            {console.log("AvailableDownList = ", adList)}
+            {window.addEventListener('load', CheckedData())}
+            {window.addEventListener('load', CheckedRideName())}
+            {window.addEventListener('load', CheckedStat())}
+        }, [])}
 
 
-            {compareRide()}
+
+
             <div className="App">
-                <XYPlot height={500} width={900}>
+
+            {rideList.map((val, key) => {
+
+                return (
+                    <>
+                    <FlexibleXYPlot height={500} width={900} xType="time">
+
+
+
                     <VerticalGridLines />
                     <HorizontalGridLines />
-                    <XAxis />
-                    <YAxis />
-                    <LineSeries data={data} color="red" />
+
+                    <XAxis title="Time of interval card"
+                    style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                        
+                    }}
+                    tickLabelAngle={-25} 
+                    tickFormat={d => {
+                    var minutes = new Date(d).getMinutes();
+                    if(minutes < 10){
+                        minutes = "0" + minutes;
+                    }
+                    return new Date(d).getHours()+ ":" + minutes
+                    }}
+                    />
+                    <YAxis title={selected}
+                    style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                    }}/>
+                    {rideList.map((i) => {
+                    {checkStat(i)}
+                    return (
+                        <LineMarkSeries 
                     
-                </XYPlot>
-            </div>
-        </div>
-    );
-}
+                        data={data} 
+                        onValueMouseOver={(datapoint, event)=>{
+                            console.log(datapoint)
+                        }}
+                        
+                        curve={'curveMonotoneX'} color="#ADDDE1"
+                        markStyle={{stroke: 'black'}}
+                        style={{ strokeLinejoin: "round"}}
+                        strokeStyle="solid"/>
+                    )
+                    })}
+                    </FlexibleXYPlot>
+                                        </>
+                                    );
+                                })}
+                    
+                                </div>				
+                            </div>
+                        );
+                        
+                    }
 
 export default ChartLine

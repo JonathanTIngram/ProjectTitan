@@ -19,6 +19,7 @@
     "react-scripts": "4.0.3",
     "react-spring": "^9.0.0-rc.3",
     "react-vis": "^1.11.7",
+    "save-svg-as-png": "^1.4.17",
     "styled-components": "^5.2.1",
     "web-vitals": "^1.1.0"
   },
