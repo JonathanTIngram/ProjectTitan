@@ -35,6 +35,17 @@ function ChartLine() {
         }).catch(err => console.log(err));
     }
 
+
+    const splitData = () => {
+        var flags = [], output = []
+        for(let i=0; i < intervalCard.length; i++) {
+            if( flags[intervalCard[i].rideName]) continue;
+            flags[intervalCard[i].rideName] = true;
+            output.push(intervalCard[i].rideName);
+        }
+       console.log(output)
+    }
+
     const CheckedData = () => {
 
         Axios.get(`http://localhost:3001/getCollectedData`).then(res => {
@@ -46,73 +57,95 @@ function ChartLine() {
 
     var showRideList = () => {
 
+        if (rideList.length != 0){
+            
 
-        rideList.map((val, key) => {
+            rideList.map((val, key) => {
 
-            return (
-
-                    <>
-                                            <VerticalGridLines />
-                <HorizontalGridLines />
-
-                <XAxis title="Time of interval card"
-                style={{
-                    line: {stroke: 'black'},
-                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                    
-                  }}
-                tickLabelAngle={-25} 
-                tickFormat={d => {
-                var minutes = new Date(d).getMinutes();
-                if(minutes < 10){
-                    minutes = "0" + minutes;
-                }
-                 return new Date(d).getHours()+ ":" + minutes
-                }}
-                />
-                <YAxis title={selected}
-                 style={{
-                    line: {stroke: 'black'},
-                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                  }}/>
-            {rideList.map((i) => {
-                {checkStat(i)}
                 return (
-                    <LineMarkSeries 
-                 
-                    data={data} 
-                    onValueMouseOver={(datapoint, event)=>{
-                        console.log(datapoint)
+    
+                        <>
+                                                <VerticalGridLines />
+                    <HorizontalGridLines />
+    
+                    <XAxis title="Time of interval card"
+                    style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                        
                       }}
-                      
-                    curve={'curveMonotoneX'} color="#ADDDE1"
-                    markStyle={{stroke: 'black'}}
-                    style={{ strokeLinejoin: "round"}}
-                    strokeStyle="solid"/>
-                )
-                })}
+                    tickLabelAngle={-25} 
+                    tickFormat={d => {
+                    var minutes = new Date(d).getMinutes();
+                    if(minutes < 10){
+                        minutes = "0" + minutes;
+                    }
+                     return new Date(d).getHours()+ ":" + minutes
+                    }}
+                    />
+                    <YAxis title={selected}
+                     style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                      }}/>
+                {rideList.map((i) => {
+                    {checkStat(i)}
+                    return (
+                        <LineMarkSeries 
+                     
+                        data={data} 
+                        onValueMouseOver={(datapoint, event)=>{
+                            console.log(datapoint)
+                          }}
+                          
+                        curve={'curveMonotoneX'} color="#ADDDE1"
+                        markStyle={{stroke: 'black'}}
+                        style={{ strokeLinejoin: "round"}}
+                        strokeStyle="solid"/>
+                        
+                    )
+                    })}
+                        
+                        </>
                     
-                    </>
-                
-                
-            );
-        });
+                    
+                );
+            });
+        }
+
+
         
     }
 
 
 
     var intervalCard = [];
+    var intervalCard1 = [];
+    for(let i =0; i < rideList.length; i++)
+    {
+        var tempName = rideList[i];
+
     {dataList.map((val, key) => {	
-        if (val.ride_name){
+
+     var rideArray = `rideArray${i}`
+
+     if (val.ride_name == tempName){
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
             Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
             AvailableDown: val.AvailableDown, Time: time, Date: date})
-     }
-     })}
-    
+        }
+        if(i > 0)
+        {
+            var lastName = rideList[i -1]
+            if(tempName != lastName)
+            {
+                
+            }
+        }
+    })}}
+
     
     //  const compareRide = () => {
     //     for(var i = 0; i < index; i++) {
@@ -165,27 +198,29 @@ function ChartLine() {
     var selected = '';
     const checkStat = (ride) => {	
         console.log(intervalCard)
+        console.log(intervalCard1)
         {intervalCard.map((val) => {
-            if(val.rideName == ride){
-            if(statList == "Throughput") {
-                selected = val.Throughput
-            }
-            if(statList == "Wait Time") {
-                selected = val.WaitTime
-            }
-            if(statList == "Available Seats"){
-                selected = val.AvailableSeats
-            }
-            if(statList == "Available Down") {
-                selected = val.AvailableSeats
-            }
-            if(selected != -1) 
-            {
-                data.push({
-                    x: val.Time,
-                    y: selected
-                })
-            }
+            if(val.rideName == 'Superman'){
+                if(statList == "Throughput") {
+                    selected = val.Throughput
+                }
+                if(statList == "Wait Time") {
+                    selected = val.WaitTime
+                }
+                if(statList == "Available Seats"){
+                    selected = val.AvailableSeats
+                }
+                if(statList == "Available Down") {
+                    selected = val.AvailableSeats
+                }
+                if(selected != -1) 
+                {
+                    console.log(val.rideName)
+                    data.push({
+                        x: val.Time,
+                        y: selected
+                    })
+                }
         }
         })}
         data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
@@ -199,68 +234,73 @@ function ChartLine() {
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
         }, [])}
+            {window.addEventListener('load', splitData())}
 
 
 
 
             <div className="App">
 
+
             {rideList.map((val, key) => {
 
                 return (
                     <>
-                                <FlexibleXYPlot height={500} width={900} xType="time">
+                    <FlexibleXYPlot height={500} width={900} xType="time">
 
 
 
-<VerticalGridLines />
-<HorizontalGridLines />
+                    <VerticalGridLines />
+                    <HorizontalGridLines />
 
-<XAxis title="Time of interval card"
-style={{
-    line: {stroke: 'black'},
-    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-    
-  }}
-tickLabelAngle={-25} 
-tickFormat={d => {
-var minutes = new Date(d).getMinutes();
-if(minutes < 10){
-    minutes = "0" + minutes;
-}
- return new Date(d).getHours()+ ":" + minutes
-}}
-/>
-<YAxis title={selected}
- style={{
-    line: {stroke: 'black'},
-    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-  }}/>
-{rideList.map((i) => {
-{checkStat(i)}
-return (
-    <LineMarkSeries 
- 
-    data={data} 
-    onValueMouseOver={(datapoint, event)=>{
-        console.log(datapoint)
-      }}
-      
-    curve={'curveMonotoneX'} color="#ADDDE1"
-    markStyle={{stroke: 'black'}}
-    style={{ strokeLinejoin: "round"}}
-    strokeStyle="solid"/>
-)
-})}
-</FlexibleXYPlot>
-                    </>
-                );
-            })}
- 
-            </div>				
-        </div>
-    );
-    
-}
+                    <XAxis title="Time of interval card"
+                    style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                        
+                    }}
+                    tickLabelAngle={-25} 
+                    tickFormat={d => {
+                    var minutes = new Date(d).getMinutes();
+                    if(minutes < 10){
+                        minutes = "0" + minutes;
+                    }
+                    return new Date(d).getHours()+ ":" + minutes
+                    }}
+                    />
+                    <YAxis title={selected}
+                    style={{
+                        line: {stroke: 'black'},
+                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
+                    }}/>
+                    {rideList.map((i) => {
+                    {checkStat(i)}
+                    return (
+                        
+                    
+                        <LineMarkSeries 
+                    
+                        data={data} 
+                        onValueMouseOver={(datapoint, event)=>{
+                            console.log(datapoint)
+                        }}
+
+                        
+                        curve={'curveMonotoneX'} color="#ADDDE1"
+                        markStyle={{stroke: 'black'}}
+                        style={{ strokeLinejoin: "round"}}
+                        strokeStyle="solid"/>
+                    )
+                    })}
+                    </FlexibleXYPlot>
+                                        </>
+                                    );
+                                })}
+                    
+                                </div>				
+                            </div>
+                        );
+                        
+                    }
 
 export default ChartLine
