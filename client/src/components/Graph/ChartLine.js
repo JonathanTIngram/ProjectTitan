@@ -42,7 +42,6 @@ function ChartLine() {
 
     var intervalCard = [];
     {dataList.map((val, key) => {	
-        var i = 0;
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
@@ -110,11 +109,42 @@ function ChartLine() {
             };
             //console.log(select)
         }
-        for (var i = 0 ; i < ride.length ; i++ ) {
-            data.push(result)
-        }
+        var tmpX = [];
+        var tmpY = [];
+        var tmpX2 = [];
+        var tmpY2 = [];
+        var tmpX3 = [];
+        var tmpY3 = [];
+        const test = (ride) => {
 
-        
+        }
+        for (var i = 0 ; i < name.length ; i++ ) {
+            if(result.z[i] == rideList[0]){
+                tmpX.push(result.x[i])
+                tmpY.push(result.y[i])
+            }
+            var temp = {
+                x: tmpX,
+                y: tmpY,
+            };
+            if(result.z[i] == rideList[1]){
+                tmpX2.push(result.x[i])
+                tmpY2.push(result.y[i])
+            }
+            var temp2 = {
+                x: tmpX2,
+                y: tmpY2,
+            };
+            if(result.z[i] == rideList[2]){
+                tmpX3.push(result.x[i])
+                tmpY3.push(result.y[i])
+            }
+            var temp3 = {
+                x: tmpX3,
+                y: tmpY3,
+            };
+        }
+        data.push(temp, temp2, temp3)
         //data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     
     }
