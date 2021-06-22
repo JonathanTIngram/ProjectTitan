@@ -1,14 +1,7 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect} from 'react';
 import '../../../node_modules/react-vis/dist/style.css';
-import {XYPlot, Borders, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
-import {
-  FlexibleXYPlot,
-  FlexibleWidthXYPlot,
-  FlexibleHeightXYPlot
-} from 'react-vis';
 import Plot from 'react-plotly.js';
-import Plotly from 'plotly.js';
 import Axios from 'axios';
 import styled from 'styled-components';
 
@@ -50,13 +43,12 @@ function ChartLine() {
     var intervalCard = [];
     {dataList.map((val, key) => {	
         var i = 0;
-        if (val.ride_name == rideList){
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
             Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
             AvailableDown: val.AvailableDown, Time: time, Date: date})
-        }
+        
      })}
   
     var data = []
@@ -82,40 +74,48 @@ function ChartLine() {
                 organized.unshift(val)
             }
         })}
-        console.log(organized)
-        console.log(temp)
+        //console.log(organized)
+        //console.log(temp)
     }
+
     var time = []
     var select = []
-    const graphStat = () => {
-        for ( var i = 0 ; i < intervalCard.length ; i++ ) {
+    var name = []
+    const graphStat = (ride) => {
+        for ( var i = 0 ; i < organized.length ; i++ ) {
             if(statList == "Throughput") {
-                selected = intervalCard[i].Throughput
+                selected = organized[i].Throughput
             }
             if(statList == "Wait Time") {
-                selected = intervalCard[i].WaitTime
+                selected = organized[i].WaitTime
             }
             if(statList == "Available Seats"){
-                selected = intervalCard[i].AvailableSeats
+                selected = organized[i].AvailableSeats
             }
             if(statList == "Available Down") {
-                selected = intervalCard[i].AvailableDown
+                selected = organized[i].AvailableDown
             }
             if(selected != -1){
-                var x = intervalCard[i].Time
-                var y = selected
-                time.push(x)
-                select.push(y)
+                    var x = organized[i].Time
+                    var y = selected
+                    var z = organized[i].rideName
+                    time.push(x)
+                    select.push(y)
+                    name.push(z)
             }
+            var result = {
+                x: time,
+                y: select,
+                z: name
+            };
+            //console.log(select)
         }
-        var result = {
-            x: time,
-            y: select,
+        for (var i = 0 ; i < ride.length ; i++ ) {
+            data.push(result)
+        }
 
-        };
-        console.log(select)
-        data.push(result);
-        data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+        
+        //data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
     
     }
     return (
@@ -127,21 +127,17 @@ function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
         }, [])}
             {printOrdered()}
-            {graphStat()}
+            {graphStat(rideList)}
             <div id='myDiv'>
             <Plot 
             data={data}
             layout={{
+                width: 1000, height: 620,
                 xaxis: {
                 type: 'time'
                 }, 
             }}
-            >
-
-
-
-
-            </Plot>
+            />
             </div>				
         </div>
     );
