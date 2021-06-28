@@ -1,14 +1,7 @@
 /* eslint-disable */
 import React, { Component, useState, useEffect} from 'react';
 import '../../../node_modules/react-vis/dist/style.css';
-import {XYPlot, Borders, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
-import {
-  FlexibleXYPlot,
-  FlexibleWidthXYPlot,
-  FlexibleHeightXYPlot
-} from 'react-vis';
 import Plot from 'react-plotly.js';
-import Plotly from 'plotly.js';
 import Axios from 'axios';
 import styled from 'styled-components';
 
@@ -19,13 +12,15 @@ function ChartLine() {
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
+    var state = [];
+    var state2 = [];
+
 
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
-                console.log(rideList)
             }).catch(err => console.log(err));
     }
 
@@ -49,15 +44,15 @@ function ChartLine() {
 
 
     var intervalCard = [];
+    var throughput;
+
     {dataList.map((val, key) => {	
-        var i = 0;
-        if (val.ride_name == rideList){
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
             Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
             AvailableDown: val.AvailableDown, Time: time, Date: date})
-        }
+        
      })}
   
     var data = []
@@ -83,56 +78,24 @@ function ChartLine() {
                 organized.unshift(val)
             }
         })}
-        console.log(organized)
-        console.log(temp)
+        //console.log(organized)
+        //console.log(temp)
     }
-    var time = []
-    var select = []
-    var lines = {'Throughput': {'y': []},
-                 'WaitTime': {'y': []},
-                 'AvailableSeats': {'y': []},
-                 'AvailableDown': {'y': []}}
-    const graphStat = () => {
 
-        for ( var i = 0 ; i < intervalCard.length ; i++ ) {
-
-
-            if(statList == "Throughput") {
-                // selected = intervalCard[i].Throughput
-                lines.Throughput.y.push(intervalCard[i].Throughput);
-            }
-            if(statList == "Wait Time") {
-                lines.WaitTime.y.push(intervalCard[i].WaitTime);
-            }
-            if(statList == "Available Seats"){
-                lines.AvailableSeats.y.push(intervalCard[i].AvailableSeats);
-            }
-            if(statList == "Available Down") {
-                lines.AvailableDown.y.push(intervalCard[i].AvailableDown);
-            }
-            if(selected != -1){
-                var x = intervalCard[i].Time
-                var y = lines
-                console.log(`the fucking interval card ride name: ${intervalCard.ride_name}`)
-                time.push(x)
-                select.push(y)
-            }
-        }
-
-        var result = {
-            x: time,
-            y: select,
-        };
-        console.log(select)
-        data.push(result);
-        data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+    var time = [];
+    var select = [];
+    var throughputData = [];
+    var waitTimeData = [];
+    var availableSeatsData = [];
+    var availableDownData = [];
+    var name = []
+    const graphStat = (ride) => {
+        organized.map((val, key) => {
+            console.log(val.Throughput)
+            state.push(val.Throughput);
+            state2.push(val.WaitTime);
+         })
     
-    }
-
-    var data2 = {
-        x: [10, 20, 30],
-        y: [1, 3, 6]
-
     }
     return (
 
@@ -143,23 +106,26 @@ function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
         }, [])}
             {printOrdered()}
-            {graphStat()}
-
+            {graphStat(rideList)}
             <div id='myDiv'>
-                
             <Plot 
-
             data={[
-                {data}
+                {
+                    x: [1,3,4],
+                    y: state
+                },
+                {
+                    x: [2,4,8],
+                    y: state2
+                }
             ]}
             layout={{
+                width: 800, height: 520,
                 xaxis: {
                 type: 'time'
                 }, 
             }}
-            > 
-            </Plot>
-
+            />
             </div>				
         </div>
     );
