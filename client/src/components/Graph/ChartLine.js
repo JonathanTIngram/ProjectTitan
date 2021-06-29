@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React, { Component, useState, useEffect} from 'react';
-import '../../../node_modules/react-vis/dist/style.css';
-import Plot from 'react-plotly.js';
+import React, { useState, useEffect} from 'react';
+import Plotly from "plotly.js-basic-dist";
+import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
+var Plot = createPlotlyComponent(Plotly);
 
 function ChartLine() {
 
@@ -12,8 +13,10 @@ function ChartLine() {
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
-    var state = [];
-    var state2 = [];
+    var throughputState = [];
+    var waitTimeState = [];
+    var availableSeatsState = [];
+    var availableDownState = [];
 
 
     const CheckedRideName = () => {
@@ -30,6 +33,7 @@ function ChartLine() {
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
+            console.log(statList)
         }).catch(err => console.log(err));
     }
 
@@ -92,8 +96,24 @@ function ChartLine() {
     const graphStat = (ride) => {
         organized.map((val, key) => {
             console.log(val.Throughput)
-            state.push(val.Throughput);
-            state2.push(val.WaitTime);
+            if(rideList.includes(val.rideName) && rideList.length <= 1){
+                if(statList.includes("Throughput")){
+                    throughputState.push(val.Throughput);
+                }
+
+                if(statList.includes("Wait Time")){
+                    waitTimeState.push(val.WaitTime);
+                }
+
+                if(statList.includes("Available Seats")){
+                    availableSeatsState.push(val.AvailableSeats);
+                }
+
+                if(statList.includes("Available Down")){
+                    availableDownState.push(val.AvailableDown);
+                }
+            }
+
          })
     
     }
@@ -112,15 +132,27 @@ function ChartLine() {
             data={[
                 {
                     x: [1,3,4],
-                    y: state
+                    y: throughputState,
+                    name: "Throughput"
                 },
                 {
                     x: [2,4,8],
-                    y: state2
+                    y: waitTimeState,
+                    name: "Wait Time"
+                },
+                {
+                    x: [3, 6, 9],
+                    y: availableSeatsState,
+                    name: "Available Seats"
+                },
+                {
+                    x: [6, 12, 20],
+                    y: availableDownState,
+                    name: "Available Down"
                 }
             ]}
             layout={{
-                width: 800, height: 520,
+                width: 750, height: 520,
                 xaxis: {
                 type: 'time'
                 }, 
