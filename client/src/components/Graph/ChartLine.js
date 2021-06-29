@@ -93,29 +93,33 @@ function ChartLine() {
     var availableSeatsData = [];
     var availableDownData = [];
     var name = []
+
+    var tmpRideName;
+
     const graphStat = (ride) => {
         organized.map((val, key) => {
-            console.log(val.Throughput)
+
             if(rideList.includes(val.rideName) && rideList.length <= 1){
-                if(statList.includes("Throughput")){
-                    throughputState.push(val.Throughput);
+                if(statList.includes("Throughput") && val.Throughput >= 0){
+                    throughputState.push([val.Throughput,val.Time]);
+                    console.log(throughputState)
                 }
 
-                if(statList.includes("Wait Time")){
+                if(statList.includes("Wait Time") && val.WaitTime >= 0){
                     waitTimeState.push(val.WaitTime);
                 }
 
-                if(statList.includes("Available Seats")){
+                if(statList.includes("Available Seats") && val.AvailableSeats >= 0){
                     availableSeatsState.push(val.AvailableSeats);
                 }
 
-                if(statList.includes("Available Down")){
+                if(statList.includes("Available Down") && val.AvailableDown >= 0){
                     availableDownState.push(val.AvailableDown);
                 }
             }
 
          })
-    
+
     }
     return (
 
