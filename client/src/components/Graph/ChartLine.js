@@ -1,14 +1,10 @@
 /* eslint-disable */
-import React, { Component, useState, useEffect} from 'react';
-import '../../../node_modules/react-vis/dist/style.css';
-import {XYPlot, Borders, VerticalGridLines, HorizontalGridLines, XAxis, YAxis, LineMarkSeries} from 'react-vis';
-import {
-  FlexibleXYPlot,
-  FlexibleWidthXYPlot,
-  FlexibleHeightXYPlot
-} from 'react-vis';
+import React, { useState, useEffect} from 'react';
+import Plotly from "plotly.js-basic-dist";
+import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
+var Plot = createPlotlyComponent(Plotly);
 
 function ChartLine() {
 
@@ -16,6 +12,11 @@ function ChartLine() {
     var [rideList, setRideList] = useState([]);
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
+
+    var throughputTime = [];
+    var waitTimeTime = [];
+    var availableSeatsTime = [];
+    var availableDownTime = [];
 
 
     const CheckedRideName = () => {
@@ -44,167 +45,171 @@ function ChartLine() {
     }
 
 
-    var showRideList = () => {
-
-
-        rideList.map((val, key) => {
-
-            return (
-
-                    <>
-                                            <VerticalGridLines />
-                <HorizontalGridLines />
-
-                <XAxis title="Time of interval card"
-                style={{
-                    line: {stroke: 'black'},
-                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                    
-                  }}
-                tickLabelAngle={-25} 
-                tickFormat={d => {
-                var minutes = new Date(d).getMinutes();
-                if(minutes < 10){
-                    minutes = "0" + minutes;
-                }
-                 return new Date(d).getHours()+ ":" + minutes
-                }}
-                />
-                <YAxis title={selected}
-                 style={{
-                    line: {stroke: 'black'},
-                    text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                  }}/>
-            {rideList.map((i) => {
-                {checkStat(i)}
-                return (
-                    <LineMarkSeries 
-                 
-                    data={data} 
-                    onValueMouseOver={(datapoint, event)=>{
-                        console.log(datapoint)
-                      }}
-                      
-                    curve={'curveMonotoneX'} color="#ADDDE1"
-                    markStyle={{stroke: 'black'}}
-                    style={{ strokeLinejoin: "round"}}
-                    strokeStyle="solid"/>
-                )
-                })}
-                    
-                    </>
-                
-                
-            );
-        });
-        
-    }
-
-
 
     var intervalCard = [];
-    var intervalCard1 = [];
-    for(let i =0; i < rideList.length; i++)
-    {
-        var tempName = rideList[i];
+    var throughput;
 
     {dataList.map((val, key) => {	
-
-
-     if (val.ride_name == tempName){
             var time = new Date(val.ts)
             var date = new Date(val.ts).getMonth() + "/" + new Date(val.ts).getDate() + "/" + new Date(val.ts).getFullYear();
             intervalCard.push({rideName: val.ride_name, WaitTime: val.WaitTime,
             Throughput: val.Throughput, AvailableSeats: val.AvailableSeats, 
             AvailableDown: val.AvailableDown, Time: time, Date: date})
-        }
-        if(i > 0)
-        {
-            var lastName = rideList[i -1]
-            if(tempName != lastName)
-            {
-                
-            }
-        }
-    })}}
-
-    
-    //  const compareRide = () => {
-    //     for(var i = 0; i < index; i++) {
-    //         //check box list is compared with collected data
-    //         if(rideList.includes(rList[i])) {
-    //             console.log("Matched ", rList[i]);
-    //             check = true;
-    //             //each variable is compared with the selected stat
-    //             if(statList.includes("Wait Time"))
-    //             {
-    //                 //locate variable
-    //                 if(wList[i] != -1) {
-    //                     console.log("Wait Time of " + rList[i] + " = " + wList[i]);
-         
-
-    //                  } 
-    //             }
-    //             if(statList.includes("Throughput"))
-    //             {
-    //                  //locate variable
-    //                 if(tList[i] != -1) {
-    //                     console.log("Throughput of " + rList[i] + " = " + tList[i]);
-   
-    //                 }
-    //             }
-    //             if(statList.includes("Available Seats"))
-    //             {
-    //                  //locate variable
-    //                 if(asList[i] != -1) {
-    //                     console.log("Available seats of " + rList[i] + " = " + asList[i]);
-
-    //                 }
-    //             }   
-    //             if(statList.includes("Available Down"))
-    //             {
-    //                  //locate variable
-    //                 if(adList[i] != -1) {
-    //                     console.log("Available down of " + rList[i] + " = " + adList[i]);
-      
-    //                 }
-    //             }
-
-                
-    //             console.log('');
-    //         }
-    //     }
-    // }
-     
+        
+     })}
+  
     var data = []
     var selected = '';
-    const checkStat = (ride) => {	
-        console.log(intervalCard)
-        console.log(intervalCard1)
-        {intervalCard.map((val) => {
-            if(val.rideName == ride){
-            if(statList == "Throughput") {
-                selected = val.Throughput
+    var organized = []
+    //prints intervalCard in order
+    const printOrdered = () => {
+        var temp = [];
+        var name = ''
+        intervalCard.forEach(i => {
+            name = i.rideName;
+            if(!temp.includes(name)){
+                temp.push(name)
             }
-            if(statList == "Wait Time") {
-                selected = val.WaitTime
+        });
+            {intervalCard.map((val, key) => {	
+            var j = 0
+            if(temp[j] == val.rideName){
+                j++;
+                organized.push(val)
             }
-            if(statList == "Available Seats"){
-                selected = val.AvailableSeats
+            else{
+                organized.unshift(val)
             }
-            if(statList == "Available Down") {
-                selected = val.AvailableSeats
-            }
-            if(selected != -1) 
-            {
-                data.push({
-                    x: val.Time,
-                    y: selected
-                })
-            }
-        }
         })}
-        data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
+        //console.log(organized)
+        //console.log(temp)
+    }
+
+    var time = [];
+    var select = [];
+    var throughputData = [];
+    var waitTimeData = [];
+    var availableSeatsData = [];
+    var availableDownData = [];
+    var name = []
+
+    var graphData = [];
+
+    const graphStat = (ride) => 
+    {
+
+        for(let i = 0; i < ride.length; i++)
+        {
+            var foundData = false;
+            var temp = ride[i];
+            var TEMPthroughputData = [];
+            var TEMPwaitTimeData = [];
+            var TEMPavailableSeatsData = [];
+            var TEMPavailableDownData = [];
+            var TEMPthroughputTime = [];
+            var TEMPwaitTimeTime = [];
+            var TEMPavailableSeatsTime = [];
+            var TEMPavailableDownTime = [];
+
+                for(let i = 0; i < organized.length; i++) 
+                {   
+                    if(organized[i].rideName == temp)
+                    {
+
+                        if(statList.includes("Throughput") && organized[i].Throughput >= 0){
+                            TEMPthroughputTime.push(organized[i].Time)
+                            TEMPthroughputData.push(organized[i].Throughput);
+                            foundData = true;
+                        }
+
+                        if(statList.includes("Wait Time") && organized[i].WaitTime >= 0){
+                            TEMPwaitTimeData.push(organized[i].WaitTime);
+                            TEMPwaitTimeTime.push(organized[i].Time)
+                            foundData = true;
+                        }
+
+                        if(statList.includes("Available Seats") && organized[i].AvailableSeats >= 0){
+                            TEMPavailableSeatsData.push(organized[i].AvailableSeats);
+                            TEMPavailableSeatsTime.push(organized[i].Time)
+                            foundData = true;
+                        }
+
+                        if(statList.includes("Available Down") && organized[i].AvailableDown >= 0){
+                            TEMPavailableDownData.push(organized[i].AvailableDown);
+                            TEMPavailableDownTime.push(organized[i].Time)
+                            foundData = true;
+                        }
+                        
+                        if(organized[i].rideName != temp)
+                        {
+                            break;
+                        }
+                    }  
+                }
+                if(foundData)
+                {
+                    graphData.push({temp ,TEMPthroughputTime, TEMPthroughputData, TEMPwaitTimeTime, TEMPwaitTimeData, TEMPavailableSeatsTime, TEMPavailableSeatsData, TEMPavailableDownTime, TEMPavailableDownData})
+                }
+                
+              getGraphData();  
+        }
+    }
+    var tempRide = '';
+    var rideTraceArray = [];
+    const getGraphData = () => {
+        console.log(graphData)
+        
+
+        for(let i = 0; i < graphData.length; i++)
+        {   
+            for(let j = 0; j < statList.length; j++)
+            {
+                if(statList.includes("Throughput"))
+                {
+                    tempRide = graphData[i].temp;
+                    tempRide = `${tempRide}Trace`;
+                    window[tempRide] = {
+                        x: graphData[i].TEMPthroughputTime,
+                        y: graphData[i].TEMPthroughputData,
+                    };
+                    rideTraceArray.push(window[tempRide])
+                }
+                if(statList.includes("Wait Time"))
+                {
+                    tempRide = graphData[i].temp;
+                    tempRide = `${tempRide}Trace`;
+                    window[tempRide] = {
+                        x: graphData[i].TEMPwaitTimeTime,
+                        y: graphData[i].TEMPwaitTimeData,
+                    };
+                    rideTraceArray.push(window[tempRide])
+                }
+                if(statList.includes("Available Seats"))
+                {
+                    tempRide = graphData[i].temp;
+                    tempRide = `${tempRide}Trace`;
+                    window[tempRide] = {
+                        x: graphData[i].TEMPavailableSeatsTime,
+                        y: graphData[i].TEMPavailableSeatsData,
+                    };
+                    rideTraceArray.push(window[tempRide])
+                }
+                if(statList.includes("Available Down"))
+                {
+                    tempRide = graphData[i].temp;
+                    tempRide = `${tempRide}Trace`;
+                    window[tempRide] = {
+                        x: graphData[i].TEMPavailableDownTime,
+                        y: graphData[i].TEMPavailableDownData,
+                    };
+                    rideTraceArray.push(window[tempRide])
+                }
+                
+            }
+
+        }
+        console.log("rideTraceArray")
+        console.log(rideTraceArray)
     }
 
     return (
@@ -215,68 +220,22 @@ function ChartLine() {
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
         }, [])}
-
-
-
-
-            <div className="App">
-
-            {rideList.map((val, key) => {
-
-                return (
-                    <>
-                    <FlexibleXYPlot height={500} width={900} xType="time">
-
-
-
-                    <VerticalGridLines />
-                    <HorizontalGridLines />
-
-                    <XAxis title="Time of interval card"
-                    style={{
-                        line: {stroke: 'black'},
-                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                        
-                    }}
-                    tickLabelAngle={-25} 
-                    tickFormat={d => {
-                    var minutes = new Date(d).getMinutes();
-                    if(minutes < 10){
-                        minutes = "0" + minutes;
-                    }
-                    return new Date(d).getHours()+ ":" + minutes
-                    }}
-                    />
-                    <YAxis title={selected}
-                    style={{
-                        line: {stroke: 'black'},
-                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600}
-                    }}/>
-                    {rideList.map((i) => {
-                    {checkStat(i)}
-                    return (
-                        <LineMarkSeries 
-                    
-                        data={data} 
-                        onValueMouseOver={(datapoint, event)=>{
-                            console.log(datapoint)
-                        }}
-                        
-                        curve={'curveMonotoneX'} color="#ADDDE1"
-                        markStyle={{stroke: 'black'}}
-                        style={{ strokeLinejoin: "round"}}
-                        strokeStyle="solid"/>
-                    )
-                    })}
-                    </FlexibleXYPlot>
-                                        </>
-                                    );
-                                })}
-                    
-                                </div>				
-                            </div>
-                        );
-                        
-                    }
+            {printOrdered()}
+            {graphStat(rideList)}
+            <div id='myDiv'>
+            <Plot 
+            data={rideTraceArray}
+            layout={{
+                width: 750, height: 520,
+                xaxis: {
+                type: 'time'
+                }, 
+            }}
+            />
+            </div>				
+        </div>
+    );
+    
+}
 
 export default ChartLine
