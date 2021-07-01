@@ -158,54 +158,62 @@ function ChartLine() {
     var rideTraceArray = [];
     const getGraphData = () => {
         console.log(graphData)
-        
+        var tempRideName2 = '';
 
         for(let i = 0; i < graphData.length; i++)
         {   
-            for(let j = 0; j < statList.length; j++)
-            {
-                if(statList.includes("Throughput"))
+            tempRideName2 = graphData[i].temp;
+
+                if(statList.includes("Throughput") && tempRideName2 == rideList[i])
                 {
+                    var stat = " Throughput"
                     tempRide = graphData[i].temp;
                     tempRide = `${tempRide}Trace`;
                     window[tempRide] = {
                         x: graphData[i].TEMPthroughputTime,
                         y: graphData[i].TEMPthroughputData,
+                        name: graphData[i].temp + stat
                     };
                     rideTraceArray.push(window[tempRide])
                 }
-                if(statList.includes("Wait Time"))
+                if(statList.includes("Wait Time") && tempRideName2 == rideList[i])
                 {
+                    var stat = " Wait Time"
                     tempRide = graphData[i].temp;
                     tempRide = `${tempRide}Trace`;
                     window[tempRide] = {
                         x: graphData[i].TEMPwaitTimeTime,
                         y: graphData[i].TEMPwaitTimeData,
+                        name: graphData[i].temp + stat
                     };
                     rideTraceArray.push(window[tempRide])
                 }
-                if(statList.includes("Available Seats"))
+                if(statList.includes("Available Seats") && tempRideName2 == rideList[i])
                 {
+                    var stat = " Available Seats"
                     tempRide = graphData[i].temp;
                     tempRide = `${tempRide}Trace`;
                     window[tempRide] = {
                         x: graphData[i].TEMPavailableSeatsTime,
                         y: graphData[i].TEMPavailableSeatsData,
+                        name: graphData[i].temp + stat
                     };
                     rideTraceArray.push(window[tempRide])
                 }
-                if(statList.includes("Available Down"))
+                if(statList.includes("Available Down") && tempRideName2 == rideList[i])
                 {
+                    var stat = " Available Down"
                     tempRide = graphData[i].temp;
                     tempRide = `${tempRide}Trace`;
                     window[tempRide] = {
                         x: graphData[i].TEMPavailableDownTime,
                         y: graphData[i].TEMPavailableDownData,
+                        name: graphData[i].temp + stat
                     };
                     rideTraceArray.push(window[tempRide])
                 }
                 
-            }
+            
 
         }
         console.log("rideTraceArray")
