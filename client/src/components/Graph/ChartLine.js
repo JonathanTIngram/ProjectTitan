@@ -1,12 +1,14 @@
 /* eslint-disable */
-import React, { Component, useState, useEffect} from 'react';
 import '../../../node_modules/react-vis/dist/style.css';
-import Plot from 'react-plotly.js';
+import React, { useState, useEffect} from 'react';
+import Plotly from "plotly.js-basic-dist";
+import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
 
 function ChartLine() {
 
+    var Plot = createPlotlyComponent(Plotly);
 
     var [rideList, setRideList] = useState([]);
     var [statList, setStatList] = useState([]);
@@ -37,7 +39,6 @@ function ChartLine() {
             setDataList(res.data)
         }).catch(err => console.log(err));
     }
-
 
 
     var intervalCard = [];
@@ -76,78 +77,50 @@ function ChartLine() {
         //console.log(organized)
         //console.log(temp)
     }
+    var time = [];
+    var select = [];
+    var throughputState = [];
+    var throughputTime = [];
 
-    var time = []
-    var select = []
+    var waitTimeState = [];
+    var waitTimeTime = [];
+
+    var availableSeatsState = [];
+    var availableSeatsTime = [];
+
+
+    var availableDownState = [];
+    var availableDownTime = [];
+
     var name = []
+    var i = 0
     const graphStat = (ride) => {
-        for ( var i = 0 ; i < organized.length ; i++ ) {
-            if(statList == "Throughput") {
-                selected = organized[i].Throughput
-            }
-            if(statList == "Wait Time") {
-                selected = organized[i].WaitTime
-            }
-            if(statList == "Available Seats"){
-                selected = organized[i].AvailableSeats
-            }
-            if(statList == "Available Down") {
-                selected = organized[i].AvailableDown
-            }
-            if(selected != -1){
-                    var x = organized[i].Time
-                    var y = selected
-                    var z = organized[i].rideName
-                    time.push(x)
-                    select.push(y)
-                    name.push(z)
-            }
-            var result = {
-                x: time,
-                y: select,
-                z: name
-            };
-            //console.log(select)
-        }
-        var tmpX = [];
-        var tmpY = [];
-        var tmpX2 = [];
-        var tmpY2 = [];
-        var tmpX3 = [];
-        var tmpY3 = [];
-        const test = (ride) => {
+        organized.map((val, key) => {
 
-        }
-        for (var i = 0 ; i < name.length ; i++ ) {
-            if(result.z[i] == rideList[0]){
-                tmpX.push(result.x[i])
-                tmpY.push(result.y[i])
+            if(ride.includes(val.rideName) && ride.length <= 1){
+                if(statList.includes("Throughput") && val.Throughput >= 0){
+                    throughputState.push(val.Throughput)
+                    throughputTime.push(val.Time)                }
+
+                if(statList.includes("Wait Time") && val.WaitTime >= 0){
+                    waitTimeState.push(val.WaitTime);
+                    waitTimeTime.push(val.Time)
+                }
+
+                if(statList.includes("Available Seats") && val.AvailableSeats >= 0){
+                    availableSeatsState.push(val.AvailableSeats);
+                    availableSeatsTime.push(val.Time)
+                }
+
+                if(statList.includes("Available Down") && val.AvailableDown >= 0){
+                    availableDownState.push(val.AvailableDown);
+                    availableDownTime.push(val.Time)
+                }
             }
-            var temp = {
-                x: tmpX,
-                y: tmpY,
-            };
-            if(result.z[i] == rideList[1]){
-                tmpX2.push(result.x[i])
-                tmpY2.push(result.y[i])
-            }
-            var temp2 = {
-                x: tmpX2,
-                y: tmpY2,
-            };
-            if(result.z[i] == rideList[2]){
-                tmpX3.push(result.x[i])
-                tmpY3.push(result.y[i])
-            }
-            var temp3 = {
-                x: tmpX3,
-                y: tmpY3,
-            };
-        }
-        data.push(temp, temp2, temp3)
-        //data.sort((a, b) => (a.x > b.x) ? 1 : (a.x === b.x) ? 1 : -1)
-    
+         })
     }
+    //console.log(intervalCard)
+    
     return (
 
         <div>
@@ -157,18 +130,41 @@ function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
         }, [])}
             {printOrdered()}
-            {graphStat(rideList)}
+            {graphStat(rideList)}	
             <div id='myDiv'>
+                
             <Plot 
-            data={data}
+                data={[
+                {
+                    x: throughputTime,
+                    y: throughputState,
+                    name: "Throughput"
+                },
+                {
+                    x: waitTimeTime,
+                    y: waitTimeState,
+                    name: "Wait Time"
+                },
+                {
+                    x: availableSeatsTime,
+                    y: availableSeatsState,
+                    name: "Available Seats"
+                },
+                {
+                    x: availableDownTime,
+                    y: availableDownState,
+                    name: "Available Down"
+                }
+            ]}
             layout={{
                 width: 1000, height: 620,
                 xaxis: {
                 type: 'time'
                 }, 
+                title: rideList[0]
             }}
             />
-            </div>				
+            </div>		
         </div>
     );
     
