@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
 import Axios from 'axios'
-import { MdSignalCellularConnectedNoInternet4Bar } from "react-icons/md";
 import styled from 'styled-components';
 
 const SubmitButton = styled.button`
@@ -42,10 +41,17 @@ const GetAttractions = () => {
           }, [])
 }
 
-  
+const CheckedData = () => {
+
+  Axios.get(`http://localhost:3001/getCollectedData`).then(res => {
+      //console.log(res.data)
+      setDataList(res.data)
+  }).catch(err => console.log(err));
+}
   return (
     <div>
       {window.addEventListener('load', GetAttractions())}
+      {/* {window.addEventListener('load', CheckedData())} */}
       <table className="table table-bordered table-striped">
         <thead>
           <tr style={styleGray}>
