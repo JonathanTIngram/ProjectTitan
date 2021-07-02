@@ -522,6 +522,31 @@ app.get('/sendStatsGraph', (req, res) =>{
 });
 
 
+//for fav bar
+app.post('/favGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+
+
+    var rides = req.body.rides.toString();
+    var stats = req.body.stats.toString();
+    
+
+
+
+    sqlInsert = "INSERT INTO favGraphs (rides, stats) VALUES (?, ?)"
+
+    connection.query(sqlInsert, [rides, stats], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+})
+
+
 
 app.listen(3001, () =>{
     console.log('Running on port 3001');

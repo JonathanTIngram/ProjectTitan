@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
+import { saveLists } from './ChartLine';
+import Axios from 'axios';
+
 
 const Button = styled.button`
   border: none;
@@ -35,16 +38,53 @@ border-left: 2px solid black;
 text-align: center;
 `;
 
+
+
 const FavoriteBar = () => {
+
+  // const editParkInterval = (rides, stats) =>{
+  //   Axios.put('http://localhost:3001/editParkInterval', {
+
+  //       rides: rides,
+  //       stats: stats
+                    
+  //       }).then( () => {
+  //       console.log("Successfully sent to port 3001");
+  //   });
+  // };
     const [showModal, setShowModal] = useState(false);
+    const [graphData, setGraphData] = useState();
 
     const openModal = () => {
       setShowModal(prev => !prev);
     };
+
+
+    const sendFavGraph = (rides, stats) => {
+      Axios.post('http://localhost:3001/favGraph', {
+
+        rides: rides,
+        stats: stats
+                    
+        }).then(() =>{
+        alert('successful insert');
+
+    })
+    }
     return (
         <>
         <SideNav>
-           <FavButton>My Favorite1</FavButton>
+
+           <FavButton onClick={() => {
+                setGraphData(saveLists());
+
+                console.log(saveLists())
+
+
+                sendFavGraph(saveLists().rideList, saveLists().statList);
+                
+               
+      }}>My Favorite1</FavButton>
            <FavButton>My Favorite2 </FavButton>
            <FavButton>My Favorite3</FavButton>
            <FavButton>My Favorite4</FavButton>
