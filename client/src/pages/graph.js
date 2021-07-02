@@ -64,11 +64,11 @@ const MapWidget = styled.nav`
 const ChartBorder = styled.nav`
   overflow: hidden;
   padding-left: 2%;
-  width: 62%;
   position: absolute;
   left: 17%;
   top: 15%;
-
+  width: 62%;
+  height: 100%;
 `;
 
 

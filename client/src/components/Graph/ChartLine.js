@@ -52,36 +52,11 @@ function ChartLine() {
         
      })}
   
-    var organized = []
-    //prints intervalCard in order
-    const printOrdered = () => {
-        var temp = [];
-        var name = ''
-        intervalCard.forEach(i => {
-            name = i.rideName;
-            if(!temp.includes(name)){
-                temp.push(name)
-            }
-        });
-            {intervalCard.map((val, key) => {	
-            var j = 0
-            if(temp[j] == val.rideName){
-                j++;
-                organized.push(val)
-            }
-            else{
-                organized.unshift(val)
-            }
-        })}
-        //console.log(organized)
-        //console.log(temp)
-    }
 
     var graphData = [];
 
     const graphStat = (ride) => 
     {
-
         for(let i = 0; i < ride.length; i++)
         {
             var foundData = false;
@@ -95,36 +70,36 @@ function ChartLine() {
             var TEMPavailableSeatsTime = [];
             var TEMPavailableDownTime = [];
 
-                for(let i = 0; i < organized.length; i++) 
+                for(let i = 0; i < intervalCard.length; i++) 
                 {   
-                    if(organized[i].rideName == temp)
+                    if(intervalCard[i].rideName == temp)
                     {
 
-                        if(statList.includes("Throughput") && organized[i].Throughput >= 0){
-                            TEMPthroughputTime.push(organized[i].Time)
-                            TEMPthroughputData.push(organized[i].Throughput);
+                        if(statList.includes("Throughput") && intervalCard[i].Throughput >= 0){
+                            TEMPthroughputTime.push(intervalCard[i].Time)
+                            TEMPthroughputData.push(intervalCard[i].Throughput);
                             foundData = true;
                         }
 
-                        if(statList.includes("Wait Time") && organized[i].WaitTime >= 0){
-                            TEMPwaitTimeData.push(organized[i].WaitTime);
-                            TEMPwaitTimeTime.push(organized[i].Time)
+                        if(statList.includes("Wait Time") && intervalCard[i].WaitTime >= 0){
+                            TEMPwaitTimeData.push(intervalCard[i].WaitTime);
+                            TEMPwaitTimeTime.push(intervalCard[i].Time)
                             foundData = true;
                         }
 
-                        if(statList.includes("Available Seats") && organized[i].AvailableSeats >= 0){
-                            TEMPavailableSeatsData.push(organized[i].AvailableSeats);
-                            TEMPavailableSeatsTime.push(organized[i].Time)
+                        if(statList.includes("Available Seats") && intervalCard[i].AvailableSeats >= 0){
+                            TEMPavailableSeatsData.push(intervalCard[i].AvailableSeats);
+                            TEMPavailableSeatsTime.push(intervalCard[i].Time)
                             foundData = true;
                         }
 
-                        if(statList.includes("Available Down") && organized[i].AvailableDown >= 0){
-                            TEMPavailableDownData.push(organized[i].AvailableDown);
-                            TEMPavailableDownTime.push(organized[i].Time)
+                        if(statList.includes("Available Down") && intervalCard[i].AvailableDown >= 0){
+                            TEMPavailableDownData.push(intervalCard[i].AvailableDown);
+                            TEMPavailableDownTime.push(intervalCard[i].Time)
                             foundData = true;
                         }
                         
-                        if(organized[i].rideName != temp)
+                        if(intervalCard[i].rideName != temp)
                         {
                             break;
                         }
@@ -134,76 +109,78 @@ function ChartLine() {
                 {
                     graphData.push({temp ,TEMPthroughputTime, TEMPthroughputData, TEMPwaitTimeTime, TEMPwaitTimeData, TEMPavailableSeatsTime, TEMPavailableSeatsData, TEMPavailableDownTime, TEMPavailableDownData})
                 }
-                
               getGraphData();  
         }
     }
-    var tempRide = '';
     var rideTraceArray = [];
-    var tempRideName2 = '';
+    var tempRide = '';
     const getGraphData = () => {
         //console.log(graphData)
-
         for(let i = 0; i < graphData.length; i++)
         {   
-
-                if(statList.includes("Throughput"))
-                {
-                    var stat = " Throughput"
-                    tempRide = graphData[i].temp;
-                    tempRide = `${tempRide}Trace`;
-                    window[tempRide] = {
-                        x: graphData[i].TEMPthroughputTime,
-                        y: graphData[i].TEMPthroughputData,
-                        name: graphData[i].temp + stat
-                    };
-                    rideTraceArray.push(window[tempRide])
-                }
-                if(statList.includes("Wait Time"))
-                {
-                    var stat = " Wait Time"
-                    tempRide = graphData[i].temp;
-                    tempRide = `${tempRide}Trace`;
-                    window[tempRide] = {
-                        x: graphData[i].TEMPwaitTimeTime,
-                        y: graphData[i].TEMPwaitTimeData,
-                        name: graphData[i].temp + stat
-                    };
-                    rideTraceArray.push(window[tempRide])
-                }
-                if(statList.includes("Available Seats"))
-                {
-                    var stat = " Available Seats"
-                    tempRide = graphData[i].temp;
-                    tempRide = `${tempRide}Trace`;
-                    window[tempRide] = {
-                        x: graphData[i].TEMPavailableSeatsTime,
-                        y: graphData[i].TEMPavailableSeatsData,
-                        name: graphData[i].temp + stat
-                    };
-                    rideTraceArray.push(window[tempRide])
-                }
-                if(statList.includes("Available Down"))
-                {
-                    var stat = " Available Down"
-                    tempRide = graphData[i].temp;
-                    tempRide = `${tempRide}Trace`;
-                    window[tempRide] = {
-                        x: graphData[i].TEMPavailableDownTime,
-                        y: graphData[i].TEMPavailableDownData,
-                        name: graphData[i].temp + stat
-                    };
-                    rideTraceArray.push(window[tempRide])
-                }
-                
-            
-
+            if(statList.includes("Throughput"))
+            {
+                tempRide = graphData[i].temp;
+                tempRide = `${tempRide}Trace`;
+                window[tempRide] = {
+                    x: graphData[i].TEMPthroughputTime,
+                    y: graphData[i].TEMPthroughputData,
+                    name: graphData[i].temp + " Throughput"
+                };
+                rideTraceArray.push(window[tempRide])
+            }
+            if(statList.includes("Wait Time"))
+            {
+                tempRide = graphData[i].temp;
+                tempRide = `${tempRide}Trace`;
+                window[tempRide] = {
+                    x: graphData[i].TEMPwaitTimeTime,
+                    y: graphData[i].TEMPwaitTimeData,
+                    name: graphData[i].temp + " Wait Time"
+                };
+                rideTraceArray.push(window[tempRide])
+            }
+            if(statList.includes("Available Seats"))
+            {
+                tempRide = graphData[i].temp;
+                tempRide = `${tempRide}Trace`;
+                window[tempRide] = {
+                    x: graphData[i].TEMPavailableSeatsTime,
+                    y: graphData[i].TEMPavailableSeatsData,
+                    name: graphData[i].temp +  " Available Seats"
+                };
+                rideTraceArray.push(window[tempRide])
+            }
+            if(statList.includes("Available Down"))
+            {
+                tempRide = graphData[i].temp;
+                tempRide = `${tempRide}Trace`;
+                window[tempRide] = {
+                    x: graphData[i].TEMPavailableDownTime,
+                    y: graphData[i].TEMPavailableDownData,
+                    name: graphData[i].temp + " Available Down"
+                };
+                rideTraceArray.push(window[tempRide])
+            } 
         }
         const unique = [...new Map(rideTraceArray.map(o => [o.name, o])).values()]
         rideTraceArray = unique
-        //console.log("rideTraceArray")
-        //console.log(rideTraceArray)
+    }
 
+    var title = ''
+    for (let i = 0; i < rideList.length; i++) {
+        if(rideList.length == 1) {
+            title = rideList[0] + ' ' + title
+        }
+        else if(rideList.length == 2) {
+            title = rideList[0] + ' and ' + rideList[1]
+        }
+        else if(rideList.length > 2) {
+            var tmp = [...new Set(rideList)]
+            var last = tmp.pop();
+            var result = tmp.join(', ') + ' and ' + last;
+            title = result
+        }
     }
 
     return (
@@ -214,16 +191,21 @@ function ChartLine() {
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
         }, [])}
-            {printOrdered()}
             {graphStat(rideList)}
+            {console.log('trace', rideTraceArray), console.log('data', graphData)}
             <div id='myDiv'>
             <Plot 
             data={rideTraceArray}
             layout={{
-                width: 750, height: 520,
+                width: 950, height: 580,
                 xaxis: {
+                title: 'Time',
                 type: 'time'
                 }, 
+                yaxis: {
+                    title: 'Amount',
+                }, 
+                title: title
             }}
             />
             </div>				
