@@ -17,7 +17,6 @@ class RideInfo extends Component {
         <>
         <Navbar/>
         <Banner/>
-        {console.log(this.props.location.ride_name.ride)}
         <BasicInfo ride_name={this.props.location.ride_name.ride}></BasicInfo>
         <CollectedData></CollectedData>
         <QuickToolsBasicInfo ride_name={this.props.location.ride_name.ride}></QuickToolsBasicInfo>

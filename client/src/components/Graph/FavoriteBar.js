@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { saveLists } from './ChartLine'
+
 
 const Button = styled.button`
   border: none;
@@ -38,6 +40,8 @@ text-align: center;
 
 `;
 
+
+
 const FavoriteBar = () => {
     const [showModal, setShowModal] = useState(false);
 
@@ -47,7 +51,10 @@ const FavoriteBar = () => {
     return (
         <>
         <SideNav>
-           <FavButton>My Favorite1</FavButton>
+           <FavButton onClick={() => {
+                saveLists()
+               
+      }}>My Favorite1</FavButton>
            <FavButton>My Favorite2 </FavButton>
            <FavButton>My Favorite3</FavButton>
            <FavButton>My Favorite4</FavButton>
