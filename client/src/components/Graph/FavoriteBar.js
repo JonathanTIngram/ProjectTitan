@@ -42,6 +42,7 @@ text-align: center;
 
 const FavoriteBar = () => {
 
+
   // const editParkInterval = (rides, stats) =>{
   //   Axios.put('http://localhost:3001/editParkInterval', {
 
@@ -55,39 +56,58 @@ const FavoriteBar = () => {
     const [showModal, setShowModal] = useState(false);
     const [graphData, setGraphData] = useState();
 
+    var [selectedFav, setSelectedFav] = useState();
+
     const openModal = () => {
       setShowModal(prev => !prev);
     };
 
 
-    const sendFavGraph = (rides, stats) => {
+    const sendFavGraph = (rides, stats, id) => {
       Axios.post('http://localhost:3001/favGraph', {
 
         rides: rides,
-        stats: stats
+        stats: stats,
+        id: id
                     
         }).then(() =>{
         alert('successful insert');
 
     })
     }
+
+    var getFavGraph = (rides, stats) => {
+
+          Axios.get('http://localhost:3001/getFavGraph').then(res => {
+          setSelectedFav(res.data);
+          }).catch(err => console.log(err));
+
+    }
     return (
         <>
+
+        {window.addEventListener('load', getFavGraph())}
+
         <SideNav>
 
            <FavButton onClick={() => {
                 setGraphData(saveLists());
 
-                console.log(saveLists())
+                // console.log(saveLists())
 
 
-                sendFavGraph(saveLists().rideList, saveLists().statList);
+                console.log(`Rides from backend : ${selectedFav.rides}`);
+                console.log(`Rides from stats : ${selectedFav.stats}`);
+
+
+                let id = 1;
+                sendFavGraph(saveLists().rideList, saveLists().statList, id);
                 
                
       }}>My Favorite1</FavButton>
-           <FavButton>My Favorite2 </FavButton>
-           <FavButton>My Favorite3</FavButton>
-           <FavButton>My Favorite4</FavButton>
+           <FavButton id='2'>My Favorite2 </FavButton>
+           <FavButton id='3'>My Favorite3</FavButton>
+           <FavButton id='4'>My Favorite4</FavButton>
            <CustomExport>Custom Export</CustomExport>
         </SideNav>
         </>
