@@ -58,6 +58,8 @@ const FavoriteBar = () => {
 
     var [selectedFav, setSelectedFav] = useState();
 
+    var [favStored, setFavStored] = useState(false);
+
     const openModal = () => {
       setShowModal(prev => !prev);
     };
@@ -83,25 +85,54 @@ const FavoriteBar = () => {
           }).catch(err => console.log(err));
 
     }
+
+
+    const updateFavGraph = (rides, stats, id) => {
+      Axios.post('http://localhost:3001/updateFavGraph', {
+        rides: rides,
+        stats: stats,
+        id: id
+        }).then(() =>{
+        alert('successful update of ' + rides + ' (' + stats + ')' + ' to ' + id);
+
+      })
+    }
     return (
         <>
 
-        {window.addEventListener('load', getFavGraph())}
+        {
+        
+        useEffect(() => {
+          window.addEventListener('load', getFavGraph())
+          }, [])
+        }
 
         <SideNav>
 
            <FavButton onClick={() => {
+
                 setGraphData(saveLists());
 
                 // console.log(saveLists())
 
 
                 console.log(`Rides from backend : ${selectedFav.rides}`);
-                console.log(`Rides from stats : ${selectedFav.stats}`);
+                console.log(`Stats from backend : ${selectedFav.stats}`);
+                console.log(`Id from backend : ${selectedFav.id}`);
 
 
                 let id = 1;
-                sendFavGraph(saveLists().rideList, saveLists().statList, id);
+                console.log(favStored);
+                if(favStored == false){
+                  sendFavGraph(saveLists().rideList, saveLists().statList, id);
+                  setFavStored(true);
+                }
+                else {
+                  //update
+                  updateFavGraph(saveLists().rideList, saveLists().statList, id);
+                }
+
+
                 
                
       }}>My Favorite1</FavButton>

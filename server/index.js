@@ -540,24 +540,7 @@ app.post('/favGraph', (req, res) => {
 
 
 
-    sqlInsert = "INSERT INTO favGraphs (id, rides, stats) VALUES (?, ?, ?)"
-
-
-    connection.query(sqlInsert, [rides, stats], (err, result) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            res.send(result);
-        }
-    });
-});
-
-
-app.post("/updateFavGraph", (req, res) => {
-
-
-    sqlUpdate = "UPDATE favGraphs Set rides = ?, stats = ? WHERE id = ?";
+    sqlInsert = "INSERT INTO favGraphs (rides, stats, id) VALUES (?, ?, ?)"
 
 
     connection.query(sqlInsert, [rides, stats, id], (err, result) => {
@@ -568,14 +551,40 @@ app.post("/updateFavGraph", (req, res) => {
             res.send(result);
         }
     });
-})
+});
+
+
+app.post('/updateFavGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+    console.log(req.body.id)
+
+
+    var rides = req.body.rides.toString();
+    var stats = req.body.stats.toString();
+    id = req.body.id;
+
+
+
+    sqlInsert = "UPDATE favGraphs SET rides = ?, stats = ? WHERE id = ?";
+
+    connection.query(sqlInsert, [rides, stats, id], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
 
 
 app.get('/getFavGraph', (req, res) => {
     res.send(
         {
             rides: rides,
-            stats: stats
+            stats: stats,
+            id: id
         }
     )
 });
