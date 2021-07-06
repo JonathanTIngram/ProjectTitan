@@ -5,6 +5,16 @@ import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
 var Plot = createPlotlyComponent(Plotly);
+var rideListSend;
+var statListSend;
+
+export function saveLists()
+    {
+        return {
+        rideList: rideListSend,
+        statList: statListSend
+        }
+    }
 
 function ChartLine() {
 
@@ -13,12 +23,14 @@ function ChartLine() {
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
+    
 
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
+                rideListSend = res.data;
             }).catch(err => console.log(err));
     }
 
@@ -28,6 +40,7 @@ function ChartLine() {
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
+            statListSend = res.data;
         }).catch(err => console.log(err));
     }
 
@@ -170,7 +183,10 @@ function ChartLine() {
     var title = ''
     for (let i = 0; i < rideList.length; i++) {
         if(rideList.length == 1) {
-            title = rideList[0] + ' ' + title
+            title = rideList[0] + ' ' + title + '(' + statList + ')'
+            if(statList == ''){
+                title = rideList[0]
+            }
         }
         else if(rideList.length == 2) {
             title = rideList[0] + ' and ' + rideList[1]
@@ -183,6 +199,8 @@ function ChartLine() {
         }
     }
 
+
+
     return (
 
         <div>
@@ -192,12 +210,12 @@ function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
         }, [])}
             {graphStat(rideList)}
-            {console.log('trace', rideTraceArray), console.log('data', graphData)}
+            {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
             <div id='myDiv'>
             <Plot 
             data={rideTraceArray}
             layout={{
-                width: 950, height: 580,
+                width: 950, height: 570,
                 xaxis: {
                 title: 'Time',
                 type: 'time'

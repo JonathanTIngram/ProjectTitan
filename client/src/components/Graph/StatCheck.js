@@ -29,7 +29,7 @@ function StatCheck() {
   var [statList, setStatList] = useState([]);
 
   const styleGray = {backgroundColor : '#AFAFAF'};
-  const styleLight = {backgroundColor : '#DFDFDF'};
+
   useEffect(() => {
     let statState = [
       { id: 1, statistic: "Throughput"},

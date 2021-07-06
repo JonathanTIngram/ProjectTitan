@@ -185,10 +185,10 @@ app.put("/editAttraction", (req, res) => {
 
 
 
-  app.delete('/deleteAttraction/:ride_name', (req, res) => {
+app.delete('/deleteAttraction/:ride_name', (req, res) => {
     const ride_name = req.params.ride_name
 
-    sqlInsert = "DELETE FROM attraction WHERE ride_name = ?"
+    sqlInsert = "DELETE FROM ATTRACTION WHERE ride_name = ?"
     connection.query(sqlInsert, ride_name, (err, result) =>{
         if (err){
             console.log(err);
@@ -506,7 +506,7 @@ app.post('/sendRideNameBackend', (req, res) =>{
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
-    console.log(rideListGraph)
+    console.log(rideJSONData)
     res.send(rideListGraph);
 });
 
@@ -518,8 +518,69 @@ app.post('/sendStatsBackend', (req, res) => {
 
 
 app.get('/sendStatsGraph', (req, res) =>{
-    console.log(statListGraph);
     res.send(statListGraph);
+});
+
+app.post('/favGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+
+
+    var rides = req.body.rides.toString();
+    var stats = req.body.stats.toString();
+    id = req.body.id;
+
+    sqlInsert = "INSERT INTO favGraphs (rides, stats, id) VALUES (?, ?, ?)"
+
+    connection.query(sqlInsert, [rides, stats, id], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+})
+
+app.post('/updateFavGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+
+
+    var rides = req.body.rides.toString();
+    var stats = req.body.stats.toString();
+    id = req.body.id;
+
+
+
+    sqlInsert = "UPDATE favGraphs SET rides = ?, stats = ? WHERE id = ?";
+
+    connection.query(sqlInsert, [rides, stats, id], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+})
+
+app.get('/getFavGraph', (req, res, err) => {
+
+    if(err){
+        console.log(err);
+        res.send(null)
+    }
+    else {
+        res.send(
+            {
+                rides: rides,
+                stats: stats,
+                id: id
+            }
+        )
+    }
+
 });
 
 app.listen(3001, () =>{
