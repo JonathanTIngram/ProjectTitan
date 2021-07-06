@@ -188,7 +188,7 @@ app.put("/editAttraction", (req, res) => {
 app.delete('/deleteAttraction/:ride_name', (req, res) => {
     const ride_name = req.params.ride_name
 
-    sqlInsert = "DELETE FROM attraction WHERE ride_name = ?"
+    sqlInsert = "DELETE FROM ATTRACTION WHERE ride_name = ?"
     connection.query(sqlInsert, ride_name, (err, result) =>{
         if (err){
             console.log(err);
@@ -197,6 +197,7 @@ app.delete('/deleteAttraction/:ride_name', (req, res) => {
             res.send(result);
         }
     })
+
     intervalInsert = "DELETE FROM intervals WHERE ride_name = ?"
     connection.query(intervalInsert, ride_name, (err, result) =>{
         if (err){
@@ -505,7 +506,7 @@ app.post('/sendRideNameBackend', (req, res) =>{
 });
 
 app.get('/sendRideNameGraph', (req, res) =>{
-    console.log(rideListGraph)
+    console.log(rideJSONData)
     res.send(rideListGraph);
 });
 
@@ -517,9 +518,82 @@ app.post('/sendStatsBackend', (req, res) => {
 
 
 app.get('/sendStatsGraph', (req, res) =>{
-    console.log(statListGraph);
     res.send(statListGraph);
 });
+
+
+//for fav bar
+var rides;
+var stats;
+var id;
+app.post('/favGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+    console.log(req.body.id);
+
+
+    rides = req.body.rides.toString();
+    stats = req.body.stats.toString();
+    id = req.body.id;
+
+    
+
+
+
+    sqlInsert = "UPDATE favGraphs SET rides = ?, stats = ? WHERE id = ?"
+
+
+    connection.query(sqlInsert, [rides, stats, id], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+
+app.post('/updateFavGraph', (req, res) => {
+    console.log(req.body.rides);
+    console.log(req.body.stats);
+    console.log(req.body.id)
+
+
+    var rides = req.body.rides.toString();
+    var stats = req.body.stats.toString();
+    id = req.body.id;
+
+
+
+    sqlInsert = "UPDATE favGraphs SET rides = ?, stats = ? WHERE id = ?";
+
+    connection.query(sqlInsert, [rides, stats, id], (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+
+app.get('/getFavGraph', (req, res) => {
+
+    sqlInsert = "SELECT * FROM favGraphs";
+
+    connection.query(sqlInsert, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.send(result);
+        }
+    });
+});
+
+
 
 app.listen(3001, () =>{
     console.log('Running on port 3001');

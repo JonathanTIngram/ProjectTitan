@@ -10,8 +10,10 @@ var statListSend;
 
 export function saveLists()
     {
-        console.log(rideListSend)
-        console.log(statListSend)
+        return {
+        rideList: rideListSend,
+        statList: statListSend
+        }
     }
 
 function ChartLine() {
