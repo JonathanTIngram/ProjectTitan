@@ -3,13 +3,6 @@ import styled from 'styled-components';
 import { saveLists } from './ChartLine';
 import Axios from 'axios';
 
-
-const Button = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-`;
-
 export const SideNav = styled.div`
 background: transparent;
 border-bottom: 2px solid black;
@@ -39,26 +32,18 @@ text-align: center;
 `;
 
 
+var chartLineID;
+
+export function sendGraphData()
+    {
+        return {
+          id: chartLineID
+        }
+    }
 
 const FavoriteBar = () => {
 
-
-  // const editParkInterval = (rides, stats) =>{
-  //   Axios.put('http://localhost:3001/editParkInterval', {
-
-  //       rides: rides,
-  //       stats: stats
-                    
-  //       }).then( () => {
-  //       console.log("Successfully sent to port 3001");
-  //   });
-  // };
     const [showModal, setShowModal] = useState(false);
-    const [graphData, setGraphData] = useState();
-
-    var [selectedFav, setSelectedFav] = useState();
-
-    var [favStored, setFavStored] = useState(false);
 
     const openModal = () => {
       setShowModal(prev => !prev);
@@ -77,26 +62,38 @@ const FavoriteBar = () => {
 
     })
     }
-
+    var returnData;
     var getFavGraph = (rides, stats) => {
 
           Axios.get('http://localhost:3001/getFavGraph').then(res => {
-          setSelectedFav(res.data);
+          // setSelectedFav(res.data);
+          returnData = res.data;
+          //console.log(res.data)
           }).catch(err => console.log(err));
 
     }
 
-
-    const updateFavGraph = (rides, stats, id) => {
-      Axios.post('http://localhost:3001/updateFavGraph', {
-        rides: rides,
-        stats: stats,
-        id: id
-        }).then(() =>{
-        alert('successful update of ' + rides + ' (' + stats + ')' + ' to ' + id);
-
-      })
+    const prevFavCheck = (id) => {
+        var databaseData = returnData;
+        console.log(databaseData)
+        console.log(databaseData[id].rides)
+        console.log(databaseData[id].stats)
+        chartLineID = id;
+        console.log(chartLineID)
+        console.log(sendGraphData())
+        if(databaseData[id].rides == '' || databaseData[id].rides == null)
+        {
+          sendFavGraph(saveLists().rideList, saveLists().statList, id);
+        }
+        else{
+          alert("Fav button has already been set!")
+        }
+        // rideListSend;
+        // statListSend;
     }
+    
+
+
     return (
         <>
 
@@ -109,36 +106,26 @@ const FavoriteBar = () => {
 
         <SideNav>
 
-           <FavButton onClick={() => {
+                <FavButton onClick={() => {
+                      let id = 1;
+                      prevFavCheck(id);
+                }}>My Favorite 1</FavButton>
 
-                setGraphData(saveLists());
+                <FavButton onClick={() => {
+                      let id = 2;
+                      prevFavCheck(id);
+                }}>My Favorite 2</FavButton>
 
-                // console.log(saveLists())
+                <FavButton onClick={() => {
+                      let id = 3;
+                      prevFavCheck(id);
+                }}>My Favorite 3</FavButton>
 
+               <FavButton onClick={() => {
+                      let id = 4;
+                      prevFavCheck(id);
+                }}>My Favorite 4</FavButton>
 
-                console.log(`Rides from backend : ${selectedFav.rides}`);
-                console.log(`Stats from backend : ${selectedFav.stats}`);
-                console.log(`Id from backend : ${selectedFav.id}`);
-
-
-                let id = 1;
-                console.log(favStored);
-                if(favStored == false){
-                  sendFavGraph(saveLists().rideList, saveLists().statList, id);
-                  setFavStored(true);
-                }
-                else {
-                  //update
-                  updateFavGraph(saveLists().rideList, saveLists().statList, id);
-                }
-
-
-                
-               
-      }}>My Favorite1</FavButton>
-           <FavButton id='2'>My Favorite2 </FavButton>
-           <FavButton id='3'>My Favorite3</FavButton>
-           <FavButton id='4'>My Favorite4</FavButton>
            <CustomExport>Custom Export</CustomExport>
         </SideNav>
         </>

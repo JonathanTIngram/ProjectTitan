@@ -540,7 +540,7 @@ app.post('/favGraph', (req, res) => {
 
 
 
-    sqlInsert = "INSERT INTO favGraphs (rides, stats, id) VALUES (?, ?, ?)"
+    sqlInsert = "UPDATE favGraphs SET rides = ?, stats = ? WHERE id = ?"
 
 
     connection.query(sqlInsert, [rides, stats, id], (err, result) => {
@@ -580,13 +580,17 @@ app.post('/updateFavGraph', (req, res) => {
 
 
 app.get('/getFavGraph', (req, res) => {
-    res.send(
-        {
-            rides: rides,
-            stats: stats,
-            id: id
+
+    sqlInsert = "SELECT * FROM favGraphs";
+
+    connection.query(sqlInsert, (err, result) => {
+        if (err) {
+            console.log(err);
         }
-    )
+        else {
+            res.send(result);
+        }
+    });
 });
 
 
