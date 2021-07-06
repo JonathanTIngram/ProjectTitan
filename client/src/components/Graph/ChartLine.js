@@ -4,6 +4,7 @@ import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
+import { sendGraphData } from './FavoriteBar';
 var Plot = createPlotlyComponent(Plotly);
 var rideListSend;
 var statListSend;
@@ -51,8 +52,15 @@ function ChartLine() {
             setDataList(res.data)
         }).catch(err => console.log(err));
     }
+    var returnData;
+    var [selectedFav, setSelectedFav] = useState();
+    var getFavGraph = () => {
 
+        Axios.get('http://localhost:3001/getFavGraph').then(res => {
+        setSelectedFav(res.data);
+        }).catch(err => console.log(err));
 
+  }
 
     var intervalCard = [];
 
@@ -208,8 +216,10 @@ function ChartLine() {
             {window.addEventListener('load', CheckedData())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
+            {window.addEventListener('load', getFavGraph())}
         }, [])}
             {graphStat(rideList)}
+            {console.log(selectedFav)}
             {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
             <div id='myDiv'>
             <Plot 
