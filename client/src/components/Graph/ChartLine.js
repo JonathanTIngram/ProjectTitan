@@ -8,6 +8,7 @@ import { sendGraphData } from './FavoriteBar';
 var Plot = createPlotlyComponent(Plotly);
 var rideListSend;
 var statListSend;
+var recData = JSON.parse(localStorage.getItem('data') || '[]');;
 
 export function saveLists()
     {
@@ -17,20 +18,38 @@ export function saveLists()
         }
     }
 
-function ChartLine() {
+export function ChartLine() {
+
+   
 
 
     var [rideList, setRideList] = useState([]);
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
-    
+    const setFavGraph = () => {
+        // localStorage.clear()
+        var rideString = recData[0].rides
+        var favRides = rideString.split(',')
+        setRideList(favRides)
+
+        var statString = recData[0].stats
+        console.log(recData[0].stats)
+        var favStats = statString.split(',')
+        setStatList(favStats)
+
+        
+    }
 
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
+                if(recData.length > 0)
+                {
+                    setFavGraph();
+                }
                 rideListSend = res.data;
             }).catch(err => console.log(err));
     }
@@ -41,6 +60,10 @@ function ChartLine() {
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
+            if(recData.length > 0)
+                {
+                    setFavGraph();
+                }
             statListSend = res.data;
         }).catch(err => console.log(err));
     }
@@ -52,15 +75,8 @@ function ChartLine() {
             setDataList(res.data)
         }).catch(err => console.log(err));
     }
-    var returnData;
-    var [selectedFav, setSelectedFav] = useState();
-    var getFavGraph = () => {
 
-        Axios.get('http://localhost:3001/getFavGraph').then(res => {
-        setSelectedFav(res.data);
-        }).catch(err => console.log(err));
 
-  }
 
     var intervalCard = [];
 
@@ -135,6 +151,8 @@ function ChartLine() {
     }
     var rideTraceArray = [];
     var tempRide = '';
+    
+
     const getGraphData = () => {
         //console.log(graphData)
         for(let i = 0; i < graphData.length; i++)
@@ -190,10 +208,13 @@ function ChartLine() {
 
     var title = ''
     for (let i = 0; i < rideList.length; i++) {
-        if(rideList.length == 1) {
-            title = rideList[0] + ' ' + title + '(' + statList + ')'
-            if(statList == ''){
-                title = rideList[0]
+
+        if(statList == ''){
+            title = rideList[0]
+        }
+        else if(rideList.length == 1) {
+            if(rideList.length == 1) {
+                title = rideList[0] + ' ' + title + '(' + statList + ')'
             }
         }
         else if(rideList.length == 2) {
@@ -207,8 +228,9 @@ function ChartLine() {
         }
     }
 
-
-
+    
+   
+    
     return (
 
         <div>
@@ -216,10 +238,10 @@ function ChartLine() {
             {window.addEventListener('load', CheckedData())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
-            {window.addEventListener('load', getFavGraph())}
+            
         }, [])}
+        {console.log(recData)}
             {graphStat(rideList)}
-            {console.log(selectedFav)}
             {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
             <div id='myDiv'>
             <Plot 

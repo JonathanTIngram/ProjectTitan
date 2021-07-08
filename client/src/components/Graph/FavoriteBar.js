@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { saveLists } from './ChartLine';
@@ -5,13 +6,17 @@ import Axios from 'axios';
 
 var rideListSend;
 var statListSend;
+var idSend;
+
 export function sendGraphData()
     {
-        return {
-          rideList: rideListSend,
-          statList: statListSend
-        }
+        return [{
+        rides: rideListSend,
+        stats: statListSend,
+        id: idSend
+        }]
     }
+
 export const SideNav = styled.div`
 background: transparent;
 border-bottom: 2px solid black;
@@ -45,6 +50,11 @@ text-align: center;
 const FavoriteBar = () => {
 
     const [showModal, setShowModal] = useState(false);
+    const [graphData, setGraphData] = useState();
+
+    var [selectedFav, setSelectedFav] = useState();
+
+    var [favStored, setFavStored] = useState(false);
 
     const openModal = () => {
       setShowModal(prev => !prev);
@@ -69,49 +79,64 @@ const FavoriteBar = () => {
           Axios.get('http://localhost:3001/getFavGraph').then(res => {
           // setSelectedFav(res.data);
           returnData = res.data;
-          //console.log(res.data)
+          // console.log(res.data)
           }).catch(err => console.log(err));
 
     }
 
     const prevFavCheck = (id) => {
         var databaseData = returnData;
-        console.log(databaseData)
-        console.log(databaseData[id].rides)
-        console.log(databaseData[id].stats)
+        // console.log(databaseData)
+        // console.log(databaseData[id].rides)
+        // console.log(databaseData[id].stats)
         if(databaseData[id].rides == '' || databaseData[id].rides == null)
         {
+          console.log(saveLists())
           sendFavGraph(saveLists().rideList, saveLists().statList, id);
+          rideListSend = saveLists().rideList;
+          statListSend = saveLists().statList;
+          idSend = id;
+          alert('Saving favorite graph to Fav button '+ id)
         }
         else{
-          alert("Fav button has already been set!")
+          rideListSend = databaseData[id].rides;
+          statListSend = databaseData[id].stats;
+          idSend = id;
+          alert("Loading Saved Favorite Graph!")
+          
         }
-        // rideListSend;
-        // statListSend;
+        localStorage.setItem('data', JSON.stringify(sendGraphData()));
+        setTimeout(function(){
+          window.location.reload(); 
+          
+         }, 2);
     }
     
 
 
     return (
         <>
-
-        {
-        
-        useEffect(() => {
-          window.addEventListener('load', getFavGraph())
-          }, [])
-        }
+          {
+          useEffect(() => {
+            window.addEventListener('load', getFavGraph())
+            }, [])
+          }
 
         <SideNav>
 
                 <FavButton onClick={() => {
                       let id = 1;
                       prevFavCheck(id);
+                      
+                      
                 }}>My Favorite 1</FavButton>
 
+                
                 <FavButton onClick={() => {
                       let id = 2;
                       prevFavCheck(id);
+                      
+                      
                 }}>My Favorite 2</FavButton>
 
                 <FavButton onClick={() => {
@@ -124,7 +149,7 @@ const FavoriteBar = () => {
                       prevFavCheck(id);
                 }}>My Favorite 4</FavButton>
 
-           <CustomExport>Custom Export</CustomExport>
+               <CustomExport>Custom Export</CustomExport>
         </SideNav>
         </>
     )

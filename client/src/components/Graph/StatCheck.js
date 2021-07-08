@@ -95,6 +95,7 @@ function StatCheck() {
         </tbody>
       </table>
       <SubmitButton onClick={() => {
+        localStorage.clear()
         console.log(statList);
         sendStats(statList);
         setTimeout(function(){
