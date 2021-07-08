@@ -73,6 +73,7 @@ const GetAttractions = () => {
         </tbody>
       </table>
       <SubmitButton onClick={() => {
+                localStorage.clear()
                 console.log(rideList)
                 sendRideName(rideList);
                 setTimeout(function(){

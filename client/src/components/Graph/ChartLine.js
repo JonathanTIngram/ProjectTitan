@@ -4,9 +4,11 @@ import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
 import styled from 'styled-components';
+import { sendGraphData } from './FavoriteBar';
 var Plot = createPlotlyComponent(Plotly);
 var rideListSend;
 var statListSend;
+var recData = JSON.parse(localStorage.getItem('data') || '[]');;
 
 export function saveLists()
     {
@@ -16,20 +18,38 @@ export function saveLists()
         }
     }
 
-function ChartLine() {
+export function ChartLine() {
+
+   
 
 
     var [rideList, setRideList] = useState([]);
     var [statList, setStatList] = useState([]);
     var [dataList, setDataList] = useState([]);
 
-    
+    const setFavGraph = () => {
+        // localStorage.clear()
+        var rideString = recData.rides
+        var favRides = rideString.split(',')
+        setRideList(favRides)
+
+        var statString = recData.stats
+        console.log(recData.stats)
+        var favStats = statString.split(',')
+        setStatList(favStats)
+
+        
+    }
 
     const CheckedRideName = () => {
 
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
+                if(recData != null)
+                {
+                    setFavGraph();
+                }
                 rideListSend = res.data;
             }).catch(err => console.log(err));
     }
@@ -40,6 +60,10 @@ function ChartLine() {
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
+            if(recData != null)
+                {
+                    setFavGraph();
+                }
             statListSend = res.data;
         }).catch(err => console.log(err));
     }
@@ -127,6 +151,8 @@ function ChartLine() {
     }
     var rideTraceArray = [];
     var tempRide = '';
+    
+
     const getGraphData = () => {
         //console.log(graphData)
         for(let i = 0; i < graphData.length; i++)
@@ -198,8 +224,9 @@ function ChartLine() {
         }
     }
 
-
-
+    
+   
+    
     return (
 
         <div>
@@ -207,9 +234,11 @@ function ChartLine() {
             {window.addEventListener('load', CheckedData())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', CheckedStat())}
+            
         }, [])}
+        {console.log(recData)}
             {graphStat(rideList)}
-            {console.log('trace', rideTraceArray), console.log('data', graphData)}
+            {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
             <div id='myDiv'>
             <Plot 
             data={rideTraceArray}
