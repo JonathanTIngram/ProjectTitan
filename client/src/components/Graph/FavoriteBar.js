@@ -10,11 +10,11 @@ var idSend;
 
 export function sendGraphData()
     {
-        return {
+        return [{
         rides: rideListSend,
         stats: statListSend,
         id: idSend
-        }
+        }]
     }
 
 const Button = styled.button`
@@ -95,7 +95,7 @@ const FavoriteBar = () => {
         // console.log(databaseData)
         // console.log(databaseData[id].rides)
         // console.log(databaseData[id].stats)
-        if(databaseData[id].rides == '' || databaseData[id].rides == null)
+        if(databaseData[id].rides == '' || databaseData[id].rides == null) 
         {
           console.log(saveLists())
           sendFavGraph(saveLists().rideList, saveLists().statList, id);

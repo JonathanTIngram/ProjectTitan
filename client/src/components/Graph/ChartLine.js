@@ -28,17 +28,14 @@ export function ChartLine() {
     var [dataList, setDataList] = useState([]);
 
     const setFavGraph = () => {
-        // localStorage.clear()
-        var rideString = recData.rides
+
+        var rideString = recData[0].rides
         var favRides = rideString.split(',')
         setRideList(favRides)
 
-        var statString = recData.stats
-        console.log(recData.stats)
+        var statString = recData[0].stats
         var favStats = statString.split(',')
         setStatList(favStats)
-
-        
     }
 
     const CheckedRideName = () => {
@@ -46,7 +43,7 @@ export function ChartLine() {
             Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
-                if(recData != null)
+                if(recData.length > 0)
                 {
                     setFavGraph();
                 }
@@ -60,10 +57,10 @@ export function ChartLine() {
         Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
-            if(recData != null)
-                {
-                    setFavGraph();
-                }
+            if(recData.length > 0)
+            {
+                setFavGraph();
+            }
             statListSend = res.data;
         }).catch(err => console.log(err));
     }
@@ -211,6 +208,9 @@ export function ChartLine() {
         if(rideList.length == 1) {
             if(rideList.length == 1) {
                 title = rideList[0] + ' ' + title + '(' + statList + ')'
+                if(statList == ''){
+                    title = rideList[0]
+                }
             }
         }
         else if(rideList.length == 2) {
@@ -236,6 +236,7 @@ export function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
             
         }, [])}
+        {console.log('recData')}
         {console.log(recData)}
             {graphStat(rideList)}
             {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
