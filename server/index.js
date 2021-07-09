@@ -7,7 +7,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 
 var connection = mysql.createConnection({
-    host: '18.204.6.173',
+    host: 'localhost',
     user: 'titan',
     password: 'titanTeam123$',
     database: 'park_data'
