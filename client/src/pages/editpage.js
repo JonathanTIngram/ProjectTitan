@@ -181,7 +181,7 @@ const [attractionList, setAttractionList] = useState([]);
 
 //recieve data from backend to display
 const getAttractions = () => {
-      Axios.get('http://localhost:3001/getAttraction').then(res => {
+      Axios.get('http://18.204.6.173:3001/getAttraction').then(res => {
       setAttractionList(res.data);
       return attractionList;
       }).catch(err => console.log(err));
@@ -189,7 +189,7 @@ const getAttractions = () => {
 
 
 const editAttraction = () =>{
-  Axios.put('http://localhost:3001/editAttraction', {
+  Axios.put('http://18.204.6.173:3001/editAttraction', {
                 ride_name: ride_name,
                 dailyOpening: dailyOpening,
                 dailyClosing: dailyClosing,

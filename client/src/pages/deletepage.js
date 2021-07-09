@@ -169,7 +169,7 @@ const [attractionList, setAttractionList] = useState([]);
 
 //recieve data from backend to display
 const getAttractions = () => {
-  Axios.get('http://localhost:3001/getAttraction').then( (res) => {
+  Axios.get('http://18.204.6.173:3001/getAttraction').then( (res) => {
       //console.log(res.data)
       return setAttractionList(res.data);
   });
@@ -178,7 +178,7 @@ const getAttractions = () => {
 
 
 const deleteAttraction = (rideSelect) => {
-  Axios.delete(`http://localhost:3001/deleteAttraction/${rideSelect}`);
+  Axios.delete(`http://18.204.6.173:3001/deleteAttraction/${rideSelect}`);
 };
 
 return (
