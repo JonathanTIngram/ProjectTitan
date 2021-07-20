@@ -13,7 +13,7 @@ const SubmitButton = styled.button`
 
 
 
-function StatCheck() {
+function GraphCheck() {
 
   const sendStats = (statList) =>{
     Axios.post('http://localhost:3001/sendStatsBackend', {
@@ -25,10 +25,31 @@ function StatCheck() {
                 });
   };
 
+  const sendRideName = (rideList) =>{
+    Axios.post('http://localhost:3001/sendRideNameBackend', {
+      rideList: rideList
+                  }).then(() =>{
+                    alert('successful insert');
+                }).then( () => {
+                  console.log("Successfully sent to port 3001");
+                });
+  };
+
+  const GetAttractions = () => {
+    //console.log(res.data)
+    useEffect(() => {
+        Axios.get('http://localhost:3001/getAttraction').then(res => {
+        setAttractionList(res.data);
+        }).catch(err => console.log(err));
+        }, [])
+}
+
   const [statState, setStatState] = useState([]);
   var [statList, setStatList] = useState([]);
-
   const styleGray = {backgroundColor : '#AFAFAF'};
+  var [ride_name, setRide_name] = useState('');
+  var [rideList, setRideList] = useState([]);
+  const [attractionList, setAttractionList] = useState([]);
 
   useEffect(() => {
     let statState = [
@@ -51,7 +72,36 @@ function StatCheck() {
   }, []);
 
   return (
+      
     <div>
+        {window.addEventListener('load', GetAttractions())}
+        <table className="table table-bordered table-striped">
+        <thead>
+          <tr style={styleGray}>
+            <th scope="col">Ride Name</th>
+            <th scope="col">Include</th>
+          </tr>
+        </thead>
+        <tbody>
+        {/* <tr><td>ridename</td><td>data</td></tr> */}
+                {attractionList.map((val, key) => {
+                  return (
+                    <>  
+                        
+                        <tr>
+                          <td scope="row">{val.ride_name}</td> <td><input type="checkbox" onClick={() => {
+                            console.log(val.ride_name)
+                            setRide_name(val.ride_name)
+                            if (!rideList.includes(val.ride_name)){
+                              rideList = rideList.push(val.ride_name)
+                            }
+                          }}></input> </td>
+                        </tr>
+                    </>
+                  );
+                  })}
+        </tbody>
+      </table>
       <table className="table table-bordered table-striped">
         <thead>
           <tr style={styleGray}>
@@ -95,8 +145,10 @@ function StatCheck() {
         </tbody>
       </table>
       <SubmitButton onClick={() => {
-        localStorage.clear()
+        localStorage.clear();
         console.log(statList);
+        console.log(rideList)
+        sendRideName(rideList);
         sendStats(statList);
         setTimeout(function(){
           window.location.reload(); 
@@ -106,4 +158,4 @@ function StatCheck() {
   );
 }
 
-export default StatCheck;
+export default GraphCheck;

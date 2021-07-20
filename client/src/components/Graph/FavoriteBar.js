@@ -108,7 +108,6 @@ const FavoriteBar = () => {
         localStorage.setItem('data', JSON.stringify(sendGraphData()));
         setTimeout(function(){
           window.location.reload(); 
-          
          }, 2);
     }
     
