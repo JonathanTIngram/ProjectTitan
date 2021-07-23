@@ -110,8 +110,8 @@ CREATE TABLE collectedParkData (
 );
 
 
-CREATE USER 'titan'@'18.204.6.173' IDENTIFIED BY 'titanTeam123$';
-GRANT ALL PRIVILEGES ON * . * TO 'titan'@'18.204.6.173';
+CREATE USER 'titan'@'localhost' IDENTIFIED BY 'titanTeam123$';
+GRANT ALL PRIVILEGES ON * . * TO 'titan'@'localhost';
 FLUSH PRIVILEGES;
 
-ALTER USER 'titan'@'18.204.6.173' IDENTIFIED WITH mysql_native_password BY 'titanTeam123$'
+ALTER USER 'titan'@'localhost' IDENTIFIED WITH mysql_native_password BY 'titanTeam123$'

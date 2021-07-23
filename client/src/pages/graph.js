@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import Rides from '../components/Graph/RideCheck'
-import Stats from '../components/Graph/StatCheck'
+
 import Days from '../components/Graph/DayCheck'
 import Options from '../components/Graph/MapEnable'
 import QuickToolsSummary from '../components/Graph/QuickToolsSummary';
@@ -10,6 +9,8 @@ import Units from '../components/Graph/GraphUnits'
 import LC from '../components/Graph/ChartLine'
 import Navbar from '../components/General/Navbar';
 import Banner from '../components/General/Bannerbar';
+
+import Select from '../components/Graph/GraphCheck'
 
 const OuterBorder = styled.div`
   width: 100%;
@@ -40,7 +41,7 @@ const CheckBoxWidget = styled.div`
   border-right: solid 2px;
   border-bottom: solid 2px;
   width: 22%;
-  height: 40%;
+  height: 79.5%;
   overflow: scroll;
 `;
 
@@ -64,11 +65,13 @@ const MapWidget = styled.nav`
 const ChartBorder = styled.nav`
   overflow: hidden;
   padding-left: 2%;
-  margin-top: -570px;
-  width: 62%;
   position: absolute;
-  left: 20%;
-  `;
+  left: 17%;
+  top: 15%;
+  width: 62%;
+  height: 100%;
+`;
+
 
 export default function Graph() {
     return (
@@ -79,8 +82,7 @@ export default function Graph() {
           <QuickToolsSummary/>
           <Selection> <Units></Units> </Selection>
           <Border>
-            <CheckBoxWidget>  <Rides></Rides> </CheckBoxWidget> 
-            <CheckBoxWidget> <Stats></Stats> </CheckBoxWidget>
+            <CheckBoxWidget>  <Select></Select> </CheckBoxWidget> 
             <DayCheckWidget>  <Days></Days> </DayCheckWidget>
             <ChartBorder> <LC></LC> </ChartBorder>
            </Border>

@@ -51,5 +51,5 @@
     "file-loader": "^6.2.0",
     "url-loader": "^4.1.1"
   },
-  "proxy": "http://18.204.6.173:5000/"
+  "proxy": "http://localhost:5000/"
 }
