@@ -17,6 +17,12 @@ function GraphCheck() {
     var [rides, setRides] = useState([]);
     var [stats, setStats] = useState([]);
 
+    var [statState, setStatState] = useState([]);
+
+    var checkedIDList = [];
+
+    
+
   const sendStats = (statList) =>{
     Axios.post('http://localhost:3001/sendStatsBackend', {
       statList: statList
@@ -54,6 +60,7 @@ function GraphCheck() {
     //console.log(res.data)
     setStats(res.data);
   }).catch(err => console.log(err));
+
   }
 
   const GetAttractions = () => {
@@ -63,20 +70,34 @@ function GraphCheck() {
         setAttractionList(res.data);
         }).catch(err => console.log(err));
         }, [])
-}
+  }
 
-  const [statState, setStatState] = useState([]);
+
+
   var [statList, setStatList] = useState([]);
   const styleGray = {backgroundColor : '#AFAFAF'};
   var [ride_name, setRide_name] = useState('');
   var [rideList, setRideList] = useState([]);
   const [attractionList, setAttractionList] = useState([]);
 
+  var [Tcheck, setTcheck] = useState()
+
+  console.log(`Fuck you ${stats.includes('Throughput')}`)
+
+  if(stats.includes('Throughput')){
+    Tcheck = true;
+  }
+
+
   useEffect(() => {
-    let statState = [
-      { id: 1, statistic: "Throughput"},
-      { id: 2, statistic: "Wait Time"},
-      { id: 3, statistic: "Available Seats"},
+
+    console.log(`Fucking Tcheck ${Tcheck}`)
+    let ThroughputCheck = Tcheck;
+    statState = [
+
+      { id: 1, statistic: "Throughput", select: ThroughputCheck}, //Gotta make some JSON or something to set the SELECT as either true or false
+      { id: 2, statistic: "Wait Time", select: Tcheck},
+      { id: 3, statistic: "Available Seats", select: Tcheck},
       { id: 4, statistic: "Available Down"},
     ];
 
@@ -84,13 +105,25 @@ function GraphCheck() {
 
     setStatState(
       statState.map(d => {
-        
+
+        if(stats.includes(d.statistic)){
+          return { 
+            select: true,
+            id: d.id,
+            statistic: d.statistic,
+    
+          };
+
+        }
+
         return {
-          select: false,
+          select: d.select,
           id: d.id,
           statistic: d.statistic,
   
-        };
+        }; 
+
+        
       })
     );
   }, []);
@@ -107,8 +140,14 @@ function GraphCheck() {
             {window.addEventListener('load', CheckedStat())}
             {window.addEventListener('load', CheckedRideName())}
             {window.addEventListener('load', () => {
+                sendRideName(rides);
+                sendStats(stats);
                 console.log(rides);
                 console.log(stats);
+
+                let testCheck = document.getElementById("statCheckbox2");
+                
+                testCheck.checked = true;
             })}
             
         }, [])}
@@ -153,6 +192,7 @@ function GraphCheck() {
               <th scope="row">
              
                 <input
+                  id={`statCheckbox${d.id}`}
                   onChange={event => {
                     let checked = event.target.checked;
                     setStatState(
@@ -176,6 +216,7 @@ function GraphCheck() {
                   }}
                 ></input>
                 
+                
               </th>
             </tr>
           ))}
@@ -190,6 +231,7 @@ function GraphCheck() {
         setTimeout(function(){
           window.location.reload(); 
          }, 2);
+         
       }}>Submit</SubmitButton>
     </div>
   );
