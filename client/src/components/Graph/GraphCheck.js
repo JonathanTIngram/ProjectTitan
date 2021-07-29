@@ -1,8 +1,6 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import Axios from 'axios'
-
 
 const SubmitButton = styled.button`
   height: 40px;
@@ -10,18 +8,13 @@ const SubmitButton = styled.button`
   border-radius: 9px;
   font-size: 20px;
 `
-
+// var lastRideList = ChartLine.saveLists().rideList;
+// var lastStatList = ChartLine.saveLists().statList;
+var checkStats = JSON.parse(localStorage.getItem('data') || '[]');
+var base = [null, false, false, false, false];
+var checked;
 
 function GraphCheck() {
-
-    var [rides, setRides] = useState([]);
-    var [stats, setStats] = useState([]);
-
-    var [statState, setStatState] = useState([]);
-
-    var checkedIDList = [];
-
-    
 
   const sendStats = (statList) =>{
     Axios.post('http://localhost:3001/sendStatsBackend', {
@@ -43,26 +36,6 @@ function GraphCheck() {
                 });
   };
 
-
-  const CheckedRideName = () => {
-
-    Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
-        //console.log(res.data)
-        setRides(res.data)
-
-    }).catch(err => console.log(err));
-  }
-
-
-  const CheckedStat = () => {
-
-  Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
-    //console.log(res.data)
-    setStats(res.data);
-  }).catch(err => console.log(err));
-
-  }
-
   const GetAttractions = () => {
     //console.log(res.data)
     useEffect(() => {
@@ -70,87 +43,51 @@ function GraphCheck() {
         setAttractionList(res.data);
         }).catch(err => console.log(err));
         }, [])
-  }
+}
 
 
-
-  var [statList, setStatList] = useState([]);
+  
   const styleGray = {backgroundColor : '#AFAFAF'};
   var [ride_name, setRide_name] = useState('');
   var [rideList, setRideList] = useState([]);
+  var [statList, setStatList] = useState([]);
   const [attractionList, setAttractionList] = useState([]);
 
-  var [Tcheck, setTcheck] = useState()
 
-  console.log(`Fuck you ${stats.includes('Throughput')}`)
-
-  if(stats.includes('Throughput')){
-    Tcheck = true;
-  }
-
-
-  useEffect(() => {
-
-    console.log(`Fucking Tcheck ${Tcheck}`)
-    let ThroughputCheck = Tcheck;
-    statState = [
-
-      { id: 1, statistic: "Throughput", select: ThroughputCheck}, //Gotta make some JSON or something to set the SELECT as either true or false
-      { id: 2, statistic: "Wait Time", select: Tcheck},
-      { id: 3, statistic: "Available Seats", select: Tcheck},
-      { id: 4, statistic: "Available Down"},
-    ];
+  var [checkS, setCheckS] = useState();
 
 
 
-    setStatState(
-      statState.map(d => {
+  var statState = [
+    { id: 1, statistic: "Throughput", select: checkStats[1]},
+    { id: 2, statistic: "Wait Time", select: checkStats[2]},
+    { id: 3, statistic: "Available Seats", select: checkStats[3]},
+    { id: 4, statistic: "Available Down", select: checkStats[4]},
+  ];
 
-        if(stats.includes(d.statistic)){
-          return { 
-            select: true,
-            id: d.id,
-            statistic: d.statistic,
-    
-          };
-
+  function setStatState(stat)
+  {
+    statState.map(d => {
+      if(statState.statistic == stat)
+      {
+        if(checkStats[d.id] = true)
+        {
+          checkStats[d.id] = false;
         }
-
-        return {
-          select: d.select,
-          id: d.id,
-          statistic: d.statistic,
-  
-        }; 
-
+        else{
+          checkStats[d.id] = true;
+        }
         
-      })
-    );
-  }, []);
+      }
+    })
+  }
 
   return (
       
     <div>
-
-
         {window.addEventListener('load', GetAttractions())}
+        {/* {window.addEventListener('load', console.log(base))} */}
 
-        {console.log(stats, rides)}
-        {useEffect(() => {
-            {window.addEventListener('load', CheckedStat())}
-            {window.addEventListener('load', CheckedRideName())}
-            {window.addEventListener('load', () => {
-                sendRideName(rides);
-                sendStats(stats);
-                console.log(rides);
-                console.log(stats);
-
-                let testCheck = document.getElementById("statCheckbox2");
-                
-                testCheck.checked = true;
-            })}
-            
-        }, [])}
         <table className="table table-bordered table-striped">
         <thead>
           <tr style={styleGray}>
@@ -159,7 +96,7 @@ function GraphCheck() {
           </tr>
         </thead>
         <tbody>
-        {/* <tr><td>ridename</td><td>data</td></tr> */}
+
                 {attractionList.map((val, key) => {
                   return (
                     <>  
@@ -192,30 +129,34 @@ function GraphCheck() {
               <th scope="row">
              
                 <input
-                  id={`statCheckbox${d.id}`}
+                  
                   onChange={event => {
-                    let checked = event.target.checked;
-                    setStatState(
-                      statState.map(data => {
-                        if (d.id === data.id) {
-                          data.select = checked;
-                        }
-                        return data;
-                      })
-                    );
+                    checked = event.target.checked;
+                    checkStats[d.id] = checked
+                      if(statList.includes(d.statistic))
+                      {
+
+                        statList = statList.filter(e => e !== d.statistic);
+                        statList.pop(d.statistic)
+                        checkStats[d.id] = false;
+                        setCheckS(false)
+                        console.log('removing from list', d.statistic)
+                        console.log(checkStats[d.id])
+                        
+                      }
+                      else{
+
+                        statList.push(d.statistic)
+                        checkStats[d.id] = true;
+                        setCheckS(true);
+                        console.log('adding to list', d.statistic)
+                        console.log(checkStats[d.id])
+                        
+                      }
                   }}
                   type="checkbox"
-                  checked={d.select}
-
-                  onClick={() => {
-                    console.log(d.statistic)
-                    if (!statList.includes(d.statistic)){
-                      statList = statList.push(d.statistic)
-                    }
-
-                  }}
+                  checked={checkStats[d.id]}
                 ></input>
-                
                 
               </th>
             </tr>
@@ -224,14 +165,16 @@ function GraphCheck() {
       </table>
       <SubmitButton onClick={() => {
         localStorage.clear();
-        console.log(statList);
-        console.log(rideList)
+        localStorage.setItem('data', JSON.stringify(checkStats))
+        
         sendRideName(rideList);
         sendStats(statList);
+        console.log('data')
+        console.log(checkStats)
+
         setTimeout(function(){
           window.location.reload(); 
          }, 2);
-         
       }}>Submit</SubmitButton>
     </div>
   );
