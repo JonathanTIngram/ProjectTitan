@@ -3,8 +3,7 @@ import React, { useState, useEffect} from 'react';
 import Plotly from "plotly.js-basic-dist";
 import createPlotlyComponent from "react-plotly.js/factory";
 import Axios from 'axios';
-import styled from 'styled-components';
-import { sendGraphData } from './FavoriteBar';
+
 var Plot = createPlotlyComponent(Plotly);
 var rideListSend;
 var statListSend;
@@ -13,8 +12,8 @@ var recData = JSON.parse(localStorage.getItem('data') || '[]');;
 export function saveLists()
     {
         return {
-        rideList: rideListSend,
-        statList: statListSend
+            rideList: rideListSend,
+            statList: statListSend
         }
     }
 
@@ -43,7 +42,7 @@ export function ChartLine() {
 
     const CheckedRideName = () => {
 
-            Axios.get(`http://localhost:3001/sendRideNameGraph`).then(res => {
+            Axios.get(`http://18.204.6.173:3001/sendRideNameGraph`).then(res => {
                 //console.log(res.data)
                 setRideList(res.data)
                 if(recData.length > 0)
@@ -57,20 +56,20 @@ export function ChartLine() {
 
     const CheckedStat = () => {
 
-        Axios.get(`http://localhost:3001/sendStatsGraph`).then(res => {
+        Axios.get(`http://18.204.6.173:3001/sendStatsGraph`).then(res => {
             //console.log(res.data)
             setStatList(res.data)
             if(recData.length > 0)
-                {
-                    setFavGraph();
-                }
+            {
+                setFavGraph();
+            }
             statListSend = res.data;
         }).catch(err => console.log(err));
     }
 
     const CheckedData = () => {
 
-        Axios.get(`http://localhost:3001/getCollectedData`).then(res => {
+        Axios.get(`http://18.204.6.173:3001/getCollectedData`).then(res => {
             //console.log(res.data)
             setDataList(res.data)
         }).catch(err => console.log(err));
@@ -240,7 +239,6 @@ export function ChartLine() {
             {window.addEventListener('load', CheckedStat())}
             
         }, [])}
-        {console.log(recData)}
             {graphStat(rideList)}
             {/* {console.log('trace', rideTraceArray), console.log('data', graphData)} */}
             <div id='myDiv'>

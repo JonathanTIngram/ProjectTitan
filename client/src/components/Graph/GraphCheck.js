@@ -16,7 +16,7 @@ const SubmitButton = styled.button`
 function GraphCheck() {
 
   const sendStats = (statList) =>{
-    Axios.post('http://localhost:3001/sendStatsBackend', {
+    Axios.post('http://18.204.6.173:3001/sendStatsBackend', {
       statList: statList
                   }).then(() =>{
                     alert('successful insert');
@@ -26,7 +26,7 @@ function GraphCheck() {
   };
 
   const sendRideName = (rideList) =>{
-    Axios.post('http://localhost:3001/sendRideNameBackend', {
+    Axios.post('http://18.204.6.173:3001/sendRideNameBackend', {
       rideList: rideList
                   }).then(() =>{
                     alert('successful insert');
@@ -38,7 +38,7 @@ function GraphCheck() {
   const GetAttractions = () => {
     //console.log(res.data)
     useEffect(() => {
-        Axios.get('http://localhost:3001/getAttraction').then(res => {
+        Axios.get('http://18.204.6.173:3001/getAttraction').then(res => {
         setAttractionList(res.data);
         }).catch(err => console.log(err));
         }, [])
@@ -50,19 +50,18 @@ function GraphCheck() {
   var [ride_name, setRide_name] = useState('');
   var [rideList, setRideList] = useState([]);
   const [attractionList, setAttractionList] = useState([]);
-
   useEffect(() => {
     let statState = [
-      { id: 1, statistic: "Throughput"},
-      { id: 2, statistic: "Wait Time"},
-      { id: 3, statistic: "Available Seats"},
-      { id: 4, statistic: "Available Down"},
+      { id: 1, statistic: "Throughput", select: statList.includes("Throughput") ? true : false},
+      { id: 2, statistic: "Wait Time", select: statList.includes("Wait Time") ? true : false},
+      { id: 3, statistic: "Available Seats", select: statList.includes("Available Seats") ? true : false},
+      { id: 4, statistic: "Available Down", select: statList.includes("Available Down") ? true : false},
     ];
 
     setStatState(
       statState.map(d => {
         return {
-          select: false,
+          select: d.select,
           id: d.id,
           statistic: d.statistic,
   
@@ -89,7 +88,8 @@ function GraphCheck() {
                     <>  
                         
                         <tr>
-                          <td scope="row">{val.ride_name}</td> <td><input type="checkbox" onClick={() => {
+                          <td scope="row">{val.ride_name}</td> <td>
+                            <input type="checkbox" onClick={() => {
                             console.log(val.ride_name)
                             setRide_name(val.ride_name)
                             if (!rideList.includes(val.ride_name)){
@@ -135,7 +135,6 @@ function GraphCheck() {
                     if (!statList.includes(d.statistic)){
                       statList = statList.push(d.statistic)
                     }
-
                   }}
                 ></input>
                 

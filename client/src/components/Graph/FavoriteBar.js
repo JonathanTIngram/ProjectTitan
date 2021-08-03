@@ -62,7 +62,7 @@ const FavoriteBar = () => {
 
 
     const sendFavGraph = (rides, stats, id) => {
-      Axios.post('http://localhost:3001/favGraph', {
+      Axios.post('http://18.204.6.173:3001/favGraph', {
 
         rides: rides,
         stats: stats,
@@ -76,7 +76,7 @@ const FavoriteBar = () => {
     var returnData;
     var getFavGraph = (rides, stats) => {
 
-          Axios.get('http://localhost:3001/getFavGraph').then(res => {
+          Axios.get('http://18.204.6.173:3001/getFavGraph').then(res => {
           // setSelectedFav(res.data);
           returnData = res.data;
           // console.log(res.data)
