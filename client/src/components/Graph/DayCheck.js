@@ -90,7 +90,6 @@ function DayCheck() {
           ))}
         </tbody>
       </table>
-      <SubmitButton>Submit</SubmitButton>
     </div>
   );
 }

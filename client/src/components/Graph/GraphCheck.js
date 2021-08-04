@@ -71,6 +71,8 @@ function GraphCheck() {
   }, []);
 
   return (
+
+    <>
       
     <div>
         {window.addEventListener('load', GetAttractions())}
@@ -143,7 +145,10 @@ function GraphCheck() {
           ))}
         </tbody>
       </table>
-      <SubmitButton onClick={() => {
+
+    </div>
+
+    <SubmitButton onClick={() => {
         localStorage.clear();
         console.log(statList);
         console.log(rideList)
@@ -153,7 +158,8 @@ function GraphCheck() {
           window.location.reload(); 
          }, 2);
       }}>Submit</SubmitButton>
-    </div>
+
+    </>
   );
 }
 
